@@ -84,11 +84,14 @@ class ObjectDetector:
         self.printLog = False
         self.saveLastFrame = 5
         self.nowAreaAvg = []
+        self.warnId = []
+        self.templateArea = 0.0
+        self.permitGrasp = []
 
         # ReID 特征提取器
         # self.feature_extractor = FeatureExtractor()
     
-    def frame_to_black(self, warped_frame, balck_rate=0.4):
+    def frame_to_black(self, warped_frame, balck_rate=0.05):
         h, w, _ = warped_frame.shape
 
         # 计算上下10%高度
@@ -99,9 +102,8 @@ class ObjectDetector:
         warped_frame[0:top_height, :] = 0  # 上10%
         warped_frame[h - bottom_height:h, :] = 0  # 下10%
 
-        warped_frame[:, 0:150] = 0  # 上10%
-        warped_frame[:, 1600:w] = 0  # 下10%
-
+        # warped_frame[:, 0:150] = 0  # 上10%
+        # warped_frame[:, 1600:w] = 0  # 下10%
 
         return warped_frame
 
@@ -287,6 +289,9 @@ class ObjectDetector:
                                                 areaTemp = sum(self.area_dict[index]) / len(self.area_dict[index])
                                                 if areaTemp > 0:
                                                     self.lastAreaAvg = areaTemp
+                                                    LOG_INFO("last Areaavg: %f", self.lastAreaAvg)
+                                                    if tid == 1:
+                                                        self.templateArea = areaTemp
                                                 self.area_dict[index] = [-1.0]
                                                 LOG_INFO("tid: %d删除id为%d的面积, 被删除的面积为%f", tid, index, areaTemp)
                             if flag is False:
@@ -303,10 +308,19 @@ class ObjectDetector:
                                 if len(self.area_dict[tid]) > 5:
                                     self.nowAreaAvg[tid] = (self.nowAreaAvg[tid] * (len(self.area_dict[tid]) - 5) + 
                                                             self.area_dict[tid][len(self.area_dict[tid]) - 1]) / (len(self.area_dict[tid]) - 4)
+                                if len(self.area_dict[tid]) > 20 and self.warnId[tid] == False:
+                                    LOG_INFO("self.templateArea: %f", self.templateArea)
+                                    if self.templateArea != 0:
+                                        if self.nowAreaAvg[tid] / self.templateArea < 0.97:
+                                            LOG_WARN("异常检测报警，为卷曲或者更换布料, 第一张布料面积为%f, 当前布料面积为%f, 面积比例为%f", self.templateArea, self.nowAreaAvg[tid], self.nowAreaAvg[tid] / self.templateArea)
+                                            self.warnId[tid] = True
+                                            self.permitGrasp[tid] = False
                             
                             # break
                 
                 if not assigned:
+                    self.warnId.append(False)
+                    self.permitGrasp.append(True)
                     new_tracked_objects[self.next_id] = {
                         'centroid': c,
                         'color': vu.random_color(),
@@ -318,9 +332,9 @@ class ObjectDetector:
                     self.pixel_area_dict.append([area_px])
                     self.area_dict.append([area_cm])
                     LOG_INFO("增加新面积: %f", area_cm)
-                    if self.lastAreaAvg != 0:
-                        if area_cm / self.lastAreaAvg > 1.1 or area_cm / self.lastAreaAvg < 0.9:
-                            LOG_WARN("异常检测报警，为卷曲或者更换布料")
+                    # if self.lastAreaAvg != 0:
+                    #     if area_cm / self.lastAreaAvg > 1.02 or area_cm / self.lastAreaAvg < 0.98:
+                    #         LOG_WARN("异常检测报警，为卷曲或者更换布料")
                     queue = Queue()
                     timenow = time.time()
                     struct = [timenow, centroid]
@@ -347,8 +361,11 @@ class ObjectDetector:
                                 if(self.id_now[index][1] < 0):
                                     if len(self.area_dict[index]) > 0:
                                         areaTemp = sum(self.area_dict[index]) / len(self.area_dict[index])
-                                        if areaTemp > 0 and len(self.area_dict[index]) > 7:
+                                        if areaTemp > 0 and len(self.area_dict[index]) > 20:
+                                            # LOG_INFO("areaTemp = %f, self.next_id = %d", areaTemp, self.next_id)
                                             self.lastAreaAvg = areaTemp
+                                            if self.next_id == 1:
+                                                self.templateArea = areaTemp
                                         self.area_dict[index] = [-1.0]
                                         LOG_INFO("删除id为%d的面积, 被删除的面积为%f", index, areaTemp)
                     if flag is False:
@@ -361,8 +378,8 @@ class ObjectDetector:
 
                     self.next_id += 1
             
-            if self.printLog:
-                LOG_INFO("last Areaavg: %f", self.lastAreaAvg)
+            # if self.printLog:
+            #     LOG_INFO("last Areaavg: %f", self.lastAreaAvg)
 
             if not new_tracked_objects:
                 self.saveLastFrame -= 1
@@ -435,7 +452,7 @@ class ObjectDetector:
                     self.grab_history[tid].append(info['centroid'])
 
                 # 更新运动状态
-                update_motion_status(self.img_filename, longEdge, single_mask, self.motion_dict, tid, info['centroid'], info['centroid'], current_time, info['angle'], info['long_side_length'], affine_matrix, self.cfg)
+                update_motion_status(self.img_filename, longEdge, single_mask, self.motion_dict, tid, info['centroid'], info['centroid'], current_time, info['angle'], info['long_side_length'], affine_matrix, self.cfg, self.permitGrasp)
 
             # 6. 绘制与显示 (传入 cfg)
             mask_colored = np.zeros_like(warped_frame)

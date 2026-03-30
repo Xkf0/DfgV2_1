@@ -1,0 +1,481 @@
+# lerobot/iros/DfgV1_1/object_detector.py
+
+import cv2
+import numpy as np
+import time
+import math
+from collections import deque
+import vision_utils as vu
+# from reid_module import FeatureExtractor, filter_objects_by_similarity
+from tracker import StableGrabCenter, calculate_speed, update_motion_status, draw_motion_info
+
+from sam2_use.SAM2_motion_detector import SAM2MotionDetector
+import os
+from config_loader import Configer
+from fairino2_8 import (CONFIG)
+cfg_1 = Configer(**CONFIG["CONFIG_PARAMS_1"])
+from logger import LOG_DEBUG, LOG_INFO, LOG_WARN, LOG_ERROR, LOG_CRITICAL
+from queue import Queue
+import time
+
+
+class ObjectDetector:
+    """
+    将视觉处理逻辑封装成一个类。
+    """
+
+    def __init__(self, config, is_use_sam=False):
+        """
+        初始化对象检测器。
+        :param config: Configer 实例，包含所有配置参数。
+        """
+        self.cfg = config
+
+        self.is_use_sam = is_use_sam
+
+        self.detector_sam2 = None
+        if self.is_use_sam :
+            self.detector_sam2 = SAM2MotionDetector(
+                model_cfg="configs/sam2.1/sam2.1_hiera_t.yaml",
+                checkpoint="sam2_use/models/sam2.1_hiera_tiny.pt"
+            )
+
+        self.background = None
+        self.perspective_matrix = None
+        self.is_background_use = False
+        
+        # ArUco 检测器
+        self.aruco_dict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_4X4_50)
+        self.aruco_params = cv2.aruco.DetectorParameters()
+        self.detector = cv2.aruco.ArucoDetector(self.aruco_dict, self.aruco_params)
+
+        # 状态跟踪变量
+        self.tracked_objects = {}
+        self.motion_dict = {}
+        self.pixel_area_dict = []
+        self.area_dict = []
+        self.area_grasp = {}
+        self.grab_calculators = {}
+        self.grab_history = {}
+        self.next_id = 0
+        self.frame_idx = 0
+        self.last_speed_update_time = time.perf_counter()
+        self.last_area_update_time = time.perf_counter()
+
+        if CONFIG["testStaticFabricLength"] or CONFIG["testDynamicFabricLength"]:        
+            self.x_max = 0
+            self.y_max = 0
+            self.x_min = 1000000
+            self.y_min = 1000000
+            self.t_max = -1000000
+            self.t_min = 1000000
+            self.last_print_time = time.time()
+            self.interval = 0.5
+
+        from datetime import datetime
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S.%f")[:-3]
+        self.img_filename = timestamp
+        foldname = f"imgs/{timestamp}"
+        os.makedirs(foldname, exist_ok=True)
+        self.centroidLastestFive = []
+        self.lastAreaAvg = 0.0
+        self.id_now = []
+        self.lastPrintTime = time.time()
+        self.printLog = False
+        self.saveLastFrame = 5
+        self.nowAreaAvg = []
+
+        # ReID 特征提取器
+        # self.feature_extractor = FeatureExtractor()
+    
+    def frame_to_black(self, warped_frame, balck_rate=0.4):
+        h, w, _ = warped_frame.shape
+
+        # 计算上下10%高度
+        top_height = int(balck_rate * h)
+        bottom_height = int(balck_rate * h)
+
+        # 用黑色覆盖上下区域
+        warped_frame[0:top_height, :] = 0  # 上10%
+        warped_frame[h - bottom_height:h, :] = 0  # 下10%
+
+        warped_frame[:, 0:150] = 0  # 上10%
+        warped_frame[:, 1600:w] = 0  # 下10%
+
+
+        return warped_frame
+
+
+    def initialize_background(self, frame):
+        """
+        在第30帧初始化背景和透视变换矩阵。
+        :param frame: 原始输入帧。
+        :return: bool, 是否成功初始化。
+        """
+        if not self.is_background_use and self.frame_idx >= 30:
+            src_points_new = vu.detect_aruco_corners(frame, self.detector, self.aruco_dict, self.aruco_params, self.cfg.aruco_ids_corner)
+
+
+            if src_points_new is not None:
+                self.perspective_matrix = cv2.getPerspectiveTransform(src_points_new, self.cfg.dst_points)
+                warped_frame = cv2.warpPerspective(frame, self.perspective_matrix, (self.cfg.output_w, self.cfg.output_h))
+                warped_frame = self.frame_to_black(warped_frame)
+                self.background = warped_frame.copy()
+                self.is_background_use = True
+                return True
+        return False
+
+    def detect_and_track(self, frame, affine_matrix, current_time, get_speed_now):
+        """
+        执行前景提取、轮廓检测、特征匹配、对象追踪、面积计算等核心逻辑。
+        :param frame: 原始输入帧。
+        :param affine_matrix: 用于坐标转换的仿射矩阵。
+        :param current_time: 当前帧的时间戳。
+        :return: tuple (warped_frame, mask, combined_display_image)
+                 - warped_frame: 透视校正后的图像。
+                 - mask: 前景掩码。
+                 - combined_display_image: 用于显示的合成图像。
+        """
+        self.printLog = False
+        current_time0 = time.time()
+        if current_time0 - self.lastPrintTime > 0.5:
+            self.lastPrintTime = current_time0
+            self.printLog = True
+
+        # 图像预处理
+        if self.perspective_matrix is not None:
+            warped_frame = cv2.warpPerspective(frame, self.perspective_matrix, (self.cfg.output_w, self.cfg.output_h))
+            warped_frame = self.frame_to_black(warped_frame)
+        else:
+            warped_frame = frame.copy()
+
+        mask = None
+        combined_display_image = warped_frame.copy() # 默认返回原始warped图
+
+        # 核心处理逻辑 (仅在背景初始化后)
+        if self.background is not None and self.perspective_matrix is not None:
+            
+            if self.is_use_sam:
+                mask = self.detector_sam2.process_frame(warped_frame)
+            else:
+                # 1. 前景提取
+                diff = cv2.absdiff(warped_frame, self.background)
+                gray = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
+                gray_blur = cv2.GaussianBlur(gray, (5, 5), 0)
+                kernel_sharpen = np.array([[0, -1, 0], [-1, 5, -1], [0, -1, 0]])
+                gray_sharp = cv2.filter2D(gray_blur, -1, kernel_sharpen)
+                _, mask = cv2.threshold(gray_sharp, self.cfg.diff_threshold, 255, cv2.THRESH_BINARY)
+                # print(f"masks_cv:\n{mask}")
+
+            kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, self.cfg.morph_kernel_size)
+            mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel, iterations=self.cfg.morph_open_iterations)
+            mask = cv2.morphologyEx(mask, cv2.MORPH_DILATE, kernel, iterations=self.cfg.morph_dilate_iterations)
+
+            # 2. 轮廓检测
+            contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+            current_objects = []
+            for cnt in contours:
+                if cv2.contourArea(cnt) < self.cfg.min_contour_area or cv2.contourArea(cnt) > self.cfg.max_contour_area:
+                    continue
+
+                # 假设 cnt 是当前处理的轮廓（类型为 numpy.ndarray）
+                x_coords = cnt[:, :, 0]  # 提取所有点的 x 坐标
+                x_min = np.min(x_coords)  # 计算 x 坐标的最小值
+                x_max = np.max(x_coords)  # 计算 x 坐标的最大值
+
+                if x_min < 5 or x_max > cfg_1.output_w - 5:
+                    continue
+
+                LOG_INFO("x_min: %f, x_max: %f, w_img: %f", x_min, x_max, cfg_1.output_w)
+
+                centroid = vu.get_centroid(cnt)
+                if centroid and centroid[0] <= self.cfg.output_w * 4 // 5:  # 区域过滤
+                    current_objects.append({'contour': cnt, 'centroid': centroid})
+
+            # # 3. 特征匹配 (ReID)
+            # current_objects = filter_objects_by_similarity(
+            #     current_objects, warped_frame, True, None, self.feature_extractor, self.cfg
+            # )
+
+            area_px = 0.0
+            area_cm = 0.0
+            # 4. 对象追踪与ID分配
+            new_tracked_objects = {}
+            for obj in current_objects:
+                c = obj['centroid']
+                assigned = False
+
+                mask_temp = np.zeros_like(mask)
+                cv2.drawContours(mask_temp, [obj['contour']], -1, 255, -1)
+                area_px = cv2.countNonZero(mask_temp)
+                area_cm = vu.pixel_area_to_cm2(area_px, self.cfg.output_w, self.cfg.output_h, self.cfg.real_w, self.cfg.real_h)
+
+                if not self.tracked_objects:
+                    LOG_INFO("self.tracked_objects为空")
+
+                for tid, info in self.tracked_objects.items():
+                    # 比如self.next_id=9，意味着一共已经有了0-8一共9个已经有的id，我们只需要看后面五个，因此为tid为45678，即9-4=5,9-5=4,全部小于6
+                    LOG_INFO("self.next_id: %d, tid: %d", self.next_id, tid)
+                    if self.next_id - tid < 6:
+                        dist = np.linalg.norm(np.array(c) - np.array(info['centroid']))
+                        LOG_INFO("tid: %d, now centroid x: %f, y: %f, history centroid x: %f, y: %f", tid, c[0], c[1], info['centroid'][0], info['centroid'][1])
+                        
+                        flag = False
+                        if len(self.centroidLastestFive) > 0:
+                            if self.centroidLastestFive[tid].empty() is False:
+                                length = self.centroidLastestFive[tid].qsize()
+                                for index in range(length):
+                                    temp = self.centroidLastestFive[tid].get()
+                                    deltaT = time.time() - temp[0]
+                                    deltaX = deltaT * get_speed_now * cfg_1.ratio_wh
+                                    predictX = temp[1][0] + deltaX
+                                    nowX = c[0]
+                                    LOG_INFO("tid: %d, predictX - nowX: %f", tid, predictX - nowX)
+                                    if abs(predictX - nowX) < self.cfg.max_distance:
+                                        flag = True
+                                    self.centroidLastestFive[tid].put(temp)
+                        if flag is True:
+                            if self.nowAreaAvg:
+                                if self.nowAreaAvg[tid]:
+                                    LOG_INFO("self.nowAreaAvg[%d]: %f", tid, self.nowAreaAvg[tid])
+                            # if len(self.area_dict[tid]) > 1:
+                            #     flag = False
+                        LOG_INFO("tid: %d, flag: %d", tid, flag)
+                        if flag is True:
+                            # 继承历史信息
+                            info['position_history'].append(c)
+                            info['time_history'].append(current_time)
+                            if current_time - self.last_speed_update_time > self.cfg.speed_update_interval:
+                                info['speed'] = calculate_speed(info['position_history'], info['time_history'], current_time, self.cfg)
+                            
+                            new_tracked_objects[tid] = {
+                                **info,
+                                'centroid': c,
+                                'contour': obj['contour']
+                            }
+                            assigned = True
+                            self.pixel_area_dict[tid].append(area_px)
+                            self.area_dict[tid].append(area_cm)
+                            LOG_INFO("tid: %d, 增加新面积: %f", tid, area_cm)
+
+                            queue = Queue()
+                            timenow = time.time()
+                            struct = [timenow, c]
+                            self.centroidLastestFive[tid].put(struct)
+                            if self.centroidLastestFive[tid].qsize() > 5:
+                                pop = self.centroidLastestFive[tid].get()
+                            
+                            if len(self.centroidLastestFive) > 0:
+                                if self.centroidLastestFive[tid].empty() is False:
+                                    length = self.centroidLastestFive[tid].qsize()
+                                    for index in range(length):
+                                        temp = self.centroidLastestFive[tid].get()
+                                        LOG_INFO("tid: %d, length: %d, queue[%d][%d] x: %f, y: %f", tid, length, tid, index, temp[1][0], temp[1][1])
+                                        self.centroidLastestFive[tid].put(temp)
+                            flag = False
+                            if len(self.id_now) > 0:
+                                for index in range(len(self.id_now)):
+                                    LOG_INFO("tid: %d, self.id_now[%d][0] = %d, self.id_now[%d][1] = %d", tid, index, self.id_now[index][0], index, self.id_now[index][1])
+                                    if(self.id_now[index][0] == tid):
+                                        flag = True
+                                        self.id_now[index][1] = 5
+                                    else:
+                                        if self.id_now[index][1] >= 0:
+                                            self.id_now[index][1] -= 1
+                                        if(self.id_now[index][1] < 0):
+                                            if len(self.area_dict[index]) > 0:
+                                                areaTemp = sum(self.area_dict[index]) / len(self.area_dict[index])
+                                                if areaTemp > 0:
+                                                    self.lastAreaAvg = areaTemp
+                                                self.area_dict[index] = [-1.0]
+                                                LOG_INFO("tid: %d删除id为%d的面积, 被删除的面积为%f", tid, index, areaTemp)
+                            if flag is False:
+                                count = 5
+                                struct = [tid, count]
+                                self.id_now.append(struct)
+
+                            # 比如现在的len(self.area_dict[tid])=5，意味着里面一共有五个历史面积数据，现在是第五个，前面四个已经求了均值
+                            # 若len=10，意味着一共有1+4个历史数据，现在是第六个，前面五个已经求了均值
+                            if len(self.area_dict) > 0:
+                                if len(self.area_dict[tid]) == 5:
+                                    self.area_dict[tid].sort()
+                                    self.nowAreaAvg[tid] = self.area_dict[tid][2] # 第三个值
+                                if len(self.area_dict[tid]) > 5:
+                                    self.nowAreaAvg[tid] = (self.nowAreaAvg[tid] * (len(self.area_dict[tid]) - 5) + 
+                                                            self.area_dict[tid][len(self.area_dict[tid]) - 1]) / (len(self.area_dict[tid]) - 4)
+                            
+                            # break
+                
+                if not assigned:
+                    new_tracked_objects[self.next_id] = {
+                        'centroid': c,
+                        'color': vu.random_color(),
+                        'contour': obj['contour'],
+                        'position_history': deque([c], maxlen=self.cfg.max_speed_history),
+                        'time_history': deque([current_time], maxlen=self.cfg.max_speed_history),
+                        'speed': 0.0
+                    }
+                    self.pixel_area_dict.append([area_px])
+                    self.area_dict.append([area_cm])
+                    LOG_INFO("增加新面积: %f", area_cm)
+                    if self.lastAreaAvg != 0:
+                        if area_cm / self.lastAreaAvg > 1.1 or area_cm / self.lastAreaAvg < 0.9:
+                            LOG_WARN("异常检测报警，为卷曲或者更换布料")
+                    queue = Queue()
+                    timenow = time.time()
+                    struct = [timenow, centroid]
+                    queue.put(struct)
+                    self.centroidLastestFive.append(queue)
+
+                    if len(self.centroidLastestFive) > 0:
+                        if self.centroidLastestFive[self.next_id].empty() is False:
+                            length = self.centroidLastestFive[self.next_id].qsize()
+                            for index in range(length):
+                                temp = self.centroidLastestFive[self.next_id].get()
+                                LOG_INFO("length: %d, queue[%d][%d] x: %f, y: %f", length, self.next_id, index, temp[1][0], temp[1][1])
+                                self.centroidLastestFive[self.next_id].put(temp)
+
+                    flag = False
+                    if len(self.id_now) > 0:
+                        for index in range(len(self.id_now)):
+                            if(self.id_now[index][0] == self.next_id):
+                                flag = True
+                                self.id_now[index][1] = 5
+                            else:
+                                if self.id_now[index][1] >= 0:
+                                    self.id_now[index][1] -= 1
+                                if(self.id_now[index][1] < 0):
+                                    if len(self.area_dict[index]) > 0:
+                                        areaTemp = sum(self.area_dict[index]) / len(self.area_dict[index])
+                                        if areaTemp > 0 and len(self.area_dict[index]) > 7:
+                                            self.lastAreaAvg = areaTemp
+                                        self.area_dict[index] = [-1.0]
+                                        LOG_INFO("删除id为%d的面积, 被删除的面积为%f", index, areaTemp)
+                    if flag is False:
+                        count = 5
+                        struct = [self.next_id, count]
+                        self.id_now.append(struct)
+
+                    if len(self.area_dict) > 0:
+                        self.nowAreaAvg.append(-1.0)
+
+                    self.next_id += 1
+            
+            if self.printLog:
+                LOG_INFO("last Areaavg: %f", self.lastAreaAvg)
+
+            if not new_tracked_objects:
+                self.saveLastFrame -= 1
+                if self.saveLastFrame < 0:
+                    self.tracked_objects = new_tracked_objects
+            else:
+                self.saveLastFrame = 5
+                self.tracked_objects = new_tracked_objects
+
+            # 5. 更新面积与运动状态
+            # if current_time - self.last_area_update_time > self.cfg.area_update_interval:
+            # for tid, info in self.tracked_objects.items():
+            #     self.pixel_area_dict[tid] = area_px
+            #     self.area_dict[tid] = area_cm
+                
+                # self.last_area_update_time = current_time
+
+            line2_x = self.cfg.output_w * 1 // 2
+            for tid, info in self.tracked_objects.items():
+                # 计算短边中心
+                single_mask = np.zeros_like(mask)
+                cv2.drawContours(single_mask, [info['contour']], -1, 255, -1)
+                sc1, sc2, angle, rect, longEdge = vu.get_short_edge_centers_and_angle(info['contour'], single_mask)
+                info['short_center1'] = sc1
+                info['short_center2'] = sc2
+                info['rect'] = rect
+                info['angle'] = angle
+
+                # 计算长度
+                long_side_px = math.hypot(sc1[0] - sc2[0], sc1[1] - sc2[1])
+
+                if CONFIG["testStaticFabricLength"] or CONFIG["testDynamicFabricLength"]:
+                    current_time = time.time()
+                    if current_time - self.last_print_time >= self.interval:
+                        self.x_min = min(info['centroid'][0], self.x_min)
+                        self.y_min = min(info['centroid'][1], self.y_min)
+                        self.x_max = max(info['centroid'][0], self.x_max)
+                        self.y_max = max(info['centroid'][1], self.y_max)
+                        self.t_min = min(angle, self.t_min)
+                        self.t_max = max(angle, self.t_max)
+                        print(f"id: {tid}, x_min: {self.x_min}, y_min: {self.y_min}, x_max: {self.x_max}, y_max: {self.y_max}, t_min: {self.t_min}, t_max: {self.t_max}")
+                        self.last_print_time = current_time
+                
+                # area = 0
+                # if tid < len(self.area_dict):
+                #     area = self.area_dict[tid]
+                
+                LOG_INFO("id: %d, 质心x: %f, 质心y: %f, t: %f", tid, info['centroid'][0], info['centroid'][1], angle)
+                if(len(self.area_dict) != 0):
+                    areaTid = self.area_dict[tid]
+                    if(len(areaTid) > 0):
+                        x = min(5, len(areaTid))
+                        for index in range(x):
+                            LOG_INFO("%dth area %d: %f", tid, index, areaTid[index])
+
+
+                info['long_side_length'] = long_side_px / self.cfg.ratio_wh * 10
+
+                # 抓取点计算
+                if tid not in self.grab_calculators:
+                    self.grab_calculators[tid] = StableGrabCenter()
+                    self.grab_history[tid] = deque(maxlen=50)
+                
+                if info['centroid'][0] >= line2_x:
+                    gb_center, gb_angle = self.grab_calculators[tid].get_stable_grab_center_from_mask(
+                        single_mask, info['centroid'], extension_ratio=0.48
+                    )
+                    self.grab_history[tid].append(gb_center if gb_center else info['centroid'])
+                else:
+                    self.grab_history[tid].append(info['centroid'])
+
+                # 更新运动状态
+                update_motion_status(self.img_filename, longEdge, single_mask, self.motion_dict, tid, info['centroid'], info['centroid'], current_time, info['angle'], info['long_side_length'], affine_matrix, self.cfg)
+
+            # 6. 绘制与显示 (传入 cfg)
+            mask_colored = np.zeros_like(warped_frame)
+            for tid, info in self.tracked_objects.items():
+                cv2.drawContours(mask_colored, [info['contour']], -1, info['color'], -1)
+                if info['rect'] is not None:
+                    box = np.int32(cv2.boxPoints(info['rect']))
+                    cv2.drawContours(mask_colored, [box], 0, (255, 0, 0), 5)
+            
+            combined_display_image = cv2.addWeighted(warped_frame, self.cfg.blend_alpha, mask_colored, self.cfg.blend_alpha, 0)
+            draw_motion_info(combined_display_image, self.motion_dict, self.tracked_objects, self.cfg)
+
+
+        return warped_frame, mask, combined_display_image
+
+    def get_motion_dict(self):
+        """获取当前的运动字典"""
+        return self.motion_dict
+    
+    def get_tracked_objects(self):
+        """获取当前追踪的对象"""
+        return self.tracked_objects
+    
+    def reset_frame_counter(self):
+        """重置帧计数器（如果需要）"""
+        self.frame_idx = 0
+
+    def increment_frame_counter(self):
+        """增加帧计数器"""
+        self.frame_idx += 1
+
+    def get_motionDict_trackedObjects_DisplayImg(self, frame, AFFINE_MATRIX_1, current_time, get_speed_now):
+        # 让检测器递增帧计数器
+        self.increment_frame_counter()
+
+        # 尝试初始化背景
+        self.initialize_background(frame)
+        warped_frame, mask, display_img = self.detect_and_track(frame, AFFINE_MATRIX_1, current_time, get_speed_now)# G 这里AFFINE_MATRIX是用来计算机械臂的移动方向（当前并未使用，使用的是写死的值）
+        
+        # 获取检测结果
+        motion_dict = self.get_motion_dict()
+        tracked_objects = self.get_tracked_objects()
+        return motion_dict, tracked_objects, display_img

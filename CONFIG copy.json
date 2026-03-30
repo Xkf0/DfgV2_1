@@ -1,0 +1,170 @@
+{
+    "robot_mode": 1,
+    "DIRECTION_1": [
+        0.99990791, 
+        -0.01357119
+    ],
+    "DIRECTION_2": [
+        0.70006452,
+        -0.71407959
+    ],
+    "place_pos_arm_1": [
+        436.673,
+        -354.92,
+        27.226,
+        -179.276,
+        -2.098,
+        -133.229
+    ],
+    "place_pos_arm_2": [
+        535.021,
+        387.565,
+        141.813,
+        178.894,
+        -1.774,
+        -47.716
+    ],
+    "CONFIG_PARAMS_1": {
+        "real_w": 64,
+        "real_h": 92.5,
+        "ratio_wh": 20,
+        "aruco_ids_corner": {
+            "top_left": 0,
+            "top_right": 8,
+            "bottom_right": 24,
+            "bottom_left": 16
+        },
+        "speed_smooth_frames": 5,
+        "similarity_threshold": 0.8,
+        "diff_threshold": 70,
+        "morph_kernel_size": [
+            2,
+            2
+        ],
+        "morph_open_iterations": 1,
+        "morph_dilate_iterations": 1,
+        "min_contour_area": 4000,
+        "max_distance": 5,
+        "max_speed_history": 30,
+        "speed_update_interval": 0.1,
+        "area_update_interval": 1.0,
+        "speed": 9.765,
+        "WAIT_DISTANCE": 75,
+        "safe_pos_init": [
+            -178.672,
+            562.176,
+            null,
+            -179.276,
+            -2.098,
+            -133.229
+        ],
+        "stand_z": 92.655,
+        "stand_rx": -179.276,
+        "stand_ry": -2.098,
+        "stand_rz": -133.229,
+        "blend_alpha": 1.0,
+        "is_real_sense": true,
+        "camera_no": "211622062803",
+        "points_file_path": "cv_aruco_1.csv",
+        "down_height": 16,
+        "safe_pos_2": [
+            393.324,
+            -162.229,
+            169.241,
+            -179.276,
+            -2.098,
+            -133.229
+        ],
+        "detect_pose": [
+            393.324,
+            -162.229,
+            169.241,
+            -179.276,
+            -2.098,
+            -133.229
+        ],
+        "detect_none_pose": [
+            393.324,
+            -162.229,
+            169.241,
+            -179.276,
+            -2.098,
+            -133.229
+        ]
+    },
+    "CONFIG_PARAMS_2": {
+        "real_w": 60.1,
+        "real_h": 140.7,
+        "ratio_wh": 20,
+        "aruco_ids_corner": {
+            "top_left": 0,
+            "top_right": 8,
+            "bottom_right": 24,
+            "bottom_left": 16
+        },
+        "speed_smooth_frames": 5,
+        "similarity_threshold": 0.8,
+        "diff_threshold": 70,
+        "morph_kernel_size": [
+            2,
+            2
+        ],
+        "morph_open_iterations": 1,
+        "morph_dilate_iterations": 1,
+        "min_contour_area": 4000,
+        "max_distance": 5,
+        "max_speed_history": 30,
+        "speed_update_interval": 0.1,
+        "area_update_interval": 1.0,
+        "stand_rz": -85.458,
+        "speed": 9.71,
+        "WAIT_DISTANCE": 90,
+        "safe_pos_init": [
+            276.319,
+            112.582,
+            null,
+            -179.276,
+            -2.098,
+            -133.229
+        ],
+        "stand_z": 303.717,
+        "stand_rx": 178.894,
+        "stand_ry": -1.773,
+        "blend_alpha": 1.0,
+        "is_real_sense": true,
+        "camera_no": "211622062803",
+        "points_file_path": "cv_aruco_2.csv",
+        "down_height": 16,
+        "safe_pos_2": [
+            393.324,
+            -162.229,
+            169.241,
+            -179.276,
+            -2.098,
+            -133.229
+        ],
+        "detect_pose": [
+            355.82,
+            -474.63,
+            342,
+            -180,
+            -0.2,
+            -85.458
+        ],
+        "detect_none_pose": [
+            355.82,
+            -474.63,
+            342,
+            -180,
+            -0.2,
+            -85.458
+        ]
+    },
+    "TASK_EXPIRATION_THRESHOLD": -0.8,
+    "edge_params": {
+        "edge_2_in_ratio": 5,
+        "edge_2_out_ratio": 40,
+        "edge_1_in_ratio": 52.5,
+        "edge_1_out_ratio": 87.5
+    }
+}

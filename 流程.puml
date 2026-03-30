@@ -1,0 +1,78 @@
+@startuml
+title CameraHandler - Sequence (Init / Warmup / Acquire / Stop)
+
+skinparam shadowing false
+autonumber
+
+actor User
+participant "CameraHandler" as Cam
+participant "RealSense pipeline\n(rs.pipeline)" as RS
+participant "USB camera\n(cv2.VideoCapture)" as USB
+participant "Capture Thread" as Th
+
+== Create & Initialize ==
+User -> Cam: __init__(is_real_sense, camera_no, warmup_frames)
+Cam -> Cam: _initialize_camera()
+
+alt is_real_sense == True
+  Cam -> RS: start(config)\n(enable_stream color 1920x1080 bgr8 30)\n(enable_device serial)
+  loop warmup_frames times
+    Cam -> RS: wait_for_frames()
+  end
+else is_real_sense == False
+  Cam -> USB: VideoCapture(camera_id)
+  Cam -> USB: isOpened()
+  loop warmup_frames times
+    Cam -> USB: read()  // drop frames
+  end
+end
+
+== Mode A: Sync get_frame() ==
+User -> Cam: get_frame()
+alt is_real_sense == True
+  Cam -> RS: wait_for_frames()
+  Cam -> RS: get_color_frame().get_data()
+  Cam -> Cam: np.asanyarray(...) -> frame\n(frame_count += 1)
+  Cam --> User: frame (np.ndarray BGR uint8 HxWx3)
+else is_real_sense == False
+  Cam -> USB: read()
+  Cam -> Cam: frame_count += 1 (if ret)
+  Cam --> User: frame (np.ndarray BGR uint8 HxWx3) / None
+end
+
+== Mode B: Threaded capture ==
+User -> Cam: start_capture()
+Cam -> Cam: is_running=True\nspawn capture_thread(_capture_loop)
+create Th
+Cam -> Th: start()
+
+loop while is_running
+  alt is_real_sense == True
+    Th -> RS: wait_for_frames()
+    Th -> RS: get_color_frame().get_data()
+    Th -> Th: frame = np.asanyarray(...)
+  else is_real_sense == False
+    Th -> USB: read()
+  end
+  Th -> Cam: lock(frame_lock)
+  Th -> Cam: latest_frame = frame.copy()\nframe_count += 1
+  Th -> Cam: unlock(frame_lock)
+end
+
+User -> Cam: get_latest_frame_threaded()
+Cam -> Cam: lock(frame_lock)
+Cam -> Cam: return latest_frame.copy() / None
+Cam -> Cam: unlock(frame_lock)
+Cam --> User: latest frame (np.ndarray) / None
+
+== Stop & Release ==
+User -> Cam: stop()
+Cam -> Cam: is_running=False\njoin(thread, timeout=2)
+alt is_real_sense == True
+  Cam -> RS: stop()
+else is_real_sense == False
+  Cam -> USB: release()
+end
+Cam -> Cam: latest_frame=None
+
+@enduml

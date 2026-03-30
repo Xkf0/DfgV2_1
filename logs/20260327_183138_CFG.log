@@ -1,0 +1,1834 @@
+2026-03-27 18:31:51.542] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:51.542] object_detector.py   214    INFO    : self.tracked_objects为空
+2026-03-27 18:31:51.542] object_detector.py   320    INFO    : 增加新面积: 568.277500
+2026-03-27 18:31:51.542] object_detector.py   335    INFO    : length: 1, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:51.543] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:51.543] object_detector.py   419    INFO    : 0th area 0: 568.277500
+2026-03-27 18:31:51.552] tracker.py           104    INFO    : motion dict don't have 0id
+2026-03-27 18:31:51.600] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:51.601] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:51.601] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:51.601] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 8.329129
+2026-03-27 18:31:51.601] object_detector.py   240    INFO    : self.nowAreaAvg[0]: -1.000000
+2026-03-27 18:31:51.601] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:51.601] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.605000
+2026-03-27 18:31:51.601] object_detector.py   273    INFO    : tid: 0, length: 2, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:51.601] object_detector.py   273    INFO    : tid: 0, length: 2, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:51.601] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:51.601] object_detector.py   365    INFO    : last Areaavg: 0.000000
+2026-03-27 18:31:51.601] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:51.601] object_detector.py   419    INFO    : 0th area 0: 568.277500
+2026-03-27 18:31:51.601] object_detector.py   419    INFO    : 0th area 1: 568.605000
+2026-03-27 18:31:51.651] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:51.651] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:51.651] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:51.651] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 15.502954
+2026-03-27 18:31:51.651] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 7.157903
+2026-03-27 18:31:51.651] object_detector.py   240    INFO    : self.nowAreaAvg[0]: -1.000000
+2026-03-27 18:31:51.651] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:51.651] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.232500
+2026-03-27 18:31:51.651] object_detector.py   273    INFO    : tid: 0, length: 3, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:51.651] object_detector.py   273    INFO    : tid: 0, length: 3, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:51.651] object_detector.py   273    INFO    : tid: 0, length: 3, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:51.651] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:51.651] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.073645
+2026-03-27 18:31:51.651] object_detector.py   419    INFO    : 0th area 0: 568.277500
+2026-03-27 18:31:51.651] object_detector.py   419    INFO    : 0th area 1: 568.605000
+2026-03-27 18:31:51.651] object_detector.py   419    INFO    : 0th area 2: 568.232500
+2026-03-27 18:31:51.701] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:51.702] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:51.702] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:51.702] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 22.767059
+2026-03-27 18:31:51.702] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 14.421360
+2026-03-27 18:31:51.702] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 7.246411
+2026-03-27 18:31:51.702] object_detector.py   240    INFO    : self.nowAreaAvg[0]: -1.000000
+2026-03-27 18:31:51.702] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:51.702] object_detector.py   259    INFO    : tid: 0, 增加新面积: 567.830000
+2026-03-27 18:31:51.702] object_detector.py   273    INFO    : tid: 0, length: 4, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:51.702] object_detector.py   273    INFO    : tid: 0, length: 4, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:51.702] object_detector.py   273    INFO    : tid: 0, length: 4, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:51.702] object_detector.py   273    INFO    : tid: 0, length: 4, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:51.702] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:51.702] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:51.702] object_detector.py   419    INFO    : 0th area 0: 568.277500
+2026-03-27 18:31:51.702] object_detector.py   419    INFO    : 0th area 1: 568.605000
+2026-03-27 18:31:51.702] object_detector.py   419    INFO    : 0th area 2: 568.232500
+2026-03-27 18:31:51.702] object_detector.py   419    INFO    : 0th area 3: 567.830000
+2026-03-27 18:31:51.754] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:51.754] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:51.754] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:51.754] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 30.278652
+2026-03-27 18:31:51.754] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 21.933021
+2026-03-27 18:31:51.754] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 14.758140
+2026-03-27 18:31:51.754] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 7.496319
+2026-03-27 18:31:51.754] object_detector.py   240    INFO    : self.nowAreaAvg[0]: -1.000000
+2026-03-27 18:31:51.754] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:51.754] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.565000
+2026-03-27 18:31:51.755] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:51.755] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:51.755] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:51.755] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:51.755] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:51.755] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:51.755] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:51.755] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:51.755] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:51.755] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:51.755] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:51.755] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:51.802] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:51.802] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:51.802] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:51.802] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 37.168679
+2026-03-27 18:31:51.802] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 28.823390
+2026-03-27 18:31:51.802] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 21.648917
+2026-03-27 18:31:51.802] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 14.387028
+2026-03-27 18:31:51.802] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 6.848876
+2026-03-27 18:31:51.802] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.277500
+2026-03-27 18:31:51.803] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:51.803] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.087500
+2026-03-27 18:31:51.803] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:51.803] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:51.803] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:51.803] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:51.803] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:51.803] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:51.803] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.077531
+2026-03-27 18:31:51.803] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:51.803] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:51.803] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:51.803] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:51.803] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:51.854] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:51.854] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:51.854] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:51.854] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 36.242247
+2026-03-27 18:31:51.854] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 29.068218
+2026-03-27 18:31:51.854] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 21.807079
+2026-03-27 18:31:51.854] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 14.269813
+2026-03-27 18:31:51.854] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 7.403447
+2026-03-27 18:31:51.854] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.182500
+2026-03-27 18:31:51.854] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:51.854] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.580000
+2026-03-27 18:31:51.855] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:51.855] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:51.855] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:51.855] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:51.855] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:51.855] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:51.855] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:51.855] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:51.855] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:51.855] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:51.855] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:51.855] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:51.907] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:51.907] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:51.907] object_detector.py   221    INFO    : tid: 0, now centroid x: 985.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:51.907] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 37.661192
+2026-03-27 18:31:51.907] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 30.400292
+2026-03-27 18:31:51.907] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 22.862583
+2026-03-27 18:31:51.907] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 15.996285
+2026-03-27 18:31:51.907] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 8.560961
+2026-03-27 18:31:51.908] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.315000
+2026-03-27 18:31:51.908] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:51.908] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.810000
+2026-03-27 18:31:51.908] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:51.908] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:51.908] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:51.908] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:51.908] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 985.000000, y: 410.000000
+2026-03-27 18:31:51.908] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:51.908] object_detector.py   413    INFO    : id: 0, 质心x: 985.000000, 质心y: 410.000000, t: 0.072252
+2026-03-27 18:31:51.908] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:51.908] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:51.908] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:51.908] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:51.908] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:51.972] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:51.973] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:51.973] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 985.000000, y: 410.000000
+2026-03-27 18:31:51.973] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 38.720052
+2026-03-27 18:31:51.973] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 31.183401
+2026-03-27 18:31:51.973] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 24.317341
+2026-03-27 18:31:51.973] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 16.882016
+2026-03-27 18:31:51.973] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 8.306532
+2026-03-27 18:31:51.973] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.438750
+2026-03-27 18:31:51.973] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:51.973] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.707500
+2026-03-27 18:31:51.973] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:51.973] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:51.973] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:51.973] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 985.000000, y: 410.000000
+2026-03-27 18:31:51.973] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:51.973] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:51.973] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:51.973] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:51.973] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:51.973] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:51.973] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:51.973] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:52.026] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1671.000000, w_img: 1700.000000
+2026-03-27 18:31:52.026] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:52.026] object_detector.py   221    INFO    : tid: 0, now centroid x: 985.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.026] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 39.788376
+2026-03-27 18:31:52.026] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 32.923067
+2026-03-27 18:31:52.026] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 25.488151
+2026-03-27 18:31:52.026] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 16.912837
+2026-03-27 18:31:52.026] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 8.589156
+2026-03-27 18:31:52.026] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.492500
+2026-03-27 18:31:52.026] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:52.026] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.390000
+2026-03-27 18:31:52.026] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.026] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.026] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 985.000000, y: 410.000000
+2026-03-27 18:31:52.026] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.026] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 985.000000, y: 410.000000
+2026-03-27 18:31:52.026] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:52.026] object_detector.py   413    INFO    : id: 0, 质心x: 985.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:52.026] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:52.026] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:52.026] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:52.026] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:52.026] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:52.077] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:52.077] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:52.077] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 985.000000, y: 410.000000
+2026-03-27 18:31:52.077] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 39.215095
+2026-03-27 18:31:52.077] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 31.781714
+2026-03-27 18:31:52.077] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 23.207116
+2026-03-27 18:31:52.077] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 14.884185
+2026-03-27 18:31:52.077] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 6.279993
+2026-03-27 18:31:52.077] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.475417
+2026-03-27 18:31:52.077] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:52.077] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.482500
+2026-03-27 18:31:52.077] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.077] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 985.000000, y: 410.000000
+2026-03-27 18:31:52.077] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.077] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 985.000000, y: 410.000000
+2026-03-27 18:31:52.077] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.077] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:52.077] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.072252
+2026-03-27 18:31:52.077] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:52.077] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:52.077] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:52.077] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:52.077] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:52.127] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:52.127] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:52.127] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.127] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 38.932934
+2026-03-27 18:31:52.127] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 30.359325
+2026-03-27 18:31:52.127] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 22.036837
+2026-03-27 18:31:52.127] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 13.432952
+2026-03-27 18:31:52.127] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 7.136049
+2026-03-27 18:31:52.127] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.476429
+2026-03-27 18:31:52.127] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:52.127] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.375000
+2026-03-27 18:31:52.127] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 985.000000, y: 410.000000
+2026-03-27 18:31:52.127] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.127] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 985.000000, y: 410.000000
+2026-03-27 18:31:52.127] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.127] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.127] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:52.127] object_detector.py   365    INFO    : last Areaavg: 0.000000
+2026-03-27 18:31:52.127] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.072435
+2026-03-27 18:31:52.127] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:52.127] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:52.127] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:52.127] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:52.128] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:52.178] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1671.000000, w_img: 1700.000000
+2026-03-27 18:31:52.178] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:52.178] object_detector.py   221    INFO    : tid: 0, now centroid x: 985.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.178] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 38.641466
+2026-03-27 18:31:52.178] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 30.319626
+2026-03-27 18:31:52.178] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 21.716048
+2026-03-27 18:31:52.178] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 15.419247
+2026-03-27 18:31:52.178] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 8.266219
+2026-03-27 18:31:52.178] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.463750
+2026-03-27 18:31:52.178] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:52.178] object_detector.py   259    INFO    : tid: 0, 增加新面积: 567.657500
+2026-03-27 18:31:52.178] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.178] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 985.000000, y: 410.000000
+2026-03-27 18:31:52.178] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.178] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.178] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 985.000000, y: 410.000000
+2026-03-27 18:31:52.178] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:52.178] object_detector.py   413    INFO    : id: 0, 质心x: 985.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:52.178] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:52.178] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:52.178] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:52.178] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:52.178] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:52.230] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:52.230] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:52.230] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 985.000000, y: 410.000000
+2026-03-27 18:31:52.230] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 36.757917
+2026-03-27 18:31:52.230] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 28.155975
+2026-03-27 18:31:52.230] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 21.860265
+2026-03-27 18:31:52.230] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 14.708567
+2026-03-27 18:31:52.230] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 6.427108
+2026-03-27 18:31:52.230] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.374167
+2026-03-27 18:31:52.230] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:52.230] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.997500
+2026-03-27 18:31:52.230] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 985.000000, y: 410.000000
+2026-03-27 18:31:52.230] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.230] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.230] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 985.000000, y: 410.000000
+2026-03-27 18:31:52.230] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.230] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:52.230] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:52.230] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:52.230] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:52.230] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:52.230] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:52.230] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:52.281] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:52.281] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:52.281] object_detector.py   221    INFO    : tid: 0, now centroid x: 985.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.282] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 36.536136
+2026-03-27 18:31:52.282] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 30.240664
+2026-03-27 18:31:52.282] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 23.089614
+2026-03-27 18:31:52.282] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 14.808155
+2026-03-27 18:31:52.282] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 8.364034
+2026-03-27 18:31:52.282] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.436500
+2026-03-27 18:31:52.282] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:52.282] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.747500
+2026-03-27 18:31:52.282] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.282] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.282] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 985.000000, y: 410.000000
+2026-03-27 18:31:52.282] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.282] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 985.000000, y: 410.000000
+2026-03-27 18:31:52.282] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:52.282] object_detector.py   413    INFO    : id: 0, 质心x: 985.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:52.282] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:52.282] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:52.282] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:52.282] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:52.282] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:52.332] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:52.332] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:52.332] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 985.000000, y: 410.000000
+2026-03-27 18:31:52.332] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 36.480086
+2026-03-27 18:31:52.332] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 29.328968
+2026-03-27 18:31:52.332] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 21.046895
+2026-03-27 18:31:52.332] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 14.602944
+2026-03-27 18:31:52.332] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 6.224863
+2026-03-27 18:31:52.332] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.464773
+2026-03-27 18:31:52.332] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:52.332] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.982500
+2026-03-27 18:31:52.332] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.332] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 985.000000, y: 410.000000
+2026-03-27 18:31:52.332] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.332] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 985.000000, y: 410.000000
+2026-03-27 18:31:52.332] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.332] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:52.333] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:52.333] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:52.333] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:52.333] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:52.333] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:52.333] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:52.383] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:52.383] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:52.384] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.384] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 36.671659
+2026-03-27 18:31:52.384] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 28.390200
+2026-03-27 18:31:52.384] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 21.947511
+2026-03-27 18:31:52.384] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 13.569362
+2026-03-27 18:31:52.384] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 7.329497
+2026-03-27 18:31:52.384] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.507917
+2026-03-27 18:31:52.384] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:52.384] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.135000
+2026-03-27 18:31:52.384] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 985.000000, y: 410.000000
+2026-03-27 18:31:52.384] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.384] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 985.000000, y: 410.000000
+2026-03-27 18:31:52.384] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.384] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.384] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:52.384] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:52.384] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:52.384] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:52.384] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:52.384] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:52.384] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:52.434] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:52.435] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:52.435] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.435] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 35.730198
+2026-03-27 18:31:52.435] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 29.286998
+2026-03-27 18:31:52.435] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 20.908985
+2026-03-27 18:31:52.435] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 14.668950
+2026-03-27 18:31:52.435] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 7.322815
+2026-03-27 18:31:52.435] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.479231
+2026-03-27 18:31:52.435] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:52.435] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.727500
+2026-03-27 18:31:52.435] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.435] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 985.000000, y: 410.000000
+2026-03-27 18:31:52.435] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.435] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.435] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.435] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:52.435] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.073456
+2026-03-27 18:31:52.435] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:52.435] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:52.435] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:52.435] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:52.436] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:52.487] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1671.000000, w_img: 1700.000000
+2026-03-27 18:31:52.487] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:52.487] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.487] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 36.713799
+2026-03-27 18:31:52.487] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 28.336741
+2026-03-27 18:31:52.487] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 22.097422
+2026-03-27 18:31:52.487] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 14.751559
+2026-03-27 18:31:52.487] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 7.414084
+2026-03-27 18:31:52.487] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.496964
+2026-03-27 18:31:52.487] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:52.487] object_detector.py   259    INFO    : tid: 0, 增加新面积: 567.817500
+2026-03-27 18:31:52.487] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 985.000000, y: 410.000000
+2026-03-27 18:31:52.487] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.487] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.487] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.487] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.487] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:52.487] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:52.487] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:52.487] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:52.487] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:52.487] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:52.487] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:52.537] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:52.538] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:52.538] object_detector.py   221    INFO    : tid: 0, now centroid x: 985.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.538] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 36.596857
+2026-03-27 18:31:52.538] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 30.358220
+2026-03-27 18:31:52.538] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 23.012699
+2026-03-27 18:31:52.538] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 15.674541
+2026-03-27 18:31:52.538] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 8.244501
+2026-03-27 18:31:52.538] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.451667
+2026-03-27 18:31:52.538] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:52.538] object_detector.py   259    INFO    : tid: 0, 增加新面积: 567.650000
+2026-03-27 18:31:52.538] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.538] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.538] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.538] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.538] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 985.000000, y: 410.000000
+2026-03-27 18:31:52.538] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:52.538] object_detector.py   413    INFO    : id: 0, 质心x: 985.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:52.538] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:52.538] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:52.538] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:52.538] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:52.538] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:52.589] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:52.589] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:52.589] object_detector.py   221    INFO    : tid: 0, now centroid x: 985.000000, y: 410.000000, history centroid x: 985.000000, y: 410.000000
+2026-03-27 18:31:52.589] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 37.687411
+2026-03-27 18:31:52.589] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 30.343355
+2026-03-27 18:31:52.589] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 23.006425
+2026-03-27 18:31:52.589] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 15.576488
+2026-03-27 18:31:52.589] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 7.315485
+2026-03-27 18:31:52.589] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.401563
+2026-03-27 18:31:52.589] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:52.589] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.007500
+2026-03-27 18:31:52.589] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.589] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.589] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.589] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 985.000000, y: 410.000000
+2026-03-27 18:31:52.589] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 985.000000, y: 410.000000
+2026-03-27 18:31:52.589] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:52.589] object_detector.py   413    INFO    : id: 0, 质心x: 985.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:52.589] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:52.589] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:52.589] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:52.589] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:52.589] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:52.641] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:52.642] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:52.642] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 985.000000, y: 410.000000
+2026-03-27 18:31:52.642] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 36.871858
+2026-03-27 18:31:52.642] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 29.535065
+2026-03-27 18:31:52.642] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 22.105741
+2026-03-27 18:31:52.642] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 13.845045
+2026-03-27 18:31:52.642] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 6.514661
+2026-03-27 18:31:52.642] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.378382
+2026-03-27 18:31:52.642] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:52.642] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.240000
+2026-03-27 18:31:52.642] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.642] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.642] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 985.000000, y: 410.000000
+2026-03-27 18:31:52.642] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 985.000000, y: 410.000000
+2026-03-27 18:31:52.642] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.642] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:52.642] object_detector.py   365    INFO    : last Areaavg: 0.000000
+2026-03-27 18:31:52.642] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:52.642] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:52.642] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:52.642] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:52.642] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:52.642] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:52.693] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:52.693] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:52.693] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.693] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 36.941546
+2026-03-27 18:31:52.693] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 29.512768
+2026-03-27 18:31:52.694] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 21.252378
+2026-03-27 18:31:52.694] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 13.922131
+2026-03-27 18:31:52.694] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 7.391207
+2026-03-27 18:31:52.694] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.370694
+2026-03-27 18:31:52.694] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:52.694] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.455000
+2026-03-27 18:31:52.694] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.694] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 985.000000, y: 410.000000
+2026-03-27 18:31:52.694] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 985.000000, y: 410.000000
+2026-03-27 18:31:52.694] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.694] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.694] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:52.694] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:52.694] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:52.694] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:52.694] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:52.694] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:52.694] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:52.745] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:52.746] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:52.746] object_detector.py   221    INFO    : tid: 0, now centroid x: 985.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.746] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 37.973356
+2026-03-27 18:31:52.746] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 29.714160
+2026-03-27 18:31:52.746] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 22.384492
+2026-03-27 18:31:52.746] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 15.853739
+2026-03-27 18:31:52.746] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 8.446678
+2026-03-27 18:31:52.746] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.375132
+2026-03-27 18:31:52.746] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:52.746] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.670000
+2026-03-27 18:31:52.746] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 985.000000, y: 410.000000
+2026-03-27 18:31:52.746] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 985.000000, y: 410.000000
+2026-03-27 18:31:52.746] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.746] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.746] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 985.000000, y: 410.000000
+2026-03-27 18:31:52.746] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:52.746] object_detector.py   413    INFO    : id: 0, 质心x: 985.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:52.746] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:52.746] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:52.746] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:52.746] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:52.746] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:52.798] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:52.798] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:52.798] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 985.000000, y: 410.000000
+2026-03-27 18:31:52.798] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 36.171134
+2026-03-27 18:31:52.798] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 28.842421
+2026-03-27 18:31:52.798] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 22.312827
+2026-03-27 18:31:52.798] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 14.905902
+2026-03-27 18:31:52.798] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 6.443814
+2026-03-27 18:31:52.798] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.389875
+2026-03-27 18:31:52.798] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:52.798] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.600000
+2026-03-27 18:31:52.798] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 985.000000, y: 410.000000
+2026-03-27 18:31:52.798] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.798] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.798] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 985.000000, y: 410.000000
+2026-03-27 18:31:52.798] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.798] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:52.798] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:52.798] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:52.798] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:52.798] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:52.798] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:52.798] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:52.853] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1671.000000, w_img: 1700.000000
+2026-03-27 18:31:52.853] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:52.854] object_detector.py   221    INFO    : tid: 0, now centroid x: 985.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.854] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 37.806030
+2026-03-27 18:31:52.854] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 31.276640
+2026-03-27 18:31:52.854] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 23.871523
+2026-03-27 18:31:52.854] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 15.409878
+2026-03-27 18:31:52.854] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 8.950790
+2026-03-27 18:31:52.854] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.399881
+2026-03-27 18:31:52.854] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:52.854] object_detector.py   259    INFO    : tid: 0, 增加新面积: 567.815000
+2026-03-27 18:31:52.854] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.854] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.854] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 985.000000, y: 410.000000
+2026-03-27 18:31:52.854] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.854] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 985.000000, y: 410.000000
+2026-03-27 18:31:52.854] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:52.854] object_detector.py   413    INFO    : id: 0, 质心x: 985.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:52.854] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:52.854] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:52.854] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:52.854] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:52.854] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:52.904] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:52.904] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:52.904] object_detector.py   221    INFO    : tid: 0, now centroid x: 985.000000, y: 410.000000, history centroid x: 985.000000, y: 410.000000
+2026-03-27 18:31:52.904] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 38.489434
+2026-03-27 18:31:52.904] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 31.084487
+2026-03-27 18:31:52.904] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 22.623081
+2026-03-27 18:31:52.904] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 16.163345
+2026-03-27 18:31:52.904] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 7.198406
+2026-03-27 18:31:52.904] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.373295
+2026-03-27 18:31:52.904] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:52.904] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.100000
+2026-03-27 18:31:52.904] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.904] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 985.000000, y: 410.000000
+2026-03-27 18:31:52.904] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.904] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 985.000000, y: 410.000000
+2026-03-27 18:31:52.904] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 985.000000, y: 410.000000
+2026-03-27 18:31:52.904] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:52.904] object_detector.py   413    INFO    : id: 0, 质心x: 985.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:52.905] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:52.905] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:52.905] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:52.905] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:52.905] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:52.955] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:52.955] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:52.955] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 985.000000, y: 410.000000
+2026-03-27 18:31:52.955] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 37.389028
+2026-03-27 18:31:52.955] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 28.928235
+2026-03-27 18:31:52.955] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 22.468670
+2026-03-27 18:31:52.955] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 13.503834
+2026-03-27 18:31:52.955] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 6.289403
+2026-03-27 18:31:52.955] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.361413
+2026-03-27 18:31:52.955] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:52.955] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.280000
+2026-03-27 18:31:52.955] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 985.000000, y: 410.000000
+2026-03-27 18:31:52.955] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.955] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 985.000000, y: 410.000000
+2026-03-27 18:31:52.955] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 985.000000, y: 410.000000
+2026-03-27 18:31:52.955] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:52.955] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:52.956] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.077742
+2026-03-27 18:31:52.956] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:52.956] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:52.956] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:52.956] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:52.956] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:53.006] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:53.006] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:53.006] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.006] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 36.203728
+2026-03-27 18:31:53.006] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 29.744913
+2026-03-27 18:31:53.006] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 20.780383
+2026-03-27 18:31:53.006] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 13.565918
+2026-03-27 18:31:53.006] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 7.261071
+2026-03-27 18:31:53.006] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.358021
+2026-03-27 18:31:53.006] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:53.006] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.417500
+2026-03-27 18:31:53.006] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.006] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 985.000000, y: 410.000000
+2026-03-27 18:31:53.006] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 985.000000, y: 410.000000
+2026-03-27 18:31:53.006] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.006] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.006] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:53.007] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:53.007] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:53.007] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:53.007] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:53.007] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:53.007] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:53.058] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:53.058] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:53.058] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.058] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 37.229707
+2026-03-27 18:31:53.058] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 28.266780
+2026-03-27 18:31:53.058] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 21.053066
+2026-03-27 18:31:53.058] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 14.748559
+2026-03-27 18:31:53.059] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 7.472112
+2026-03-27 18:31:53.059] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.360400
+2026-03-27 18:31:53.059] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:53.059] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.307500
+2026-03-27 18:31:53.059] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 985.000000, y: 410.000000
+2026-03-27 18:31:53.059] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 985.000000, y: 410.000000
+2026-03-27 18:31:53.059] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.059] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.059] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.059] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:53.059] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:53.059] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:53.059] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:53.059] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:53.059] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:53.059] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:53.114] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:53.114] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:53.114] object_detector.py   221    INFO    : tid: 0, now centroid x: 985.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.114] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 37.243515
+2026-03-27 18:31:53.114] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 30.030346
+2026-03-27 18:31:53.114] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 23.725942
+2026-03-27 18:31:53.114] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 16.449427
+2026-03-27 18:31:53.114] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 8.959552
+2026-03-27 18:31:53.114] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.358365
+2026-03-27 18:31:53.114] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:53.114] object_detector.py   259    INFO    : tid: 0, 增加新面积: 567.962500
+2026-03-27 18:31:53.114] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 985.000000, y: 410.000000
+2026-03-27 18:31:53.114] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.114] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.114] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.115] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 985.000000, y: 410.000000
+2026-03-27 18:31:53.115] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:53.115] object_detector.py   413    INFO    : id: 0, 质心x: 985.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:53.115] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:53.115] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:53.115] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:53.115] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:53.115] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:53.164] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1671.000000, w_img: 1700.000000
+2026-03-27 18:31:53.164] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:53.164] object_detector.py   221    INFO    : tid: 0, now centroid x: 985.000000, y: 410.000000, history centroid x: 985.000000, y: 410.000000
+2026-03-27 18:31:53.164] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 37.156303
+2026-03-27 18:31:53.164] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 30.853467
+2026-03-27 18:31:53.164] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 23.577395
+2026-03-27 18:31:53.164] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 16.088441
+2026-03-27 18:31:53.164] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 7.113581
+2026-03-27 18:31:53.164] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.343704
+2026-03-27 18:31:53.164] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:53.164] object_detector.py   259    INFO    : tid: 0, 增加新面积: 567.472500
+2026-03-27 18:31:53.164] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.164] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.164] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.164] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 985.000000, y: 410.000000
+2026-03-27 18:31:53.164] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 985.000000, y: 410.000000
+2026-03-27 18:31:53.164] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:53.164] object_detector.py   365    INFO    : last Areaavg: 0.000000
+2026-03-27 18:31:53.165] object_detector.py   413    INFO    : id: 0, 质心x: 985.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:53.165] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:53.165] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:53.165] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:53.165] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:53.165] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:53.218] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:53.219] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:53.219] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 985.000000, y: 410.000000
+2026-03-27 18:31:53.219] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 37.655540
+2026-03-27 18:31:53.219] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 30.380422
+2026-03-27 18:31:53.219] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 22.891604
+2026-03-27 18:31:53.219] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 13.916881
+2026-03-27 18:31:53.219] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 6.788810
+2026-03-27 18:31:53.219] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.312589
+2026-03-27 18:31:53.219] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:53.219] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.387500
+2026-03-27 18:31:53.219] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.219] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.219] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 985.000000, y: 410.000000
+2026-03-27 18:31:53.219] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 985.000000, y: 410.000000
+2026-03-27 18:31:53.219] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.219] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:53.219] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.072343
+2026-03-27 18:31:53.219] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:53.219] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:53.219] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:53.219] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:53.219] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:53.268] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:53.269] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:53.269] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.269] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 37.524006
+2026-03-27 18:31:53.269] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 30.035699
+2026-03-27 18:31:53.269] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 21.061419
+2026-03-27 18:31:53.269] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 13.933587
+2026-03-27 18:31:53.269] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 7.127594
+2026-03-27 18:31:53.269] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.315172
+2026-03-27 18:31:53.269] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:53.269] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.455000
+2026-03-27 18:31:53.269] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.269] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 985.000000, y: 410.000000
+2026-03-27 18:31:53.269] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 985.000000, y: 410.000000
+2026-03-27 18:31:53.269] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.269] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.269] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:53.269] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:53.269] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:53.269] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:53.269] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:53.269] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:53.269] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:53.322] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:53.322] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:53.322] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.322] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 37.682474
+2026-03-27 18:31:53.322] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 28.709421
+2026-03-27 18:31:53.322] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 21.582100
+2026-03-27 18:31:53.322] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 14.776550
+2026-03-27 18:31:53.322] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 7.632353
+2026-03-27 18:31:53.322] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.319833
+2026-03-27 18:31:53.322] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:53.322] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.507500
+2026-03-27 18:31:53.322] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 985.000000, y: 410.000000
+2026-03-27 18:31:53.322] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 985.000000, y: 410.000000
+2026-03-27 18:31:53.322] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.322] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.322] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.322] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:53.323] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:53.323] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:53.323] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:53.323] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:53.323] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:53.323] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:53.376] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:53.376] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:53.376] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.376] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 36.392267
+2026-03-27 18:31:53.376] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 29.265730
+2026-03-27 18:31:53.376] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 22.460419
+2026-03-27 18:31:53.376] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 15.316358
+2026-03-27 18:31:53.376] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 7.668765
+2026-03-27 18:31:53.376] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.325887
+2026-03-27 18:31:53.376] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:53.376] object_detector.py   259    INFO    : tid: 0, 增加新面积: 569.012500
+2026-03-27 18:31:53.376] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 985.000000, y: 410.000000
+2026-03-27 18:31:53.376] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.376] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.376] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.376] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.376] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:53.376] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:53.376] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:53.376] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:53.376] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:53.376] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:53.376] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:53.425] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:53.425] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:53.425] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.425] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 36.338262
+2026-03-27 18:31:53.425] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 29.533531
+2026-03-27 18:31:53.425] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 22.389777
+2026-03-27 18:31:53.425] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 14.742388
+2026-03-27 18:31:53.425] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 7.056337
+2026-03-27 18:31:53.426] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.347344
+2026-03-27 18:31:53.426] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:53.426] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.520000
+2026-03-27 18:31:53.426] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.426] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.426] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.426] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.426] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.426] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:53.426] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:53.426] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:53.426] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:53.426] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:53.426] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:53.426] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:53.481] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:53.481] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:53.481] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.481] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 37.491344
+2026-03-27 18:31:53.481] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 30.348306
+2026-03-27 18:31:53.481] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 22.701292
+2026-03-27 18:31:53.481] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 15.015514
+2026-03-27 18:31:53.481] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 7.941925
+2026-03-27 18:31:53.481] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.352576
+2026-03-27 18:31:53.481] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:53.481] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.547500
+2026-03-27 18:31:53.481] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.481] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.481] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.481] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.481] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.481] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:53.482] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:53.482] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:53.482] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:53.482] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:53.482] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:53.482] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:53.534] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1671.000000, w_img: 1700.000000
+2026-03-27 18:31:53.535] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:53.535] object_detector.py   221    INFO    : tid: 0, now centroid x: 984.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.535] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 40.053790
+2026-03-27 18:31:53.535] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 32.407629
+2026-03-27 18:31:53.535] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 24.722158
+2026-03-27 18:31:53.535] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 17.648637
+2026-03-27 18:31:53.535] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 9.691335
+2026-03-27 18:31:53.535] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.358309
+2026-03-27 18:31:53.535] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:53.535] object_detector.py   259    INFO    : tid: 0, 增加新面积: 567.122500
+2026-03-27 18:31:53.535] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.535] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.535] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.535] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.535] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 984.000000, y: 410.000000
+2026-03-27 18:31:53.535] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:53.535] object_detector.py   413    INFO    : id: 0, 质心x: 984.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:53.535] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:53.536] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:53.536] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:53.536] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:53.536] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:53.591] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1671.000000, w_img: 1700.000000
+2026-03-27 18:31:53.591] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:53.591] object_detector.py   221    INFO    : tid: 0, now centroid x: 985.000000, y: 410.000000, history centroid x: 984.000000, y: 410.000000
+2026-03-27 18:31:53.591] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 39.458348
+2026-03-27 18:31:53.591] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 31.773592
+2026-03-27 18:31:53.591] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 24.700583
+2026-03-27 18:31:53.591] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 16.743623
+2026-03-27 18:31:53.591] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 7.035786
+2026-03-27 18:31:53.591] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.323000
+2026-03-27 18:31:53.591] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:53.592] object_detector.py   259    INFO    : tid: 0, 增加新面积: 567.210000
+2026-03-27 18:31:53.592] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.592] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.592] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.592] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 984.000000, y: 410.000000
+2026-03-27 18:31:53.592] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 985.000000, y: 410.000000
+2026-03-27 18:31:53.592] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:53.592] object_detector.py   413    INFO    : id: 0, 质心x: 985.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:53.592] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:53.592] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:53.592] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:53.592] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:53.592] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:53.640] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1671.000000, w_img: 1700.000000
+2026-03-27 18:31:53.640] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:53.640] object_detector.py   221    INFO    : tid: 0, now centroid x: 985.000000, y: 410.000000, history centroid x: 985.000000, y: 410.000000
+2026-03-27 18:31:53.640] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 38.734978
+2026-03-27 18:31:53.640] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 31.662583
+2026-03-27 18:31:53.640] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 23.705929
+2026-03-27 18:31:53.640] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 13.998229
+2026-03-27 18:31:53.640] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 6.946862
+2026-03-27 18:31:53.640] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.292083
+2026-03-27 18:31:53.640] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:53.640] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.007500
+2026-03-27 18:31:53.640] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.640] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.640] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 984.000000, y: 410.000000
+2026-03-27 18:31:53.640] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 985.000000, y: 410.000000
+2026-03-27 18:31:53.640] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 985.000000, y: 410.000000
+2026-03-27 18:31:53.640] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:53.641] object_detector.py   413    INFO    : id: 0, 质心x: 985.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:53.641] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:53.641] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:53.641] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:53.641] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:53.641] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:53.690] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1671.000000, w_img: 1700.000000
+2026-03-27 18:31:53.690] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:53.690] object_detector.py   221    INFO    : tid: 0, now centroid x: 985.000000, y: 410.000000, history centroid x: 985.000000, y: 410.000000
+2026-03-27 18:31:53.690] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 38.786835
+2026-03-27 18:31:53.690] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 30.831409
+2026-03-27 18:31:53.690] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 21.124424
+2026-03-27 18:31:53.690] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 14.073433
+2026-03-27 18:31:53.690] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 7.109592
+2026-03-27 18:31:53.690] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.284392
+2026-03-27 18:31:53.690] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:53.690] object_detector.py   259    INFO    : tid: 0, 增加新面积: 567.727500
+2026-03-27 18:31:53.690] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.690] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 984.000000, y: 410.000000
+2026-03-27 18:31:53.690] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 985.000000, y: 410.000000
+2026-03-27 18:31:53.690] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 985.000000, y: 410.000000
+2026-03-27 18:31:53.690] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 985.000000, y: 410.000000
+2026-03-27 18:31:53.690] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:53.690] object_detector.py   365    INFO    : last Areaavg: 0.000000
+2026-03-27 18:31:53.690] object_detector.py   413    INFO    : id: 0, 质心x: 985.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:53.690] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:53.690] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:53.690] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:53.690] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:53.690] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:53.739] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:53.739] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:53.739] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 985.000000, y: 410.000000
+2026-03-27 18:31:53.740] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 36.922999
+2026-03-27 18:31:53.740] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 27.217378
+2026-03-27 18:31:53.740] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 20.166660
+2026-03-27 18:31:53.740] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 13.202921
+2026-03-27 18:31:53.740] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 6.076691
+2026-03-27 18:31:53.740] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.269737
+2026-03-27 18:31:53.740] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:53.740] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.460000
+2026-03-27 18:31:53.740] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 984.000000, y: 410.000000
+2026-03-27 18:31:53.740] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 985.000000, y: 410.000000
+2026-03-27 18:31:53.740] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 985.000000, y: 410.000000
+2026-03-27 18:31:53.740] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 985.000000, y: 410.000000
+2026-03-27 18:31:53.740] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.740] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:53.740] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:53.740] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:53.740] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:53.740] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:53.740] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:53.740] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:53.790] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:53.790] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:53.790] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.790] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 34.497815
+2026-03-27 18:31:53.790] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 27.449073
+2026-03-27 18:31:53.791] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 20.486085
+2026-03-27 18:31:53.791] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 13.359617
+2026-03-27 18:31:53.791] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 7.267071
+2026-03-27 18:31:53.791] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.274615
+2026-03-27 18:31:53.791] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:53.791] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.845000
+2026-03-27 18:31:53.791] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 985.000000, y: 410.000000
+2026-03-27 18:31:53.791] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 985.000000, y: 410.000000
+2026-03-27 18:31:53.791] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 985.000000, y: 410.000000
+2026-03-27 18:31:53.791] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.791] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.791] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:53.791] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:53.791] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:53.791] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:53.791] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:53.791] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:53.791] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:53.843] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:53.843] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:53.843] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.843] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 34.980679
+2026-03-27 18:31:53.843] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 28.018441
+2026-03-27 18:31:53.843] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 20.892518
+2026-03-27 18:31:53.843] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 14.806314
+2026-03-27 18:31:53.843] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 7.525060
+2026-03-27 18:31:53.843] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.288875
+2026-03-27 18:31:53.843] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:53.843] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.672500
+2026-03-27 18:31:53.843] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 985.000000, y: 410.000000
+2026-03-27 18:31:53.843] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 985.000000, y: 410.000000
+2026-03-27 18:31:53.843] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.843] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.844] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.844] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:53.844] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:53.844] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:53.844] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:53.844] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:53.844] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:53.844] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:53.902] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:53.902] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:53.902] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.902] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 36.432464
+2026-03-27 18:31:53.902] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 29.306848
+2026-03-27 18:31:53.902] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 23.214882
+2026-03-27 18:31:53.902] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 15.931718
+2026-03-27 18:31:53.902] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 8.391351
+2026-03-27 18:31:53.902] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.298232
+2026-03-27 18:31:53.902] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:53.902] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.517500
+2026-03-27 18:31:53.902] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 985.000000, y: 410.000000
+2026-03-27 18:31:53.902] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.902] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.902] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.902] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.902] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:53.902] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:53.903] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:53.903] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:53.903] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:53.903] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:53.903] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:53.954] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:53.955] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:53.955] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.955] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 36.838419
+2026-03-27 18:31:53.955] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 30.747408
+2026-03-27 18:31:53.955] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 23.464483
+2026-03-27 18:31:53.955] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 15.924388
+2026-03-27 18:31:53.955] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 7.519093
+2026-03-27 18:31:53.955] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.303452
+2026-03-27 18:31:53.955] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:53.955] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.385000
+2026-03-27 18:31:53.955] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.955] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.955] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.955] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.955] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:53.955] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:53.955] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:53.955] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:53.956] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:53.956] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:53.956] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:53.956] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:54.004] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:54.004] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:54.004] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.004] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 37.833476
+2026-03-27 18:31:54.004] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 30.551710
+2026-03-27 18:31:54.004] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 23.012160
+2026-03-27 18:31:54.004] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 14.608672
+2026-03-27 18:31:54.004] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 7.073316
+2026-03-27 18:31:54.004] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.305349
+2026-03-27 18:31:54.004] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:54.005] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.545000
+2026-03-27 18:31:54.005] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.005] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.005] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.005] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.005] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.005] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:54.005] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:54.005] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:54.005] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:54.005] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:54.005] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:54.005] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:54.055] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:54.055] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:54.055] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.055] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 37.862864
+2026-03-27 18:31:54.055] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 30.324201
+2026-03-27 18:31:54.056] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 21.919997
+2026-03-27 18:31:54.056] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 14.384812
+2026-03-27 18:31:54.056] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 7.294312
+2026-03-27 18:31:54.056] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.310795
+2026-03-27 18:31:54.056] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:54.056] object_detector.py   259    INFO    : tid: 0, 增加新面积: 569.230000
+2026-03-27 18:31:54.056] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.056] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.056] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.056] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.056] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.056] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:54.056] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:54.056] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:54.056] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:54.056] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:54.056] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:54.056] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:54.105] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:54.105] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:54.105] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.105] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 37.429259
+2026-03-27 18:31:54.105] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 29.025294
+2026-03-27 18:31:54.105] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 21.490244
+2026-03-27 18:31:54.105] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 14.399813
+2026-03-27 18:31:54.105] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 7.089715
+2026-03-27 18:31:54.105] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.331222
+2026-03-27 18:31:54.105] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:54.105] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.635000
+2026-03-27 18:31:54.105] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.105] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.105] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.105] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.105] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.105] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:54.106] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.077322
+2026-03-27 18:31:54.106] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:54.106] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:54.106] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:54.106] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:54.106] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:54.157] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:54.157] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:54.157] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.157] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 36.487791
+2026-03-27 18:31:54.157] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 28.953969
+2026-03-27 18:31:54.157] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 21.864424
+2026-03-27 18:31:54.157] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 14.554804
+2026-03-27 18:31:54.157] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 7.448553
+2026-03-27 18:31:54.158] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.337826
+2026-03-27 18:31:54.158] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:54.158] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.465000
+2026-03-27 18:31:54.158] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.158] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.158] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.158] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.158] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.158] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:54.158] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:54.158] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:54.158] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:54.158] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:54.158] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:54.158] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:54.207] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:54.207] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:54.207] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.207] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 36.093564
+2026-03-27 18:31:54.207] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 29.004224
+2026-03-27 18:31:54.207] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 21.694910
+2026-03-27 18:31:54.207] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 14.588659
+2026-03-27 18:31:54.207] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 7.122002
+2026-03-27 18:31:54.207] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.340532
+2026-03-27 18:31:54.207] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:54.208] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.155000
+2026-03-27 18:31:54.208] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.208] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.208] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.208] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.208] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.208] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:54.208] object_detector.py   365    INFO    : last Areaavg: 0.000000
+2026-03-27 18:31:54.208] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.072252
+2026-03-27 18:31:54.208] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:54.208] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:54.208] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:54.208] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:54.208] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:54.256] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1671.000000, w_img: 1700.000000
+2026-03-27 18:31:54.256] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:54.256] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.256] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 35.982759
+2026-03-27 18:31:54.256] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 28.674570
+2026-03-27 18:31:54.256] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 21.569206
+2026-03-27 18:31:54.256] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 14.102958
+2026-03-27 18:31:54.256] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 6.965204
+2026-03-27 18:31:54.256] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.336667
+2026-03-27 18:31:54.256] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:54.256] object_detector.py   259    INFO    : tid: 0, 增加新面积: 566.622500
+2026-03-27 18:31:54.256] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.256] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.256] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.256] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.257] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.257] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:54.257] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:54.257] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:54.257] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:54.257] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:54.257] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:54.257] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:54.312] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:54.312] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:54.312] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.312] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 36.660886
+2026-03-27 18:31:54.312] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 29.556067
+2026-03-27 18:31:54.312] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 22.090296
+2026-03-27 18:31:54.312] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 14.952441
+2026-03-27 18:31:54.312] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 7.969098
+2026-03-27 18:31:54.312] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.301684
+2026-03-27 18:31:54.312] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:54.312] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.167500
+2026-03-27 18:31:54.312] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.312] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.312] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.312] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.312] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.312] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:54.313] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:54.313] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:54.313] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:54.313] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:54.313] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:54.313] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:54.363] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:54.364] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:54.364] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.364] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 36.948126
+2026-03-27 18:31:54.364] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 29.482765
+2026-03-27 18:31:54.364] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 22.344977
+2026-03-27 18:31:54.364] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 15.361430
+2026-03-27 18:31:54.364] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 7.375763
+2026-03-27 18:31:54.364] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.299000
+2026-03-27 18:31:54.364] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:54.364] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.522500
+2026-03-27 18:31:54.364] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.364] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.364] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.364] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.364] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.364] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:54.364] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:54.364] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:54.364] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:54.364] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:54.364] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:54.364] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:54.417] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:54.417] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:54.417] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.417] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 37.069057
+2026-03-27 18:31:54.417] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 29.933247
+2026-03-27 18:31:54.417] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 22.950382
+2026-03-27 18:31:54.417] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 14.965362
+2026-03-27 18:31:54.417] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 7.574564
+2026-03-27 18:31:54.417] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.303382
+2026-03-27 18:31:54.417] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:54.417] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.187500
+2026-03-27 18:31:54.417] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.417] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.417] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.417] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.417] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.417] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:54.417] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:54.417] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:54.417] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:54.417] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:54.417] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:54.417] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:54.474] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:54.474] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:54.474] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.474] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 38.077792
+2026-03-27 18:31:54.474] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 31.095438
+2026-03-27 18:31:54.474] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 23.110487
+2026-03-27 18:31:54.474] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 15.719893
+2026-03-27 18:31:54.474] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 8.128998
+2026-03-27 18:31:54.474] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.301154
+2026-03-27 18:31:54.474] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:54.474] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.677500
+2026-03-27 18:31:54.474] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.474] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.474] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.474] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.474] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.474] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:54.474] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.077218
+2026-03-27 18:31:54.474] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:54.474] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:54.474] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:54.474] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:54.474] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:54.529] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:54.529] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:54.529] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.529] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 39.035284
+2026-03-27 18:31:54.529] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 31.051082
+2026-03-27 18:31:54.529] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 23.660421
+2026-03-27 18:31:54.529] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 16.069901
+2026-03-27 18:31:54.529] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 7.928015
+2026-03-27 18:31:54.530] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.308255
+2026-03-27 18:31:54.530] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:54.530] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.455000
+2026-03-27 18:31:54.530] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.530] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.530] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.530] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.530] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.530] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:54.530] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.067091
+2026-03-27 18:31:54.530] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:54.530] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:54.530] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:54.530] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:54.530] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:54.617] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:54.617] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:54.617] object_detector.py   221    INFO    : tid: 0, now centroid x: 985.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.617] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 44.605600
+2026-03-27 18:31:54.617] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 37.216131
+2026-03-27 18:31:54.617] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 29.625475
+2026-03-27 18:31:54.617] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 21.482737
+2026-03-27 18:31:54.617] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 13.535220
+2026-03-27 18:31:54.617] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.310972
+2026-03-27 18:31:54.617] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:54.617] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.565000
+2026-03-27 18:31:54.617] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.617] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.617] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.617] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.617] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 985.000000, y: 410.000000
+2026-03-27 18:31:54.618] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:54.618] object_detector.py   413    INFO    : id: 0, 质心x: 985.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:54.618] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:54.618] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:54.618] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:54.618] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:54.618] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:54.672] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:54.672] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:54.672] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 985.000000, y: 410.000000
+2026-03-27 18:31:54.672] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 44.078345
+2026-03-27 18:31:54.672] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 36.489598
+2026-03-27 18:31:54.672] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 28.347440
+2026-03-27 18:31:54.672] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 20.400537
+2026-03-27 18:31:54.672] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 6.852463
+2026-03-27 18:31:54.672] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.315591
+2026-03-27 18:31:54.672] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:54.672] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.395000
+2026-03-27 18:31:54.672] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.672] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.673] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.673] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 985.000000, y: 410.000000
+2026-03-27 18:31:54.673] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.673] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:54.673] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.072252
+2026-03-27 18:31:54.673] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:54.673] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:54.673] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:54.673] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:54.673] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:54.724] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:54.724] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:54.724] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.724] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 43.956800
+2026-03-27 18:31:54.725] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 35.815869
+2026-03-27 18:31:54.725] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 27.869546
+2026-03-27 18:31:54.725] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 14.321438
+2026-03-27 18:31:54.725] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 7.453497
+2026-03-27 18:31:54.725] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.317009
+2026-03-27 18:31:54.725] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:54.725] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.315000
+2026-03-27 18:31:54.725] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.725] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.725] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 985.000000, y: 410.000000
+2026-03-27 18:31:54.725] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.725] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.725] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:54.725] object_detector.py   365    INFO    : last Areaavg: 0.000000
+2026-03-27 18:31:54.725] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:54.725] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:54.725] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:54.725] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:54.725] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:54.725] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:54.775] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:54.775] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:54.775] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.775] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 43.068894
+2026-03-27 18:31:54.775] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 35.123525
+2026-03-27 18:31:54.775] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 21.575418
+2026-03-27 18:31:54.775] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 14.707374
+2026-03-27 18:31:54.775] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 7.190122
+2026-03-27 18:31:54.775] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.316974
+2026-03-27 18:31:54.775] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:54.775] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.550000
+2026-03-27 18:31:54.775] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.775] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 985.000000, y: 410.000000
+2026-03-27 18:31:54.776] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.776] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.776] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.776] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:54.776] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:54.776] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:54.776] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:54.776] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:54.776] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:54.776] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:54.829] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:54.829] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:54.829] object_detector.py   221    INFO    : tid: 0, now centroid x: 985.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.829] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 43.856967
+2026-03-27 18:31:54.829] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 30.309882
+2026-03-27 18:31:54.829] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 23.442384
+2026-03-27 18:31:54.829] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 15.925200
+2026-03-27 18:31:54.829] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 8.719633
+2026-03-27 18:31:54.829] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.320991
+2026-03-27 18:31:54.829] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:54.830] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.580000
+2026-03-27 18:31:54.830] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 985.000000, y: 410.000000
+2026-03-27 18:31:54.830] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.830] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.830] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.830] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 985.000000, y: 410.000000
+2026-03-27 18:31:54.830] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:54.830] object_detector.py   413    INFO    : id: 0, 质心x: 985.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:54.830] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:54.830] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:54.830] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:54.830] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:54.830] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:54.880] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:54.880] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:54.880] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 985.000000, y: 410.000000
+2026-03-27 18:31:54.880] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 36.608968
+2026-03-27 18:31:54.880] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 29.742185
+2026-03-27 18:31:54.880] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 22.225376
+2026-03-27 18:31:54.880] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 15.019946
+2026-03-27 18:31:54.881] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 6.282107
+2026-03-27 18:31:54.881] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.325381
+2026-03-27 18:31:54.881] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:54.881] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.765000
+2026-03-27 18:31:54.881] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.881] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.881] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.881] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 985.000000, y: 410.000000
+2026-03-27 18:31:54.881] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.881] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:54.881] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:54.881] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:54.881] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:54.881] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:54.881] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:54.881] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:54.933] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:54.934] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:54.934] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.934] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 37.349377
+2026-03-27 18:31:54.934] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 29.834068
+2026-03-27 18:31:54.934] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 22.629013
+2026-03-27 18:31:54.934] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 13.891242
+2026-03-27 18:31:54.934] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 7.592054
+2026-03-27 18:31:54.934] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.332708
+2026-03-27 18:31:54.934] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:54.934] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.852500
+2026-03-27 18:31:54.934] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.934] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.934] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 985.000000, y: 410.000000
+2026-03-27 18:31:54.934] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.934] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.934] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:54.934] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:54.934] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:54.934] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:54.934] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:54.934] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:54.934] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:54.982] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:54.982] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:54.982] object_detector.py   221    INFO    : tid: 0, now centroid x: 985.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.982] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 37.797125
+2026-03-27 18:31:54.982] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 30.592956
+2026-03-27 18:31:54.982] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 21.855731
+2026-03-27 18:31:54.982] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 15.556918
+2026-03-27 18:31:54.982] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 7.949146
+2026-03-27 18:31:54.982] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.341230
+2026-03-27 18:31:54.983] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:54.983] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.305000
+2026-03-27 18:31:54.983] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.983] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 985.000000, y: 410.000000
+2026-03-27 18:31:54.983] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.983] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:54.983] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 985.000000, y: 410.000000
+2026-03-27 18:31:54.983] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:54.983] object_detector.py   413    INFO    : id: 0, 质心x: 985.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:54.983] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:54.983] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:54.983] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:54.983] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:54.983] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:55.035] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:55.035] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:55.035] object_detector.py   221    INFO    : tid: 0, now centroid x: 985.000000, y: 410.000000, history centroid x: 985.000000, y: 410.000000
+2026-03-27 18:31:55.035] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 38.119243
+2026-03-27 18:31:55.035] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 29.384984
+2026-03-27 18:31:55.035] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 23.088012
+2026-03-27 18:31:55.035] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 15.481400
+2026-03-27 18:31:55.035] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 7.515445
+2026-03-27 18:31:55.035] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.340645
+2026-03-27 18:31:55.035] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:55.035] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.510000
+2026-03-27 18:31:55.035] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 985.000000, y: 410.000000
+2026-03-27 18:31:55.035] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.035] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.035] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 985.000000, y: 410.000000
+2026-03-27 18:31:55.035] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 985.000000, y: 410.000000
+2026-03-27 18:31:55.035] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:55.036] object_detector.py   413    INFO    : id: 0, 质心x: 985.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:55.036] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:55.036] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:55.036] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:55.036] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:55.036] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:55.086] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:55.086] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:55.086] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 985.000000, y: 410.000000
+2026-03-27 18:31:55.086] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 35.688740
+2026-03-27 18:31:55.086] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 29.391052
+2026-03-27 18:31:55.086] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 21.783452
+2026-03-27 18:31:55.086] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 13.816167
+2026-03-27 18:31:55.086] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 6.281595
+2026-03-27 18:31:55.086] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.343333
+2026-03-27 18:31:55.086] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:55.086] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.225000
+2026-03-27 18:31:55.086] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.086] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.086] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 985.000000, y: 410.000000
+2026-03-27 18:31:55.086] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 985.000000, y: 410.000000
+2026-03-27 18:31:55.086] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.086] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:55.087] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:55.087] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:55.087] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:55.087] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:55.087] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:55.087] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:55.141] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1671.000000, w_img: 1700.000000
+2026-03-27 18:31:55.141] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:55.141] object_detector.py   221    INFO    : tid: 0, now centroid x: 985.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.141] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 38.252073
+2026-03-27 18:31:55.141] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 30.645393
+2026-03-27 18:31:55.141] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 22.678586
+2026-03-27 18:31:55.141] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 15.144321
+2026-03-27 18:31:55.141] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 8.847826
+2026-03-27 18:31:55.141] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.341484
+2026-03-27 18:31:55.141] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:55.141] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.102500
+2026-03-27 18:31:55.141] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.141] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 985.000000, y: 410.000000
+2026-03-27 18:31:55.141] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 985.000000, y: 410.000000
+2026-03-27 18:31:55.141] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.141] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 985.000000, y: 410.000000
+2026-03-27 18:31:55.141] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:55.142] object_detector.py   413    INFO    : id: 0, 质心x: 985.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:55.142] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:55.142] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:55.142] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:55.142] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:55.142] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:55.192] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:55.192] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:55.192] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 985.000000, y: 410.000000
+2026-03-27 18:31:55.192] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 36.926511
+2026-03-27 18:31:55.192] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 28.960488
+2026-03-27 18:31:55.192] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 21.427587
+2026-03-27 18:31:55.192] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 15.132354
+2026-03-27 18:31:55.192] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 6.267992
+2026-03-27 18:31:55.192] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.337808
+2026-03-27 18:31:55.192] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:55.192] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.805000
+2026-03-27 18:31:55.192] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 985.000000, y: 410.000000
+2026-03-27 18:31:55.192] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 985.000000, y: 410.000000
+2026-03-27 18:31:55.192] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.192] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 985.000000, y: 410.000000
+2026-03-27 18:31:55.192] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.192] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:55.193] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:55.193] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:55.193] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:55.193] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:55.193] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:55.193] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:55.244] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1671.000000, w_img: 1700.000000
+2026-03-27 18:31:55.244] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:55.244] object_detector.py   221    INFO    : tid: 0, now centroid x: 985.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.244] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 37.437816
+2026-03-27 18:31:55.244] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 29.905188
+2026-03-27 18:31:55.244] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 23.609648
+2026-03-27 18:31:55.244] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 14.745729
+2026-03-27 18:31:55.245] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 8.461918
+2026-03-27 18:31:55.245] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.344886
+2026-03-27 18:31:55.245] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:55.245] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.340000
+2026-03-27 18:31:55.245] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 985.000000, y: 410.000000
+2026-03-27 18:31:55.245] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.245] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 985.000000, y: 410.000000
+2026-03-27 18:31:55.245] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.245] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 985.000000, y: 410.000000
+2026-03-27 18:31:55.245] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:55.245] object_detector.py   365    INFO    : last Areaavg: 0.000000
+2026-03-27 18:31:55.245] object_detector.py   413    INFO    : id: 0, 质心x: 985.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:55.245] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:55.245] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:55.245] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:55.245] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:55.245] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:55.294] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1671.000000, w_img: 1700.000000
+2026-03-27 18:31:55.294] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:55.294] object_detector.py   221    INFO    : tid: 0, now centroid x: 985.000000, y: 410.000000, history centroid x: 985.000000, y: 410.000000
+2026-03-27 18:31:55.294] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 36.969401
+2026-03-27 18:31:55.294] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 30.686476
+2026-03-27 18:31:55.294] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 21.824876
+2026-03-27 18:31:55.294] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 15.542087
+2026-03-27 18:31:55.294] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 7.063770
+2026-03-27 18:31:55.294] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.344813
+2026-03-27 18:31:55.294] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:55.294] object_detector.py   259    INFO    : tid: 0, 增加新面积: 566.490000
+2026-03-27 18:31:55.294] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.294] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 985.000000, y: 410.000000
+2026-03-27 18:31:55.294] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.294] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 985.000000, y: 410.000000
+2026-03-27 18:31:55.294] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 985.000000, y: 410.000000
+2026-03-27 18:31:55.294] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:55.294] object_detector.py   413    INFO    : id: 0, 质心x: 985.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:55.294] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:55.294] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:55.294] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:55.295] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:55.295] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:55.346] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:55.346] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:55.347] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 985.000000, y: 410.000000
+2026-03-27 18:31:55.347] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 37.214433
+2026-03-27 18:31:55.347] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 28.351538
+2026-03-27 18:31:55.347] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 22.068408
+2026-03-27 18:31:55.347] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 13.589477
+2026-03-27 18:31:55.347] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 6.510570
+2026-03-27 18:31:55.347] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.317537
+2026-03-27 18:31:55.347] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:55.347] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.395000
+2026-03-27 18:31:55.347] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 985.000000, y: 410.000000
+2026-03-27 18:31:55.347] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.347] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 985.000000, y: 410.000000
+2026-03-27 18:31:55.347] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 985.000000, y: 410.000000
+2026-03-27 18:31:55.347] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.347] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:55.347] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:55.347] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:55.347] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:55.347] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:55.347] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:55.347] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:55.399] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:55.399] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:55.399] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.399] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 35.837594
+2026-03-27 18:31:55.399] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 29.555896
+2026-03-27 18:31:55.399] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 21.077784
+2026-03-27 18:31:55.399] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 13.998842
+2026-03-27 18:31:55.399] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 7.472726
+2026-03-27 18:31:55.399] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.318659
+2026-03-27 18:31:55.399] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:55.399] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.140000
+2026-03-27 18:31:55.399] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.399] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 985.000000, y: 410.000000
+2026-03-27 18:31:55.399] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 985.000000, y: 410.000000
+2026-03-27 18:31:55.399] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.399] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.399] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:55.399] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:55.399] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:55.399] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:55.400] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:55.400] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:55.400] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:55.453] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:55.454] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:55.454] object_detector.py   221    INFO    : tid: 0, now centroid x: 985.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.454] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 38.383539
+2026-03-27 18:31:55.454] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 29.906108
+2026-03-27 18:31:55.454] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 22.827678
+2026-03-27 18:31:55.454] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 16.302107
+2026-03-27 18:31:55.454] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 8.813494
+2026-03-27 18:31:55.454] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.316107
+2026-03-27 18:31:55.454] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:55.454] object_detector.py   259    INFO    : tid: 0, 增加新面积: 567.907500
+2026-03-27 18:31:55.454] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 985.000000, y: 410.000000
+2026-03-27 18:31:55.454] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 985.000000, y: 410.000000
+2026-03-27 18:31:55.454] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.454] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.454] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 985.000000, y: 410.000000
+2026-03-27 18:31:55.454] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:55.454] object_detector.py   413    INFO    : id: 0, 质心x: 985.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:55.454] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:55.454] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:55.454] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:55.454] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:55.454] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:55.505] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:55.506] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:55.506] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 985.000000, y: 410.000000
+2026-03-27 18:31:55.506] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 36.335364
+2026-03-27 18:31:55.506] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 29.258298
+2026-03-27 18:31:55.506] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 22.733238
+2026-03-27 18:31:55.506] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 15.243773
+2026-03-27 18:31:55.506] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 6.411698
+2026-03-27 18:31:55.506] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.310352
+2026-03-27 18:31:55.506] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:55.506] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.400000
+2026-03-27 18:31:55.506] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 985.000000, y: 410.000000
+2026-03-27 18:31:55.506] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.506] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.506] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 985.000000, y: 410.000000
+2026-03-27 18:31:55.506] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.506] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:55.506] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:55.506] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:55.506] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:55.506] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:55.506] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:55.506] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:55.558] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:55.558] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:55.558] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.558] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 36.795870
+2026-03-27 18:31:55.559] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 30.272242
+2026-03-27 18:31:55.559] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 22.784038
+2026-03-27 18:31:55.559] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 13.952952
+2026-03-27 18:31:55.559] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 7.527378
+2026-03-27 18:31:55.559] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.311597
+2026-03-27 18:31:55.559] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:55.559] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.192500
+2026-03-27 18:31:55.559] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.559] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.559] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 985.000000, y: 410.000000
+2026-03-27 18:31:55.559] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.559] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.559] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:55.559] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:55.559] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:55.559] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:55.559] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:55.559] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:55.559] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:55.611] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:55.612] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:55.612] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.612] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 37.880355
+2026-03-27 18:31:55.612] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 30.392900
+2026-03-27 18:31:55.612] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 21.562019
+2026-03-27 18:31:55.612] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 15.135797
+2026-03-27 18:31:55.612] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 7.590759
+2026-03-27 18:31:55.612] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.309966
+2026-03-27 18:31:55.612] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:55.612] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.507500
+2026-03-27 18:31:55.612] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.612] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 985.000000, y: 410.000000
+2026-03-27 18:31:55.612] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.612] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.612] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.612] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:55.612] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:55.612] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:55.612] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:55.612] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:55.612] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:55.612] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:55.664] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:55.665] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:55.665] object_detector.py   221    INFO    : tid: 0, now centroid x: 985.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.665] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 39.011173
+2026-03-27 18:31:55.665] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 30.180734
+2026-03-27 18:31:55.665] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 23.754411
+2026-03-27 18:31:55.665] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 16.209065
+2026-03-27 18:31:55.665] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 8.601498
+2026-03-27 18:31:55.665] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.312635
+2026-03-27 18:31:55.665] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:55.665] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.585000
+2026-03-27 18:31:55.665] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 985.000000, y: 410.000000
+2026-03-27 18:31:55.665] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.665] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.665] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.665] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 985.000000, y: 410.000000
+2026-03-27 18:31:55.665] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:55.666] object_detector.py   413    INFO    : id: 0, 质心x: 985.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:55.666] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:55.666] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:55.666] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:55.666] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:55.666] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:55.716] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:55.716] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:55.716] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 985.000000, y: 410.000000
+2026-03-27 18:31:55.716] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 36.534813
+2026-03-27 18:31:55.717] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 30.109819
+2026-03-27 18:31:55.717] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 22.565428
+2026-03-27 18:31:55.717] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 14.958407
+2026-03-27 18:31:55.717] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 6.341498
+2026-03-27 18:31:55.717] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.316267
+2026-03-27 18:31:55.717] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:55.717] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.302500
+2026-03-27 18:31:55.717] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.717] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.717] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.717] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 985.000000, y: 410.000000
+2026-03-27 18:31:55.717] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.717] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:55.717] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:55.717] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:55.717] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:55.717] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:55.717] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:55.717] object_detector.py   419    INFO    : 0th area 4: 568.605000
+2026-03-27 18:31:55.774] object_detector.py   189    INFO    : x_min: 300.000000, x_max: 1672.000000, w_img: 1700.000000
+2026-03-27 18:31:55.775] object_detector.py   218    INFO    : self.next_id: 1, tid: 0
+2026-03-27 18:31:55.775] object_detector.py   221    INFO    : tid: 0, now centroid x: 986.000000, y: 410.000000, history centroid x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.775] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 38.457700
+2026-03-27 18:31:55.775] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 30.914434
+2026-03-27 18:31:55.775] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 23.308743
+2026-03-27 18:31:55.775] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 14.693027
+2026-03-27 18:31:55.775] object_detector.py   233    INFO    : tid: 0, predictX - nowX: 8.335266
+2026-03-27 18:31:55.775] object_detector.py   240    INFO    : self.nowAreaAvg[0]: 568.316086
+2026-03-27 18:31:55.775] object_detector.py   243    INFO    : tid: 0, flag: 1
+2026-03-27 18:31:55.775] object_detector.py   259    INFO    : tid: 0, 增加新面积: 568.482500
+2026-03-27 18:31:55.775] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][0] x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.775] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][1] x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.775] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][2] x: 985.000000, y: 410.000000
+2026-03-27 18:31:55.775] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][3] x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.775] object_detector.py   273    INFO    : tid: 0, length: 5, queue[0][4] x: 986.000000, y: 410.000000
+2026-03-27 18:31:55.775] object_detector.py   278    INFO    : tid: 0, self.id_now[0][0] = 0, self.id_now[0][1] = 5
+2026-03-27 18:31:55.775] object_detector.py   365    INFO    : last Areaavg: 0.000000
+2026-03-27 18:31:55.775] object_detector.py   413    INFO    : id: 0, 质心x: 986.000000, 质心y: 410.000000, t: 0.000000
+2026-03-27 18:31:55.776] object_detector.py   419    INFO    : 0th area 0: 567.830000
+2026-03-27 18:31:55.776] object_detector.py   419    INFO    : 0th area 1: 568.232500
+2026-03-27 18:31:55.776] object_detector.py   419    INFO    : 0th area 2: 568.277500
+2026-03-27 18:31:55.776] object_detector.py   419    INFO    : 0th area 3: 568.565000
+2026-03-27 18:31:55.776] object_detector.py   419    INFO    : 0th area 4: 568.605000

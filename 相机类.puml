@@ -1,0 +1,60 @@
+@startuml
+title CameraHandler - Class Diagram (RealSense / USB Camera)
+
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+
+class CameraHandler {
+  +is_real_sense: bool
+  +camera_no: str
+  +warmup_frames: int
+
+  -pipeline: rs.pipeline
+  -cap: cv2.VideoCapture
+  -latest_frame: np.ndarray
+  -frame_lock: threading.Lock
+  -is_running: bool
+  -capture_thread: threading.Thread
+  -frame_count: int
+
+  --
+  +__init__(is_real_sense=True, camera_no="...", warmup_frames=30)
+  -_initialize_camera()
+  -_init_realsense()
+  -_init_usb_camera()
+  -_capture_loop()
+
+  +start_capture()
+  +get_frame(): np.ndarray
+  +get_latest_frame_threaded(): np.ndarray
+  +get_frame_count(): int
+  +is_ready(): bool
+  +stop()
+  +__enter__()
+  +__exit__(exc_type, exc_val, exc_tb)
+  +__del__()
+}
+
+class "rs.pipeline" as RSPipeline
+class "rs.config" as RSConfig
+class "cv2.VideoCapture" as CVCap
+class "numpy.ndarray" as NDArray
+class "threading.Thread" as Thd
+class "threading.Lock" as Lck
+
+CameraHandler --> RSPipeline : uses when is_real_sense
+CameraHandler --> RSConfig : config on init
+CameraHandler --> CVCap : uses when USB
+CameraHandler --> Thd : capture_thread
+CameraHandler --> Lck : frame_lock
+CameraHandler --> NDArray : latest_frame\n(BGR uint8 HxWx3)
+
+note right of CameraHandler
+Frame format:
+- type: numpy.ndarray
+- shape: (H, W, 3) e.g. (1080, 1920, 3)
+- dtype: uint8
+- channel: BGR
+end note
+
+@enduml

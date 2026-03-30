@@ -1,0 +1,8 @@
+{
+    "python-envs.defaultEnvManager": "ms-python.python:conda",
+    "python-envs.defaultPackageManager": "ms-python.python:conda",
+    "plantuml.render": "Local",
+    "plantuml.jar": "/path/to/plantuml.jar",
+    "plantuml.diagramsRoot": ".",
+   " plantuml.exportOutDir": "out"
+}

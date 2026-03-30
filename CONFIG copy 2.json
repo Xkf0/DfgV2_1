@@ -1,0 +1,209 @@
+{
+    "robot_mode": 1,
+    "robot_ip1": "192.168.57.4",
+    "robot_ip2": "192.168.57.3",
+    "USE_LINEAR_ACTUATOR": true,
+    "length_lead_screw_cm": 92.4,
+    "openCollisionDetect": true,
+    "speed_mode": 1,
+    "speed_port": "/dev/ttyUSB1",
+    "MOVE_PARAMS_1": {
+        "INIT_PLACE_HEIGHT":5.137,
+        "PLACE_HEIGHT_INCREMENT": 0.6,
+        "COUNT_RESET_INTERVAL": 120,
+        "ADJUSTMENT_GRIPPER_OFFSET": 48,
+        "LENTH_CHANGE_THRESHOLD": 15
+    },
+    "DIRECTION_1": [
+        1.0, 
+        0.0
+    ],
+    "DIRECTION_2": [
+        0.99990791, 
+        -0.01357119
+    ],
+    "place_pos_arm_1": [
+        1390.239,
+        -326.035,
+        208.205,
+        -179.854,
+        -0.14,
+        -64.002
+    ],
+    "place_pos_arm_2": [
+        1390.239,
+        -326.035,
+        208.205,
+        -179.854,
+        -0.14,
+        -64.002
+    ],
+    "CONFIG_PARAMS_1": {
+        "real_w": 64,
+        "real_h": 140.7,
+        "ratio_wh": 20,
+        "aruco_ids_corner": {
+            "top_left": 0,
+            "top_right": 8,
+            "bottom_right": 24,
+            "bottom_left": 16
+        },
+        "speed_smooth_frames": 5,
+        "similarity_threshold": 0.8,
+        "diff_threshold": 70,
+        "morph_kernel_size": [
+            3,
+            3
+        ],
+        "morph_open_iterations": 1,
+        "morph_dilate_iterations": 1,
+        "min_contour_area": 20000,
+        "max_contour_area": 1000000,
+        "max_distance": 20,
+        "max_speed_history": 30,
+        "speed_update_interval": 0.1,
+        "area_update_interval": 1.0,
+        "speed": 7.15,
+        "WAIT_DISTANCE": 75,
+        "safe_pos_init": [
+            null,
+            null,
+            null,
+            -179.854,
+            -0.14,
+            -64.002
+        ],
+        "stand_z": 91.859,
+        "stand_rx": -179.854,
+        "stand_ry": -0.14,
+        "stand_rz": -64.002,
+        "blend_alpha": 1.0,
+        "is_real_sense": false,
+        "camera_no": 0,
+        "points_file_path": "cv_aruco_1.csv",
+        "down_height": 16,
+        "safe_pos_1": [
+            1390.239,
+            -326.035,
+            208.205,
+            -179.854,
+            -0.14,
+            -64.002
+            
+        ],
+        "safe_pos_2": [
+            1390.239,
+            136.871,
+            208.205,
+            -179.854,
+            -0.14,
+            -64.002
+        ],
+        "detect_pose": [
+            1390.239,
+            -326.035,
+            208.205,
+            -179.854,
+            -0.14,
+            -64.002
+        ],
+        "detect_none_pose": [
+            1390.239,
+            -326.035,
+            208.205,
+            -179.854,
+            -0.14,
+            -64.002
+        ]
+    },
+    "CONFIG_PARAMS_2": {
+        "real_w": 64,
+        "real_h": 140.7,
+        "ratio_wh": 20,
+        "aruco_ids_corner": {
+            "top_left": 0,
+            "top_right": 8,
+            "bottom_right": 24,
+            "bottom_left": 16
+        },
+        "speed_smooth_frames": 5,
+        "similarity_threshold": 0.8,
+        "diff_threshold": 70,
+        "morph_kernel_size": [
+            3,
+            3
+        ],
+        "morph_open_iterations": 1,
+        "morph_dilate_iterations": 1,
+        "min_contour_area": 20000,
+        "max_contour_area": 1000000,
+        "max_distance": 20,
+        "max_speed_history": 30,
+        "speed_update_interval": 0.1,
+        "area_update_interval": 1.0,
+        "speed": 7.15,
+        "WAIT_DISTANCE": 75,
+        "safe_pos_init": [
+            null,
+            null,
+            null,
+            -179.854,
+            -0.14,
+            -64.002
+        ],
+        "stand_z": 91.859,
+        "stand_rx": -179.854,
+        "stand_ry": -0.14,
+        "stand_rz": -64.002,
+        "blend_alpha": 1.0,
+        "is_real_sense": false,
+        "camera_no": 0,
+        "points_file_path": "cv_aruco_1.csv",
+        "down_height": 16,
+        "safe_pos_1": [
+            1390.239,
+            -326.035,
+            208.205,
+            -179.854,
+            -0.14,
+            -64.002
+            
+        ],
+        "safe_pos_2": [
+            1390.239,
+            136.871,
+            208.205,
+            -179.854,
+            -0.14,
+            -64.002
+            
+        ],
+        "detect_pose": [
+            1390.239,
+            -326.035,
+            208.205,
+            -179.854,
+            -0.14,
+            -64.002
+        ],
+        "detect_none_pose": [
+            1390.239,
+            -326.035,
+            208.205,
+            -179.854,
+            -0.14,
+            -64.002
+        ]
+    },
+    "TASK_EXPIRATION_THRESHOLD": -0.8,
+    "edge_params": {
+        "edge_2_in_ratio": 5,
+        "edge_2_out_ratio": 68,
+        "edge_1_in_ratio": 72,
+        "edge_1_out_ratio": 139
+    },
+    "testStaticFabricLength": false,
+    "testDynamicFabricLength": false,
+    "test_x_cm": 30,
+    "test_y_cm": 100
+}

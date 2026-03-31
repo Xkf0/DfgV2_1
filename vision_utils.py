@@ -5,7 +5,6 @@ import random
 from get_points import get_points
 import math
 import time
-rz_use = 0.0
 # 移除 from config import *
 
 def random_color():
@@ -218,7 +217,6 @@ def get_target_robot_coord(cfg, rz_use, AFFINE_MATRIX, center, DIRECTION, get_sp
     return robot_coord, target_safe_pos
 
 def ChangeTaskDict1(cfg_1, motion_dict, mid, openCollisionDetect, length_lead_screw_cm, center, to_del, AFFINE_MATRIX_1, DIRECTION_1, get_speed_now, get_time_pre_now, task_lock_1, task_queue_1):
-    global rz_use
     rz_use = cfg_1.stand_rz + motion_dict[mid]['angle']
     if rz_use > 180: rz_use -= 360
     if rz_use < -180: rz_use += 360
@@ -241,8 +239,7 @@ def ChangeTaskDict1(cfg_1, motion_dict, mid, openCollisionDetect, length_lead_sc
     return True
 
 def ChangeTaskDict2(cfg_2, motion_dict, mid, openCollisionDetect, length_lead_screw_cm, center, to_del, AFFINE_MATRIX_2, DIRECTION_2, get_speed_now, get_time_pre_now, task_lock_2, task_queue_2):
-    z_use = cfg_2.stand_rz - motion_dict[mid]['angle']
-    global rz_use
+    rz_use = cfg_2.stand_rz - motion_dict[mid]['angle']
     if rz_use > 180: rz_use -= 360
     if rz_use < -180: rz_use += 360
 

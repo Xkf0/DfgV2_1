@@ -116,7 +116,7 @@ def update_motion_status(img_filename, longedge, single_mask, motion_dict, objec
     obj_info = motion_dict[object_id]
 
     from datetime import datetime
-    foldname = f"imgs/{img_filename}/{object_id}"
+    foldname = f"/home/xf/imgs/{img_filename}/{object_id}"
     os.makedirs(foldname, exist_ok=True)
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S.%f")[:-3]
     long_side_length = round(long_side_length, 3)

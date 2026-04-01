@@ -28,7 +28,7 @@ class CustomLogger:
 
     def _init_logger(self, project_name):
         self.project_name = project_name
-        self.log_dir = "logs"
+        self.log_dir = "/home/xf/logs"
         os.makedirs(self.log_dir, exist_ok=True)
         self._setup_logger()
 

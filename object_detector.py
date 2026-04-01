@@ -75,7 +75,7 @@ class ObjectDetector:
         from datetime import datetime
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S.%f")[:-3]
         self.img_filename = timestamp
-        foldname = f"imgs/{timestamp}"
+        foldname = f"/home/xf/imgs/{timestamp}"
         os.makedirs(foldname, exist_ok=True)
         self.centroidLastestFive = []
         self.lastAreaAvg = 0.0

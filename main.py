@@ -1,13 +1,11 @@
 # main.py
 #!/usr/bin/env python3
-import json
 import time
 import cv2
 import numpy as np
 import threading
 import queue
 from loguru import logger
-import datetime  # 导入时间模块，用于获取当前时间
 
 # 引入 Configer 和新的 ObjectDetector
 from config_loader import Configer
@@ -31,11 +29,9 @@ from fairino2_8 import (
     CONFIG
 )
 
-from modules.module_speeddect import SpeedMonitor
+from modules.module_speeddect import SpeedMonitor, process_tasks_speed
 from logger import LOG_DEBUG, LOG_INFO, LOG_WARN, LOG_ERROR, LOG_CRITICAL
-import math
 from control_air_close_open import grip_clamp, grip_open, grip_release, start_suction, stop_suction
-import test_reid_module_and_camera
 # 全局变量
 robot_mode=1
 # 1号机械臂队列与锁
@@ -45,8 +41,8 @@ task_lock_1 = threading.Lock()
 task_queue_2 = queue.Queue()
 task_lock_2 = threading.Lock()
 
-speed_now=0
-time_pre_now=0
+from global_state import AppState
+
 speed_lock = threading.Lock()  # 新增：速度变量的锁
 
 # 成功抓取布料后放置位置
@@ -83,30 +79,7 @@ edge_params = CONFIG["edge_params"]
 edge_2_in = int(edge_params["edge_2_in_ratio"] * cfg_1.ratio_wh)
 edge_2_out = int(edge_params["edge_2_out_ratio"] * cfg_1.ratio_wh)
 edge_1_in = int(edge_params["edge_1_in_ratio"] * cfg_1.ratio_wh)
-edge_1_out = int(edge_params["edge_1_out_ratio"] * cfg_1.ratio_wh)
-
-def process_tasks_speed(monitor):
-    """
-    处理实时获取速度模式
-    """
-    global time_pre_now
-    global speed_now
-    time.sleep(1)  # 初始等待数据
-    count=0
-    while True:
-        count+=1
-        speed= -monitor.speed_now*100
-        # LOG_INFO("speed: %f", speed)
-        if speed > 0:
-            with speed_lock:
-                speed_now=speed
-                time_pre_now = cfg_1.WAIT_DISTANCE / speed_now 
-                if(count%100==1):
-                    print(f"当前实时平均速度: {speed_now:.4f} cm/s")
-                    print(f"当前实时预抓取时间: {time_pre_now:.4f} s")
-        else:
-            print(f"速度获取异常,沿用上一次速度")
-        time.sleep(0.1)  # 刷新间隔，调整根据需要   
+edge_1_out = int(edge_params["edge_1_out_ratio"] * cfg_1.ratio_wh) 
 
 def process_tasks_1(rpc):
     """
@@ -138,8 +111,8 @@ def process_tasks_1(rpc):
         dropped_count = 0
         sum_detectnum += 1
         with speed_lock:
-            get_speed_now=speed_now
-            get_time_pre_now=time_pre_now
+            get_speed_now=AppState.speed_now
+            get_time_pre_now=AppState.time_pre_now
         # 锁定队列，把里面积压的任务全拿出来检查
         # with task_lock:
         with task_lock_1:
@@ -308,8 +281,8 @@ def process_tasks_2(rpc):
         dropped_count = 0
         sum_detectnum += 1
         with speed_lock:
-            get_speed_now=speed_now
-            get_time_pre_now=time_pre_now
+            get_speed_now=AppState.speed_now
+            get_time_pre_now=AppState.time_pre_now
         
         # 锁定2号臂队列，清理积压任务
         with task_lock_2:
@@ -396,7 +369,7 @@ def process_tasks_2(rpc):
             
             # 7. 动态跟随抓取（使用2号臂专属函数）
             res, pos, err = follow_and_grasp_dynamic_smooth_with_detect_arm2(
-                rpc, pos_data, speed_cm_s=get_speed_now, descend_duration=0.30,
+                rpc, pos_data, speed_cm_s=48.0, descend_duration=0.30,
                 descend_height_mm=cfg_2.down_height, clamp_delay_s=0.1,
                 follow_after_clamp_s=0.30, movej_vel=40.0, control_freq_hz=200,
                 place_pos=place_pos, safe_pos1=cfg_2.safe_pos_1, cloth_length=cloth_lenth,
@@ -438,17 +411,17 @@ def process_tasks_2(rpc):
 
 # --- 主函数 main 修改 ---
 def main():
-    global AFFINE_MATRIX_1, AFFINE_MATRIX_2, speed_now, time_pre_now, be_ignored
+    global AFFINE_MATRIX_1, AFFINE_MATRIX_2, be_ignored
     # 1. 初始化两个机械臂（假设init_robot支持指定IP，若同IP则传相同参数）以及初始化变量
-    robot_ip1            = CONFIG["robot_ip1"]
-    robot_ip2            = CONFIG["robot_ip2"]
-    length_lead_screw_cm = CONFIG["length_lead_screw_cm"]
-    openCollisionDetect  = CONFIG["openCollisionDetect"]
-    speed_mode           = CONFIG["speed_mode"]
-    speed_port           = CONFIG["speed_port"]
-    speed_now            = cfg_1.speed
-    time_pre_now         = cfg_1.time_pre
-    sum_detect           = [0]
+    robot_ip1             = CONFIG["robot_ip1"]
+    robot_ip2             = CONFIG["robot_ip2"]
+    length_lead_screw_cm  = CONFIG["length_lead_screw_cm"]
+    openCollisionDetect   = CONFIG["openCollisionDetect"]
+    speed_mode            = CONFIG["speed_mode"]
+    speed_port            = CONFIG["speed_port"]
+    AppState.speed_now    = cfg_1.speed
+    AppState.time_pre_now = cfg_1.time_pre
+    sum_detect            = [0]
 
     rpc_1, rpc_2 = initRobot_And_move2SafePosition_And_clothLength2Zero(robot_mode, cfg_1, cfg_2, task_lock_1, task_lock_2, robot_ip1, robot_ip2)
 
@@ -475,7 +448,7 @@ def main():
     if speed_mode == 1:
         monitor = SpeedMonitor(serial_port = speed_port, enable_plot=False)  # 根据需要配置
         monitor.start()
-        threading.Thread(target=process_tasks_speed, args=(monitor,), daemon=True).start()
+        threading.Thread(target=process_tasks_speed, args=(monitor, speed_lock, cfg_1), daemon=True).start()
 
     print("开始主循环...")
 
@@ -493,8 +466,8 @@ def main():
         current_time = time.perf_counter()
 
         with speed_lock:
-            get_speed_now=speed_now
-            get_time_pre_now=time_pre_now
+            get_speed_now=AppState.speed_now
+            get_time_pre_now=AppState.time_pre_now
         
         motion_dict, tracked_objects, display_img = detector.get_motionDict_trackedObjects_DisplayImg(frame, AFFINE_MATRIX_1, current_time, get_speed_now)
         

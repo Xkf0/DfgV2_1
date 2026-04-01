@@ -421,14 +421,27 @@ class SpeedMonitor:
         print("Stopped.")
 
 
-def process_tasks_speed(monitor):
+def process_tasks_speed(monitor, speed_lock, cfg_1):
     """
     处理实时获取速度模式
     """
-    # 这里可以添加处理逻辑，使用 monitor.speed_now 作为实时平均速度
-    # 例如，打印当前速度或基于速度执行任务
-    print(f"当前实时平均速度: {monitor.speed_now:.4f} m/s")
-    # 添加更多任务处理代码...
+    from global_state import AppState
+    time.sleep(1)  # 初始等待数据
+    count=0
+    while True:
+        count+=1
+        speed= -monitor.speed_now*100
+        # LOG_INFO("speed: %f", speed)
+        if speed > 0:
+            with speed_lock:
+                AppState.speed_now=speed
+                AppState.time_pre_now = cfg_1.WAIT_DISTANCE / AppState.speed_now 
+                if(count%100==1):
+                    print(f"当前实时平均速度: {AppState.speed_now:.4f} cm/s")
+                    print(f"当前实时预抓取时间: {AppState.time_pre_now:.4f} s")
+        else:
+            print(f"速度获取异常, 沿用上一次速度, 获取speed: {speed}, 但不使用此速度")
+        time.sleep(0.1)  # 刷新间隔，调整根据需要 
 
 
 if __name__ == "__main__":

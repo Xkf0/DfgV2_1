@@ -2,27 +2,20 @@
 #!/usr/bin/env python3
 import time
 import cv2
-import threading
 import datetime  # 导入时间模块，用于获取当前时间
 
 # 引入 Configer 和新的 ObjectDetector
-from config_loader import Configer
-from object_detector import ObjectDetector
-from camera_handler1 import CameraHandler, initCamera  # 新增导入
+from camera_handler1 import CameraHandler  # 新增导入
 
 # 自定义模块导入
 import vision_utils as vu
-from fairino2_8 import (CONFIG)
 from get_points import get_points
 
 import reid_module
 import numpy as np
 import time
 from logger import LOG_DEBUG, LOG_INFO, LOG_WARN, LOG_ERROR, LOG_CRITICAL
-
-# 实例化Configer
-cfg_1 = Configer(**CONFIG["CONFIG_PARAMS_1"])
-cfg_2 = Configer(**CONFIG["CONFIG_PARAMS_2"])
+from global_state import AppState
 
 lastNoFabric = time.time() # 上一次图中没有布料的时间
 
@@ -137,8 +130,8 @@ def anomaly_detection():
 
     try:
         camera = CameraHandler(
-            is_real_sense=cfg_1.is_real_sense,
-            camera_id=cfg_1.camera_no,
+            is_real_sense=AppState.cfg_1.is_real_sense,
+            camera_id=AppState.cfg_1.camera_no,
             warmup_frames=30  # 前30帧预热
         )
         print("相机初始化完成")
@@ -213,7 +206,7 @@ def anomaly_detection():
 
         # 绘制FPS
         fps = 1 / (time.perf_counter() - time_start)
-        cv2.putText(display_img, f"FPS:{fps:.2f}", (cfg_2.output_w - 500, cfg_2.output_h - 20), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 0), 8)
+        cv2.putText(display_img, f"FPS:{fps:.2f}", (AppState.cfg_2.output_w - 500, AppState.cfg_2.output_h - 20), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 0), 8)
 
         # 显示或保存
         display_img = cv2.resize(display_img, (display_img.shape[1]//3, display_img.shape[0]//3))

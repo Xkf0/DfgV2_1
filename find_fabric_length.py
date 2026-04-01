@@ -6,14 +6,13 @@ import threading
 import datetime  # 导入时间模块，用于获取当前时间
 
 # 引入 Configer 和新的 ObjectDetector
-from config_loader import Configer
 from object_detector import ObjectDetector
 from camera_handler1 import CameraHandler  # 新增导入
 
 # 自定义模块导入
 import vision_utils as vu
-from fairino2_8 import (CONFIG)
 from get_points import get_points
+from global_state import AppState
 
 
 # AFFINE_MATRIX = None
@@ -22,10 +21,6 @@ AFFINE_MATRIX_2 = None
 
 IS_USE_SAM = True
 # IS_USE_SAM = False
-
-# 实例化Configer
-cfg_1 = Configer(**CONFIG["CONFIG_PARAMS_1"])
-cfg_2 = Configer(**CONFIG["CONFIG_PARAMS_2"])
 
 # --- 主函数 main 修改 ---
 def main():
@@ -36,8 +31,8 @@ def main():
     # 2. 初始化相机（使用新的CameraHandler类）
     try:
         camera = CameraHandler(
-            is_real_sense=cfg_1.is_real_sense,
-            camera_id=cfg_1.camera_no,
+            is_real_sense=AppState.cfg_1.is_real_sense,
+            camera_id=AppState.cfg_1.camera_no,
             warmup_frames=30  # 前30帧预热
         )
         print("相机初始化完成")
@@ -48,8 +43,8 @@ def main():
     # 3. 加载坐标标定并计算仿射矩阵
     # ROBOT_POINTS, REAL_PTS = get_points(cfg.points_file_path)
     # AFFINE_MATRIX = vu.compute_affine_transform(REAL_PTS, ROBOT_POINTS)
-    ROBOT_POINTS_1, REAL_PTS_1 = get_points(cfg_1.points_file_path)
-    ROBOT_POINTS_2, REAL_PTS_2 = get_points(cfg_2.points_file_path)
+    ROBOT_POINTS_1, REAL_PTS_1 = get_points(AppState.cfg_1.points_file_path)
+    ROBOT_POINTS_2, REAL_PTS_2 = get_points(AppState.cfg_2.points_file_path)
     AFFINE_MATRIX_1 = vu.compute_affine_transform(REAL_PTS_1, ROBOT_POINTS_1)
     AFFINE_MATRIX_2 = vu.compute_affine_transform(REAL_PTS_2, ROBOT_POINTS_2) # G 需要根据右侧机械臂调整
      
@@ -57,7 +52,7 @@ def main():
     print("仿射矩阵计算完成")
 
     # 4. 初始化对象检测器
-    detector = ObjectDetector(cfg_1, IS_USE_SAM)
+    detector = ObjectDetector(AppState.cfg_1, IS_USE_SAM)
 
     print("开始主循环...")
 
@@ -98,7 +93,7 @@ def main():
 
             # 绘制FPS
             fps = 1 / (time.perf_counter() - time_start)
-            cv2.putText(display_img, f"FPS:{fps:.2f}", (cfg_1.output_w - 500, cfg_1.output_h - 20), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 0), 8)
+            cv2.putText(display_img, f"FPS:{fps:.2f}", (AppState.cfg_1.output_w - 500, AppState.cfg_1.output_h - 20), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 0), 8)
 
             # 显示或保存
             display_img = cv2.resize(display_img, (display_img.shape[1]//3, display_img.shape[0]//3))

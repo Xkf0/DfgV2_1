@@ -4,7 +4,8 @@ import cv2
 from collections import deque
 # 移除 from config import *
 # 引用路径根据你的实际项目结构调整，这里假设 vision_utils 同级或已正确导入
-from vision_utils import pixel_distance_to_cm, transform_point
+import vision_utils  # 整体导入
+
 from logger import LOG_DEBUG, LOG_INFO, LOG_WARN, LOG_ERROR, LOG_CRITICAL
 import os
 
@@ -90,7 +91,7 @@ def calculate_speed(position_history, time_history, current_time, cfg):
         if t2 - t1 > 0:
             pixel_dist = np.linalg.norm(np.array(pos2) - np.array(pos1))
             # 传递 cfg 中的参数
-            cm_dist = pixel_distance_to_cm(pixel_dist, cfg.output_w, cfg.output_h, cfg.real_w, cfg.real_h)
+            cm_dist = vision_utils.pixel_distance_to_cm(pixel_dist, cfg.output_w, cfg.output_h, cfg.real_w, cfg.real_h)
             speeds.append(cm_dist / (t2 - t1))
     return np.mean(speeds) if speeds else 0.0
 

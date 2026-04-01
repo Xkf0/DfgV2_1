@@ -11,9 +11,8 @@ from tracker import StableGrabCenter, calculate_speed, update_motion_status, dra
 
 from sam2_use.SAM2_motion_detector import SAM2MotionDetector
 import os
-from config_loader import Configer
 from fairino2_8 import (CONFIG)
-cfg_1 = Configer(**CONFIG["CONFIG_PARAMS_1"])
+from global_state import AppState
 from logger import LOG_DEBUG, LOG_INFO, LOG_WARN, LOG_ERROR, LOG_CRITICAL
 from queue import Queue
 import time
@@ -185,10 +184,10 @@ class ObjectDetector:
                 x_min = np.min(x_coords)  # 计算 x 坐标的最小值
                 x_max = np.max(x_coords)  # 计算 x 坐标的最大值
 
-                if x_min < 5 or x_max > cfg_1.output_w - 5:
+                if x_min < 5 or x_max > AppState.cfg_1.output_w - 5:
                     continue
 
-                LOG_INFO("x_min: %f, x_max: %f, w_img: %f", x_min, x_max, cfg_1.output_w)
+                LOG_INFO("x_min: %f, x_max: %f, w_img: %f", x_min, x_max, AppState.cfg_1.output_w)
 
                 centroid = vu.get_centroid(cnt)
                 if centroid and centroid[0] <= self.cfg.output_w * 4 // 5:  # 区域过滤
@@ -229,7 +228,7 @@ class ObjectDetector:
                                 for index in range(length):
                                     temp = self.centroidLastestFive[tid].get()
                                     deltaT = time.time() - temp[0]
-                                    deltaX = deltaT * get_speed_now * cfg_1.ratio_wh
+                                    deltaX = deltaT * get_speed_now * AppState.cfg_1.ratio_wh
                                     predictX = temp[1][0] + deltaX
                                     nowX = c[0]
                                     LOG_INFO("tid: %d, predictX - nowX: %f", tid, predictX - nowX)

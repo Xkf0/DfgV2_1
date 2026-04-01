@@ -13,11 +13,7 @@ from global_state import AppState
 import queue
 import threading
 
-from config_loader import Configer
-
-# robot_lock = threading.Lock()
-
-
+robot_lock = threading.Lock()
 
 # G ####################添加全局监测功能######start
 # ServoJ相关参数配置（100Hz控制）
@@ -52,6 +48,13 @@ ADJUSTMENT_GRIPPER_OFFSET_ARM2 = 38 # 调整夹爪向丝杆中心的移动距离
 
 STAND_LENGTH = 1
 USE_LINEAR_ACTUATOR = CONFIG["USE_LINEAR_ACTUATOR"]
+
+
+place_pos_arm_1 = CONFIG["place_pos_arm_1"]
+place_pos_arm_2 = CONFIG["place_pos_arm_2"]
+TASK_EXPIRATION_THRESHOLD = CONFIG["TASK_EXPIRATION_THRESHOLD"]
+DIRECTION_1 = np.array(CONFIG["DIRECTION_1"])
+DIRECTION_2 = np.array(CONFIG["DIRECTION_2"])
 
 
 # # G 增：更新质心坐标接收时间
@@ -424,31 +427,46 @@ def init_robot(ip="192.168.57.4",arm=1):
     print("机械臂初始化成功")
     return robot
 
-def initRobot_And_move2SafePosition_And_clothLength2Zero(robot_mode, cfg_1, cfg_2, task_lock_1, task_lock_2, robot_ip1, robot_ip2):
+def init():
+    robot_ip1  = CONFIG["robot_ip1"]
+    robot_ip2  = CONFIG["robot_ip2"]
+    robot_mode = CONFIG["robot_mode"]
     if robot_mode==1:
         rpc_1 = init_robot(ip=robot_ip1,arm=1)  # 1号机械臂IP
         if not (rpc_1):
             print("机器人初始化失败")
-            return
-        move_to_safe_position_add_cloth_lenth3(rpc_1, cfg_1.safe_pos_1,cfg_1.safe_pos_2, robot_lock=task_lock_1,arm_id=1)
+            return False
+        move_to_safe_position_add_cloth_lenth3(rpc_1, AppState.cfg_1.safe_pos_1,AppState.cfg_1.safe_pos_2, robot_lock=AppState.task_lock_1,arm_id=1)
         rpc_2 = []
     elif robot_mode==2:
         rpc_2 = init_robot(ip=robot_ip2,arm=2)  # 2号机械臂IP
         if not (rpc_2):
             print("机器人初始化失败")
-            return
-        move_to_safe_position_add_cloth_lenth3(rpc_2, cfg_2.safe_pos_1,robot_lock=task_lock_2,arm_id=2)
+            return False
+        move_to_safe_position_add_cloth_lenth3(rpc_2, AppState.cfg_2.safe_pos_1,robot_lock=AppState.task_lock_2,arm_id=2)
         rpc_1 = []
     elif robot_mode==3:
         rpc_1 = init_robot(ip=robot_ip1,arm=1)  # 1号机械臂IP
         rpc_2 = init_robot(ip=robot_ip2,arm=2)  # 2号机械臂IP（根据实际调整）#G 待 右臂需要跟丝杆做绑定
         if not (rpc_1 and rpc_2):
             print("机器人初始化失败")
-            return
-        move_to_safe_position_add_cloth_lenth3(rpc_1, cfg_1.safe_pos_1,robot_lock=task_lock_1,arm_id=1)
-        move_to_safe_position_add_cloth_lenth3(rpc_2, cfg_2.safe_pos_1,robot_lock=task_lock_2,arm_id=2)  
+            return False
+        move_to_safe_position_add_cloth_lenth3(rpc_1, AppState.cfg_1.safe_pos_1,robot_lock=AppState.task_lock_1,arm_id=1)
+        move_to_safe_position_add_cloth_lenth3(rpc_2, AppState.cfg_2.safe_pos_1,robot_lock=AppState.task_lock_2,arm_id=2)  
 
-    return rpc_1, rpc_2
+    # 4. 启动任务线程
+    if robot_mode==1:
+        threading.Thread(target=process_tasks_1, args=(rpc_1,), daemon=True).start()
+    elif robot_mode==2:
+        threading.Thread(target=process_tasks_2, args=(rpc_2,), daemon=True).start()
+    elif robot_mode==3:
+        threading.Thread(target=process_tasks_1, args=(rpc_1,), daemon=True).start()
+        threading.Thread(target=process_tasks_2, args=(rpc_2,), daemon=True).start()
+    else:
+        print("请选择正确的模式")
+        return False
+
+    return True
 
 
 # 动作1: 移动到安全点
@@ -2464,16 +2482,6 @@ def real_phase1_down(
 
     return real_phase1
 
-place_pos_arm_1 = CONFIG["place_pos_arm_1"]
-place_pos_arm_2 = CONFIG["place_pos_arm_2"]
-TASK_EXPIRATION_THRESHOLD = CONFIG["TASK_EXPIRATION_THRESHOLD"]
-# 实例化Configer
-cfg_1 = Configer(**CONFIG["CONFIG_PARAMS_1"])
-cfg_2 = Configer(**CONFIG["CONFIG_PARAMS_2"])
-DIRECTION_1 = np.array(CONFIG["DIRECTION_1"])
-DIRECTION_2 = np.array(CONFIG["DIRECTION_2"])
-
-
 def process_tasks_1(rpc):
     """
     处理抓取任务的线程函数（智能过滤版）
@@ -2589,7 +2597,7 @@ def process_tasks_1(rpc):
             # 如果 wait_time 还是正数，说明我们动作太快了，需要等物体过来
             
             wait_time_final = get_time_pre_now - (time.perf_counter() - motion_dict[mid]['line2_time']) - 0.5
-            # wait_time_final = cfg_1.time_pre - (time.perf_counter() - motion_dict[mid]['line2_time'])
+            # wait_time_final = AppState.cfg_1.time_pre - (time.perf_counter() - motion_dict[mid]['line2_time'])
             
             if wait_time_final > 0:
                 # print(f"动作超前，等待物体到位: {wait_time_final:.3f}s")
@@ -2605,12 +2613,12 @@ def process_tasks_1(rpc):
             # 7. 动态跟随抓取,带异常检测 (Phase 2)
             res, pos, err = follow_and_grasp_dynamic_smooth_with_detect(
                 rpc, pos_data, speed_cm_s=48.0, descend_duration=0.30,
-                descend_height_mm=cfg_1.down_height, clamp_delay_s=0.1,
+                descend_height_mm=AppState.cfg_1.down_height, clamp_delay_s=0.1,
                 follow_after_clamp_s=0.30, movej_vel=40.0, control_freq_hz=200,
-                place_pos=place_pos, safe_pos1=cfg_1.safe_pos_1, safe_pos2=cfg_1.safe_pos_2, 
-                cloth_length=cloth_lenth,safe_pos_1_5=cfg_1.safe_pos_1_5,
+                place_pos=place_pos, safe_pos1=AppState.cfg_1.safe_pos_1, safe_pos2=AppState.cfg_1.safe_pos_2, 
+                cloth_length=cloth_lenth,safe_pos_1_5=AppState.cfg_1.safe_pos_1_5,
                 DIRECTION=DIRECTION_1,robot_lock=AppState.task_lock_1,
-                detect_pose=cfg_1.detect_pose, detect_none_pose=cfg_1.detect_none_pose,
+                detect_pose=AppState.cfg_1.detect_pose, detect_none_pose=AppState.cfg_1.detect_none_pose,
                 if_grip=False
             )
 
@@ -2621,7 +2629,7 @@ def process_tasks_1(rpc):
                 tl_cur_pos_array = rpc.robot_state_pkg.tl_cur_pos
                 tl_cur_pos_list = [tl_cur_pos_array[i] for i in range(6)]
                 print("tl_cur_pos_list@@@@@@@@@@@@@@@",tl_cur_pos_list)
-                place_and_move_to_safe(rpc, cfg_1.safe_pos_1, tl_cur_pos_list, cfg_1.safe_pos_2)
+                place_and_move_to_safe(rpc, AppState.cfg_1.safe_pos_1, tl_cur_pos_list, AppState.cfg_1.safe_pos_2)
                 update_count_and_next_placement_height()
                 update_centroid_time()
             elif res==2:
@@ -2761,11 +2769,11 @@ def process_tasks_2(rpc):
             # 7. 动态跟随抓取（使用2号臂专属函数）
             res, pos, err = follow_and_grasp_dynamic_smooth_with_detect_arm2(
                 rpc, pos_data, speed_cm_s=48.0, descend_duration=0.30,
-                descend_height_mm=cfg_2.down_height, clamp_delay_s=0.1,
+                descend_height_mm=AppState.cfg_2.down_height, clamp_delay_s=0.1,
                 follow_after_clamp_s=0.30, movej_vel=40.0, control_freq_hz=200,
-                place_pos=place_pos, safe_pos1=cfg_2.safe_pos_1, cloth_length=cloth_lenth,
+                place_pos=place_pos, safe_pos1=AppState.cfg_2.safe_pos_1, cloth_length=cloth_lenth,
                 DIRECTION=DIRECTION_2,robot_lock=AppState.task_lock_2,
-                detect_pose=cfg_2.detect_pose, detect_none_pose=cfg_2.detect_none_pose,
+                detect_pose=AppState.cfg_2.detect_pose, detect_none_pose=AppState.cfg_2.detect_none_pose,
                 if_grip=False
             )
 
@@ -2773,7 +2781,7 @@ def process_tasks_2(rpc):
             result='失败'
             if res==1:
                 result='成功'
-                place_and_move_to_safe_arm2(rpc, cfg_2.safe_pos_1, place_pos)
+                place_and_move_to_safe_arm2(rpc, AppState.cfg_2.safe_pos_1, place_pos)
                 update_count_and_next_placement_height_arm2()
                 update_centroid_time_arm2()
             elif res==2:
@@ -2900,7 +2908,7 @@ def process_tasks_2(rpc):
             time11 = time.perf_counter()
             # if True:
                 # start_suction(rpc)
-            success, err = move_to_safe_position_add_cloth_lenth(rpc, safe_pos, motion_dict, mid, cloth_lenth,robot_lock=task_lock_1,arm_id=1)
+            success, err = move_to_safe_position_add_cloth_lenth(rpc, safe_pos, motion_dict, mid, cloth_lenth,robot_lock=AppState.task_lock_1,arm_id=1)
             time22 = time.perf_counter()
             # print("Move Safe Time:", time22 - time11)
             
@@ -2914,7 +2922,7 @@ def process_tasks_2(rpc):
             # 如果 wait_time 还是正数，说明我们动作太快了，需要等物体过来
             
             wait_time_final = get_time_pre_now - (time.perf_counter() - motion_dict[mid]['line2_time']) - 0.5
-            # wait_time_final = cfg_1.time_pre - (time.perf_counter() - motion_dict[mid]['line2_time'])
+            # wait_time_final = AppState.cfg_1.time_pre - (time.perf_counter() - motion_dict[mid]['line2_time'])
             
             if wait_time_final > 0:
                 # print(f"动作超前，等待物体到位: {wait_time_final:.3f}s")
@@ -2930,12 +2938,12 @@ def process_tasks_2(rpc):
             # 7. 动态跟随抓取,带异常检测 (Phase 2)
             res, pos, err = follow_and_grasp_dynamic_smooth_with_detect(
                 rpc, pos_data, speed_cm_s=48.0, descend_duration=0.30,
-                descend_height_mm=cfg_1.down_height, clamp_delay_s=0.1,
+                descend_height_mm=AppState.cfg_1.down_height, clamp_delay_s=0.1,
                 follow_after_clamp_s=0.30, movej_vel=40.0, control_freq_hz=200,
-                place_pos=place_pos, safe_pos1=cfg_1.safe_pos_1, safe_pos2=cfg_1.safe_pos_2, 
-                cloth_length=cloth_lenth,safe_pos_1_5=cfg_1.safe_pos_1_5,
-                DIRECTION=DIRECTION_1,robot_lock=task_lock_1,
-                detect_pose=cfg_1.detect_pose, detect_none_pose=cfg_1.detect_none_pose,
+                place_pos=place_pos, safe_pos1=AppState.cfg_1.safe_pos_1, safe_pos2=AppState.cfg_1.safe_pos_2, 
+                cloth_length=cloth_lenth,safe_pos_1_5=AppState.cfg_1.safe_pos_1_5,
+                DIRECTION=DIRECTION_1,robot_lock=AppState.task_lock_1,
+                detect_pose=AppState.cfg_1.detect_pose, detect_none_pose=AppState.cfg_1.detect_none_pose,
                 if_grip=False
             )
 
@@ -2946,7 +2954,7 @@ def process_tasks_2(rpc):
                 tl_cur_pos_array = rpc.robot_state_pkg.tl_cur_pos
                 tl_cur_pos_list = [tl_cur_pos_array[i] for i in range(6)]
                 print("tl_cur_pos_list@@@@@@@@@@@@@@@",tl_cur_pos_list)
-                place_and_move_to_safe(rpc, cfg_1.safe_pos_1, tl_cur_pos_list, cfg_1.safe_pos_2)
+                place_and_move_to_safe(rpc, AppState.cfg_1.safe_pos_1, tl_cur_pos_list, AppState.cfg_1.safe_pos_2)
                 update_count_and_next_placement_height()
                 update_centroid_time()
             elif res==2:

@@ -5,6 +5,16 @@ import random
 from get_points import get_points
 import math
 import time
+from global_state import AppState
+import json
+def load_config():
+    with open("CONFIG.json", "r", encoding="utf-8") as f:
+        config = json.load(f)
+    return config
+CONFIG = load_config()
+from config_loader import Configer
+from object_detector import ObjectDetector
+from camera_handler1 import initCamera  # 新增导入
 # 移除 from config import *
 
 def random_color():
@@ -304,3 +314,72 @@ def cycleTaskHandle(tracked_objects, edge_1_in, edge_1_out, edge_2_in, edge_2_ou
 
     for mid in to_del:
         motion_dict.pop(mid, None)
+
+def Loop():
+    length_lead_screw_cm  = CONFIG["length_lead_screw_cm"]
+    openCollisionDetect   = CONFIG["openCollisionDetect"]
+    edge_params           = CONFIG["edge_params"]
+    cfg_1                 = Configer(**CONFIG["CONFIG_PARAMS_1"])
+    cfg_2                 = Configer(**CONFIG["CONFIG_PARAMS_2"])
+    edge_2_in             = int(edge_params["edge_2_in_ratio"] * cfg_1.ratio_wh)
+    edge_2_out            = int(edge_params["edge_2_out_ratio"] * cfg_1.ratio_wh)
+    edge_1_in             = int(edge_params["edge_1_in_ratio"] * cfg_1.ratio_wh)
+    edge_1_out            = int(edge_params["edge_1_out_ratio"] * cfg_1.ratio_wh)
+    DIRECTION_1           = np.array(CONFIG["DIRECTION_1"])
+    DIRECTION_2           = np.array(CONFIG["DIRECTION_2"])
+    sum_detect            = [0]
+    IS_USE_SAM            = True
+    # try:
+    # 加载坐标标定并计算仿射矩阵
+    AFFINE_MATRIX_1 = compute_affine_transform(cfg_1)
+    AFFINE_MATRIX_2 = compute_affine_transform(cfg_2)
+    camera = initCamera(cfg_1)
+    detector = ObjectDetector(cfg_1, IS_USE_SAM)
+    while True:
+        time_start = time.perf_counter()
+
+        frame = camera.get_frame_directly()
+        if frame is None:
+            print("未能获取有效帧，跳过本次循环")
+            continue
+                
+        current_time = time.perf_counter()
+
+        with AppState.speed_lock:
+            get_speed_now=AppState.speed_now
+            get_time_pre_now=AppState.time_pre_now
+        
+        motion_dict, tracked_objects, display_img = detector.get_motionDict_trackedObjects_DisplayImg(frame, AFFINE_MATRIX_1, current_time, get_speed_now)
+        
+        to_del = []
+
+        cycleTaskHandle(tracked_objects, edge_1_in, edge_1_out, edge_2_in, edge_2_out, sum_detect, cfg_1, cfg_2, motion_dict, openCollisionDetect, length_lead_screw_cm, to_del, AFFINE_MATRIX_1, AFFINE_MATRIX_2, DIRECTION_1, DIRECTION_2, get_speed_now, get_time_pre_now, AppState.task_lock_1, AppState.task_lock_2, AppState.task_queue_1, AppState.task_queue_2)
+
+        # 绘制FPS
+        fps = 1 / (time.perf_counter() - time_start)
+        cv2.putText(display_img, f"FPS:{fps:.2f}", (cfg_1.output_w - 500, cfg_1.output_h - 20), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 0), 8)
+        # 显示或保存
+        display_img = cv2.resize(display_img, (display_img.shape[1]//2, display_img.shape[0]//2))
+        cv2.imshow('combined', display_img)
+        cv2.waitKey(1)
+                     
+    # finally:
+    #     # 清理资源
+    #     print("正在清理资源...")
+    #     AppState.task_queue_1.put((None, None, None, None, None))
+    #     AppState.task_queue_1.join()
+    #     AppState.task_queue_2.put((None, None, None, None, None))
+    #     AppState.task_queue_2.join()
+        
+    #     # 停止相机
+    #     camera.stop()
+        
+    #     cv2.destroyAllWindows()
+    #     if robot_mode==1:
+    #         rpc_1.RobotEnable(0)
+    #     elif robot_mode==2:
+    #         rpc_2.RobotEnable(0)
+    #     elif robot_mode==3:
+    #         rpc_1.RobotEnable(0)
+    #         rpc_2.RobotEnable(0)
+    #     print("程序退出")

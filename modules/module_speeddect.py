@@ -11,6 +11,14 @@ import threading
 import serial
 import matplotlib.pyplot as plt
 
+from global_state import AppState
+import json
+def load_config():
+    with open("CONFIG.json", "r", encoding="utf-8") as f:
+        config = json.load(f)
+    return config
+CONFIG = load_config()
+
 # -----------------------------
 # Modbus RTU helpers (CRC / build req / robust read)
 # -----------------------------
@@ -442,6 +450,15 @@ def process_tasks_speed(monitor, speed_lock, cfg_1):
         else:
             print(f"速度获取异常, 沿用上一次速度, 获取speed: {speed}, 但不使用此速度")
         time.sleep(0.1)  # 刷新间隔，调整根据需要 
+
+
+def speedDetectInit():
+    speed_mode            = CONFIG["speed_mode"]
+    speed_port            = CONFIG["speed_port"]
+    if speed_mode == 1:
+        monitor = SpeedMonitor(serial_port = speed_port, enable_plot=False)  # 根据需要配置
+        monitor.start()
+        threading.Thread(target=process_tasks_speed, args=(monitor, AppState.speed_lock, AppState.cfg_1), daemon=True).start()
 
 
 if __name__ == "__main__":

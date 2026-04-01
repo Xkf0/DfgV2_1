@@ -1,10 +1,7 @@
-import vision_utils as vu
-import fairino2_8
-from modules.module_speeddect import speedDetectInit
+import vision_utils as vu # 视觉文件
+import fairino2_8 # 机械臂控制文件
+from modules.module_speeddect import speedDetectInit # 速度传感器检测文件
 
-from logger import LOG_DEBUG, LOG_INFO, LOG_WARN, LOG_ERROR, LOG_CRITICAL
-
-# --- 主函数 main 修改 ---
 def main(): 
     # 机械臂线程
     succeed = fairino2_8.init()
@@ -19,6 +16,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
-

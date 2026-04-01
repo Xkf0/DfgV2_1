@@ -45,7 +45,8 @@ class Configer:
         length_lead_screw_cm=0.0,
         openCollisionDetect=False,
         speed_mode=1,
-        speed_port=""
+        speed_port="",
+        id_wcs=2
         ):
 
         self.real_w = real_w
@@ -113,3 +114,4 @@ class Configer:
         self.openCollisionDetect = openCollisionDetect
         self.speed_mode = speed_mode
         self.speed_port = speed_port
+        self.id_wcs = id_wcs

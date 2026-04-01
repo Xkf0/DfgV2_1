@@ -16,6 +16,7 @@ from global_state import AppState
 from logger import LOG_DEBUG, LOG_INFO, LOG_WARN, LOG_ERROR, LOG_CRITICAL
 from queue import Queue
 import time
+area_ratio =1
 
 
 class ObjectDetector:
@@ -125,6 +126,114 @@ class ObjectDetector:
                 self.is_background_use = True
                 return True
         return False
+
+    def update_area_statistics(self, tid: int):
+        """
+        更新某个 tid 的面积均值统计。
+        """
+        if tid >= len(self.area_dict):
+            return
+        if tid >= len(self.nowAreaAvg):
+            return
+
+        if len(self.area_dict[tid]) == 5:
+            self.area_dict[tid].sort()
+            self.nowAreaAvg[tid] = self.area_dict[tid][2]  # 中值
+
+        elif len(self.area_dict[tid]) > 5:
+            self.nowAreaAvg[tid] = (
+                self.nowAreaAvg[tid] * (len(self.area_dict[tid]) - 5)
+                + self.area_dict[tid][-1]
+            ) / (len(self.area_dict[tid]) - 4)
+
+
+        # @staticmethod
+    def is_abnormal_cloth( self ,   info: dict):
+        """
+        异常布料判定接口
+
+        视觉侧可写入：
+        - jam_flag=True               -> 卡料
+        - curl_flag=True              -> 卷曲
+        - abnormal_type="jam"/"curl" -> 异常类型
+        """
+        if info.get("jam_flag", False) is True:
+            return True, "卡料"
+
+        if info.get("curl_flag", False) is True:
+            return True, "卷曲"
+
+        abnormal_type = str(info.get("abnormal_type", "")).strip().lower()
+        if abnormal_type in ("jam", "stuck", "block"):
+            return True, "卡料"
+        if abnormal_type in ("curl", "curled", "wrinkle"):
+            return True, "卷曲"
+
+        return False, ""
+
+
+    def build_abnormal_info_for_tid(self , tid :int )->dict :
+        abnormal_info = {
+                            "jam_flag": False ,
+                            "curl_flag" : True ,
+                            "tid":tid ,
+                            "area_ratio" :area_ratio,
+                            "template_area" : self.templateArea,
+                            "current_area" :self .nowAreaAvg[tid],
+                            "reason" : "卷曲或者换布料", 
+                        }
+        if (
+            tid <len (self.area_dict)
+            and tid < len (self.nowAreaAvg)
+            and len (self.area_dict[tid])>20
+            and self.templateArea not in (0 ,None)
+        ):
+            if self.templateArea in (0,None):
+                return abnormal_info
+            if self.nowAreaAvg[tid] in (-1.0 , None):
+                 return abnormal_info
+            
+        
+        area_ratio = self.nowAreaAvg[tid] / self.templateArea
+        abnormal_info["area_ratio"] = area_ratio
+        abnormal_info["template_area"] = self.templateArea
+        abnormal_info["current_area"] = self.nowAreaAvg[tid]
+        if area_ratio < 0.97:
+            abnormal_info["curl_flag"] = True
+            abnormal_info["abnormal_type"] = "curl"
+            abnormal_info["reason"] = f"面积比例过小，疑似卷曲或换布，ratio={area_ratio:.4f}"
+        return abnormal_info
+        #    面积更新计算
+    
+   
+    def apply_abnormal_result(self, tid: int, track_info: dict):
+        """
+        对单个 tid 执行异常检测，并把结果写回 track_info。
+        """
+        abnormal_info = self.build_abnormal_info_for_tid(tid)
+        abnormal, abnormal_name = self.is_abnormal_cloth(abnormal_info)
+
+        track_info["abnormal"] = abnormal
+        track_info["abnormal_name"] = abnormal_name
+        track_info["abnormal_info"] = abnormal_info
+
+        if abnormal:
+            if tid < len(self.warnId):
+                self.warnId[tid] = True
+            if tid < len(self.permitGrasp):
+                self.permitGrasp[tid] = False
+
+            LOG_WARN(
+                "异常检测报警: tid=%d, type=%s, template_area=%s, current_area=%s, area_ratio=%s, reason=%s",
+                tid,
+                abnormal_name,
+                abnormal_info.get("template_area"),
+                abnormal_info.get("current_area"),
+                abnormal_info.get("area_ratio"),
+                abnormal_info.get("reason"),
+            )
+                               
+
 
     def detect_and_track(self, frame, affine_matrix, current_time, get_speed_now):
         """
@@ -301,19 +410,36 @@ class ObjectDetector:
                             # 比如现在的len(self.area_dict[tid])=5，意味着里面一共有五个历史面积数据，现在是第五个，前面四个已经求了均值
                             # 若len=10，意味着一共有1+4个历史数据，现在是第六个，前面五个已经求了均值
                             if len(self.area_dict) > 0:
-                                if len(self.area_dict[tid]) == 5:
-                                    self.area_dict[tid].sort()
-                                    self.nowAreaAvg[tid] = self.area_dict[tid][2] # 第三个值
-                                if len(self.area_dict[tid]) > 5:
-                                    self.nowAreaAvg[tid] = (self.nowAreaAvg[tid] * (len(self.area_dict[tid]) - 5) + 
-                                                            self.area_dict[tid][len(self.area_dict[tid]) - 1]) / (len(self.area_dict[tid]) - 4)
-                                if len(self.area_dict[tid]) > 20 and self.warnId[tid] == False:
-                                    LOG_INFO("self.templateArea: %f", self.templateArea)
-                                    if self.templateArea != 0:
-                                        if self.nowAreaAvg[tid] / self.templateArea < 0.97:
-                                            LOG_WARN("异常检测报警，为卷曲或者更换布料, 第一张布料面积为%f, 当前布料面积为%f, 面积比例为%f", self.templateArea, self.nowAreaAvg[tid], self.nowAreaAvg[tid] / self.templateArea)
-                                            self.warnId[tid] = True
-                                            self.permitGrasp[tid] = False
+                                self.update_area_statistics(tid)
+                                # if len(self.area_dict[tid]) == 5:
+                                #     self.area_dict[tid].sort()
+                                #     self.nowAreaAvg[tid] = self.area_dict[tid][2] # 第三个值
+                                # if len(self.area_dict[tid]) > 5:
+                                #     self.nowAreaAvg[tid] = (self.nowAreaAvg[tid] * (len(self.area_dict[tid]) - 5) + 
+                                #                             self.area_dict[tid][len(self.area_dict[tid]) - 1]) / (len(self.area_dict[tid]) - 4)
+                                # if len(self.area_dict[tid]) > 20 and self.warnId[tid] == False:
+                                #     LOG_INFO("self.templateArea: %f", self.templateArea)
+                                #     if self.templateArea != 0:
+                                #         area_ratio = self.nowAreaAvg[tid] / self.templateArea
+                                #         if area_ratio < 0.97:
+                                #             LOG_WARN("异常检测报警，为卷曲或者更换布料, 第一张布料面积为%f, 当前布料面积为%f, 面积比例为%f", self.templateArea, self.nowAreaAvg[tid], self.nowAreaAvg[tid] / self.templateArea)
+                                #             self.warnId[tid] = True
+                                #             self.permitGrasp[tid] = False
+                                #             abnormal_info={
+                                #                 "jam_flag": False ,
+                                #                 "curl_flag" : True ,
+                                #                 "tid":tid ,
+                                #                 "area_ratio" :area_ratio,
+                                #                 "template_area" : self.templateArea,
+                                #                 "current_area" :self .nowAreaAvg[tid],
+                                #                 "reason" : "卷曲或者换布料", 
+                                #             }
+                                #             abnormal , abnormal_name = self.is_abnormal_cloth (abnormal_info)
+                                #         if abnormal:
+                                #                 info["abnormal"] = True 
+                                #                 info["abnormal_name"] = abnormal_name
+                                #                 info["abnormal_info"] = abnormal_info
+
                             
                             # break
                 
@@ -336,7 +462,7 @@ class ObjectDetector:
                     #         LOG_WARN("异常检测报警，为卷曲或者更换布料")
                     queue = Queue()
                     timenow = time.time()
-                    struct = [timenow, centroid]
+                    struct = [timenow, c]
                     queue.put(struct)
                     self.centroidLastestFive.append(queue)
 
@@ -436,6 +562,8 @@ class ObjectDetector:
 
 
                 info['long_side_length'] = long_side_px / self.cfg.ratio_wh * 10
+                #异常检测调用
+                self.apply_abnormal_result(tid ,info)
 
                 # 抓取点计算
                 if tid not in self.grab_calculators:

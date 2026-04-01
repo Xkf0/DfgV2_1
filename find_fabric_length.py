@@ -63,8 +63,6 @@ def main():
             # 获取最新帧（使用新的相机类）
             current_t = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]  # 格式：年-月-日 时:分:秒.毫秒
             content = f"{current_t} 准备获得图像帧\n"  # 加换行符，让每条记录单独一行
-            with open("output.txt", mode='a', encoding='utf-8') as f:
-                f.write(content)  # 将内容写入文件
 
             frame = camera.get_frame_directly()
             if frame is None:
@@ -74,8 +72,6 @@ def main():
             # 获取最新帧（使用新的相机类）
             current_t = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]  # 格式：年-月-日 时:分:秒.毫秒
             content = f"{current_t} 已获得图像帧\n"  # 加换行符，让每条记录单独一行
-            with open("output.txt", mode='a', encoding='utf-8') as f:
-                f.write(content)  # 将内容写入文件
                     
             current_time = time.perf_counter()
             
@@ -104,8 +100,6 @@ def main():
             current_t = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]  # 格式：年-月-日 时:分:秒.毫秒
             content = f"{current_t} 结束当前图像帧\n"  # 加换行符，让每条记录单独一行
             # print(f'{content} ----------------------- ')
-            with open("output.txt", mode='a', encoding='utf-8') as f:
-                f.write(content)  # 将内容写入文件
                     
             
 

@@ -39,6 +39,7 @@
         -64.002
     ],
     "CONFIG_PARAMS_1": {
+        "id_wcs": 2,
         "real_w": 85,
         "real_h": 41.1,
         "ratio_wh": 20,
@@ -117,6 +118,7 @@
         ]
     },
     "CONFIG_PARAMS_2": {
+        "id_wcs": 2,
         "real_w": 64,
         "real_h": 140.7,
         "ratio_wh": 20,

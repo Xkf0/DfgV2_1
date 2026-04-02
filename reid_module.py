@@ -6,7 +6,7 @@ import torchvision.transforms as transforms
 from PIL import Image
 import cv2
 import numpy as np
-from vision_utils import get_rotated_rect_crop
+import vision_utils
 # 移除 from config import SIMILARITY_THRESHOLD
 
 class FeatureExtractor:
@@ -47,7 +47,7 @@ class FeatureExtractor:
         return np.dot(feat1, feat2) / (np.linalg.norm(feat1) * np.linalg.norm(feat2) + 1e-8)
 
 def extract_mask_crop_with_features(image, contour, feature_extractor):
-    crop = get_rotated_rect_crop(image, contour)
+    crop = vision_utils.get_rotated_rect_crop(image, contour)
     if crop is None:
         return None, None
     features = feature_extractor.extract_features(crop)

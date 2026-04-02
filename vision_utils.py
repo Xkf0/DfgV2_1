@@ -7,6 +7,8 @@ import math
 import time
 from global_state import AppState
 import json
+import threading
+from test_reid_module_and_camera import anomaly_detection
 def load_config():
     with open("CONFIG.json", "r", encoding="utf-8") as f:
         config = json.load(f)
@@ -335,6 +337,7 @@ def Loop():
     AFFINE_MATRIX_2 = compute_affine_transform(cfg_2)
     camera = initCamera(cfg_1)
     detector = ObjectDetector(cfg_1, IS_USE_SAM)
+    threading.Thread(target=anomaly_detection, args=(), daemon=True).start()
     while True:
         time_start = time.perf_counter()
 

@@ -159,7 +159,7 @@
         "stand_rz": -64.002,
         "blend_alpha": 1.0,
         "is_real_sense": false,
-        "camera_no": 0,
+        "camera_no": 2,
         "points_file_path": "cv_aruco_1.csv",
         "down_height": 16,
         "safe_pos_1": [

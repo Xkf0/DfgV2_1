@@ -2,7 +2,6 @@
 #!/usr/bin/env python3
 import time
 import cv2
-import datetime  # 导入时间模块，用于获取当前时间
 
 # 引入 Configer 和新的 ObjectDetector
 from camera_handler1 import CameraHandler  # 新增导入
@@ -16,20 +15,23 @@ import numpy as np
 import time
 from logger import LOG_DEBUG, LOG_INFO, LOG_WARN, LOG_ERROR, LOG_CRITICAL
 from global_state import AppState
+import threading
+from global_state import AppState
 
-lastNoFabric = time.time() # 上一次图中没有布料的时间
+lastNoFabric      = time.time() # 上一次图中没有布料的时间
 
 lastThereIsFabric = [] # 上一帧是否有布料，如果有则为True
-timeEnter = []
-timeLeave = []
-timesEnter = []
-timesLeave = [] # 离开次数，只有大于timesContinuous才是真的离开
-enterFabric = []
-count = []
-similarityMin = []
-similarityMax = []
+timeEnter         = []
+timeLeave         = []
+timesEnter        = []
+timesLeave        = [] # 离开次数，只有大于timesContinuous才是真的离开
+enterFabric       = []
+count             = []
+similarityMin     = []
+similarityMax     = []
+draw_picture      = False
 
-num = 4
+num               = 4
 
 for index in range(num * 2):
     lastThereIsFabric.append(False) # 上一帧是否有布料，如果有则为True
@@ -87,16 +89,16 @@ def detect(lastThereIsFabric, nowThereIsFabric, timeEnter, timeLeave, timesEnter
     return lastThereIsFabric, nowThereIsFabric, timeEnter, timeLeave, timesEnter, timesLeave, enterFabric, count, False
 
 def anomaly_detection():
-    global lastNoFabric, lastThereIsFabric, timeEnter, timeLeave, timesLeave, timesEnter, enterFabric, threshold, timesContinuous, similarityMin, similarityMax, count, num
+    global lastNoFabric, lastThereIsFabric, timeEnter, timeLeave, timesLeave, timesEnter, enterFabric, threshold, timesContinuous, similarityMin, similarityMax, count, num, draw_picture
     featureExtractor = reid_module.FeatureExtractor()
     leftLarge = 770 # 距离左侧边缘距离
     bottom = 435 # 距离底部边缘距离
     rightLarge = 590 # 距离右侧边缘距离                                         
     top = 570 # 距离顶部边缘距离
-    # left = 0 # 距离左侧边缘距离
-    # bottom = 0 # 距离底部边缘距离
-    # right = 0 # 距离右侧边缘距离
-    # top = 0 # 距离顶部边缘距离
+    left = 0 # 距离左侧边缘距离
+    bottom = 0 # 距离底部边缘距离
+    right = 0 # 距离右侧边缘距离
+    top = 0 # 距离顶部边缘距离
     contourLarge = np.array([
         [bottom, leftLarge],   # 右上角
         [1080 - top, leftLarge],   # 右下角
@@ -145,77 +147,76 @@ def anomaly_detection():
     feature_first_frame = None
 
     while True:
-        time_start = time.perf_counter()
-        
-        # 获取最新帧（使用新的相机类）
-        current_t = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]  # 格式：年-月-日 时:分:秒.毫秒
-        content = f"{current_t} 准备获得图像帧\n"  # 加换行符，让每条记录单独一行
+        if AppState.wait_detect is False:
+            time_start = time.perf_counter()
 
-        frame = camera.get_frame_directly()
-        if frame is None:
-            print("未能获取有效帧，跳过本次循环")
-            continue
+            frame = camera.get_frame_directly()
+            if frame is None:
+                print("未能获取有效帧，跳过本次循环")
+                continue
 
-        # 获取最新帧（使用新的相机类）
-        current_t = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]  # 格式：年-月-日 时:分:秒.毫秒
-        content = f"{current_t} 已获得图像帧\n"  # 加换行符，让每条记录单独一行
-        frame = np.transpose(frame, (1, 0, 2))
-        frame = cv2.flip(frame, 1)
+            frame = np.transpose(frame, (1, 0, 2))
+            frame = cv2.flip(frame, 1)
 
-        if first_frame:
-            feature_first_frame = []
-            for index in range(num * 2):
-                crop, feature_first_frame_temp = reid_module.extract_mask_crop_with_features(frame, contour[index], featureExtractor)
-                feature_first_frame.append(feature_first_frame_temp)
-            first_frame = False
-        else:
-            crop, feature_large = reid_module.extract_mask_crop_with_features(frame, contourLarge, featureExtractor)
-            similarity = []
-            nowThereIsFabric = []
-            for index in range(num * 2):
-                _, feature_temp = reid_module.extract_mask_crop_with_features(frame, contour[index], featureExtractor)
-                similarity.append(featureExtractor.cosine_similarity(feature_first_frame[index], feature_temp))
-                nowThereIsFabric.append(similarity[index] <= threshold[index])
-                # print(similarity)
-                similarityMin[index] = min(similarity[index], similarityMin[index])
-                similarityMax[index] = max(similarity[index], similarityMax[index])
-                # print(f"similarityMin: {similarityMin[index]}, index: {index}")
-                # print(f"similarityMax: {similarityMax[index]}, index: {index}")
+            if first_frame:
+                feature_first_frame = []
+                for index in range(num * 2):
+                    crop, feature_first_frame_temp = reid_module.extract_mask_crop_with_features(frame, contour[index], featureExtractor)
+                    feature_first_frame.append(feature_first_frame_temp)
+                first_frame = False
+            else:
+                crop, feature_large = reid_module.extract_mask_crop_with_features(frame, contourLarge, featureExtractor)
+                similarity = []
+                nowThereIsFabric = []
+                for index in range(num * 2):
+                    _, feature_temp = reid_module.extract_mask_crop_with_features(frame, contour[index], featureExtractor)
+                    similarity.append(featureExtractor.cosine_similarity(feature_first_frame[index], feature_temp))
+                    nowThereIsFabric.append(similarity[index] <= threshold[index])
+                    # print(similarity)
+                    similarityMin[index] = min(similarity[index], similarityMin[index])
+                    similarityMax[index] = max(similarity[index], similarityMax[index])
+                    # print(f"similarityMin: {similarityMin[index]}, index: {index}")
+                    # print(f"similarityMax: {similarityMax[index]}, index: {index}")
 
-            current_time = time.time()
-            thereIs = False
-            
-            for index in range(num * 2):
-                LOG_INFO("index: %d, astThereIsFabric: %d, nowThereIsFabric: %d, timeEnter: %f, timeLeave: %f, timesEnter: %d, timesLeave: %d, enterFabric: %d, similarity: %.5f", index, lastThereIsFabric[index], nowThereIsFabric[index], timeEnter[index], timeLeave[index], timesEnter[index], timesLeave[index], enterFabric[index], similarity[index])
-                lastThereIsFabric[index], nowThereIsFabric[index], timeEnter[index], timeLeave[index], timesEnter[index], timesLeave[index], enterFabric[index], count[index], thereIs = detect(lastThereIsFabric[index], nowThereIsFabric[index], timeEnter[index], timeLeave[index], timesEnter[index], timesLeave[index], enterFabric[index], current_time, index, count[index])
+                current_time = time.time()
+                thereIs = False
+                
+                for index in range(num * 2):
+                    LOG_INFO("index: %d, astThereIsFabric: %d, nowThereIsFabric: %d, timeEnter: %f, timeLeave: %f, timesEnter: %d, timesLeave: %d, enterFabric: %d, similarity: %.5f", index, lastThereIsFabric[index], nowThereIsFabric[index], timeEnter[index], timeLeave[index], timesEnter[index], timesLeave[index], enterFabric[index], similarity[index])
+                    lastThereIsFabric[index], nowThereIsFabric[index], timeEnter[index], timeLeave[index], timesEnter[index], timesLeave[index], enterFabric[index], count[index], thereIs = detect(lastThereIsFabric[index], nowThereIsFabric[index], timeEnter[index], timeLeave[index], timesEnter[index], timesLeave[index], enterFabric[index], current_time, index, count[index])
+                    if thereIs:
+                        break
                 if thereIs:
-                    break
-            if thereIs:
-                break
-            # if similarity > threshold:
-            #     lastNoFabric = current_time
-            lastThereIsFabric = nowThereIsFabric
-            # if current_time - lastNoFabric > 10:
-            #     print("——————————————————————————堵料——————————————————————————")
+                    with AppState.state_lock:
+                        AppState.blocked_state = True
+                        AppState.wait_detect = True
+                    continue
+                # if similarity > threshold:
+                #     lastNoFabric = current_time
+                lastThereIsFabric = nowThereIsFabric
+                # if current_time - lastNoFabric > 10:
+                #     print("——————————————————————————堵料——————————————————————————")
 
-        display_img = crop
+            display_img = crop
 
-        # 绘制FPS
-        fps = 1 / (time.perf_counter() - time_start)
-        cv2.putText(display_img, f"FPS:{fps:.2f}", (AppState.cfg_2.output_w - 500, AppState.cfg_2.output_h - 20), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 0), 8)
+            # 绘制FPS
+            fps = 1 / (time.perf_counter() - time_start)
+            cv2.putText(display_img, f"FPS:{fps:.2f}", (AppState.cfg_2.output_w - 500, AppState.cfg_2.output_h - 20), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 0), 8)
 
-        # 显示或保存
-        display_img = cv2.resize(display_img, (display_img.shape[1]//3, display_img.shape[0]//3))
-        
-        cv2.imshow('combined1', display_img)
-        cv2.waitKey(1)
-        
-        current_t = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")[:-3]  # 格式：年-月-日 时:分:秒.毫秒
-        content = f"{current_t} 结束当前图像帧\n"  # 加换行符，让每条记录单独一行
-        # print(f'{content} ----------------------- ')
+            # 显示或保存
+            display_img = cv2.resize(display_img, (display_img.shape[1]//3, display_img.shape[0]//3))
+            
+            cv2.imshow('combined1', display_img)
+            cv2.waitKey(1)
+        else:
+            time.sleep(0.1)
 
 if __name__ == "__main__":
-    anomaly_detection()
-
-
-
+    draw_picture = True
+    thread = threading.Thread(target=anomaly_detection, args=(), daemon=True)
+    thread.start()
+    while True:
+        time.sleep(0.1)
+        x = 1
+    
+    # anomaly_detection()

@@ -3,6 +3,7 @@ import numpy as np
 import pyrealsense2 as rs
 import csv  # 新增：用于CSV文件操作
 import os  # 新增：用于判断文件是否存在
+from camera_handler_jiaqin import CameraHandler
 
 # -------------------------------
 # 全局常量（新增CSV文件路径）
@@ -34,7 +35,7 @@ ARUCO_IDS_CORNER = {
 
 # 输出矩形尺寸（像素）
 # REAL_W, REAL_H = 64, 92.05   # cm
-REAL_W, REAL_H = 64, 140.7   # cm
+REAL_W, REAL_H = 85, 41.1   # cm
 RATIO_WH = 20
 
 OUTPUT_W, OUTPUT_H = int(REAL_W * RATIO_WH), int(REAL_H * RATIO_WH)
@@ -48,11 +49,11 @@ dst_points = np.float32([
 # -------------------------------
 # 配置参数
 # -------------------------------
-IS_REAL_SENSE = True
+IS_REAL_SENSE = False
 
 # TODO: 修改为你的RealSense设备编号
 # REAL_SENSE_NO = '204222061636'
-REAL_SENSE_NO = 0
+REAL_SENSE_NO = 2
 AUTO_CALIBRATION_FRAME = 60  # 在第60帧自动校准
 OUTPUT_INTERVAL_FRAMES = 100  # 每100帧输出一次坐标均值
 
@@ -95,10 +96,10 @@ def detect_aruco_corners(frame):
 
         # 使用四个透视变换码的指定角点
         src_pts = np.float32([
-            top_left_corners[2],  # 左上ArUco的右下角点     2
-            top_right_corners[3],  # 右上ArUco的左下角点    3
-            bottom_right_corners[0],  # 右下ArUco的左上角点    0
-            bottom_left_corners[1]  # 左下ArUco的右上角点    1
+            top_left_corners[3],  # 左上ArUco的右下角点     2
+            top_right_corners[2],  # 右上ArUco的左下角点    3
+            bottom_right_corners[1],  # 右下ArUco的左上角点    0
+            bottom_left_corners[0]  # 左下ArUco的右上角点    1
         ])
         return src_pts
     except KeyError as e:
@@ -367,10 +368,11 @@ def getPointAruco():
         config.enable_device(REAL_SENSE_NO)
         pipeline.start(config)
     else:
-        cap = cv2.VideoCapture(3)
-        if not cap.isOpened():
-            print("无法打开摄像头")
-            return
+        # cap = cv2.VideoCapture(2)
+        # if not cap.isOpened():
+        #     print("无法打开摄像头")
+        #     return
+        camera = CameraHandler(camera_id=2)
 
     # 初始化变量
     perspective_matrix = None
@@ -394,8 +396,8 @@ def getPointAruco():
                     continue
                 frame = np.asanyarray(frame.get_data())
             else:
-                ret, frame = cap.read()
-                if not ret:
+                frame = camera.get_frame_directly()
+                if frame is None:
                     print("无法读取帧")
                     break
 
@@ -479,6 +481,7 @@ def getPointAruco():
                 display_frame = cv2.resize(display_frame, (OUTPUT_W // 2, OUTPUT_H // 2))
             cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
             cv2.imshow(window_name, display_frame)
+            cv2.resizeWindow(window_name, 800, 600)
 
             # 退出条件
             if cv2.waitKey(1) & 0xFF == ord('q'):
@@ -498,10 +501,6 @@ def getPointAruco():
     finally:
         # 清理资源
         print("\n清理资源...")
-        if IS_REAL_SENSE:
-            pipeline.stop()
-        else:
-            cap.release()
         cv2.destroyAllWindows()
 
         # 显示最终状态

@@ -250,7 +250,7 @@ if __name__ == "__main__":
 
     # 初始化摄像头
     IS_REAL_SENSE = False
-    CAMERA_NO = 0  # TODO: 替换为你的设备序列号
+    CAMERA_NO = 2  # TODO: 替换为你的设备序列号
 
     if IS_REAL_SENSE:
         pipeline = rs.pipeline()

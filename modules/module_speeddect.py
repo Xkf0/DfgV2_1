@@ -443,7 +443,7 @@ def process_tasks_speed(monitor, speed_lock, cfg_1):
         if speed > 0:
             with speed_lock:
                 AppState.speed_now=speed
-                AppState.time_pre_now = cfg_1.WAIT_DISTANCE / AppState.speed_now 
+                AppState.time_pre_now = cfg_1.WAIT_DISTANCE / AppState.speed_now
                 if(count%100==1):
                     print(f"当前实时平均速度: {AppState.speed_now:.4f} cm/s")
                     print(f"当前实时预抓取时间: {AppState.time_pre_now:.4f} s")

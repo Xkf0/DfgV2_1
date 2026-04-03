@@ -400,7 +400,9 @@ def getPointAruco():
             if is_warped:
                 # display_frame = display_frame[OUTPUT_H // 2:, :, :]
                 display_frame = cv2.resize(display_frame, (OUTPUT_W // 2, OUTPUT_H // 2))
+            cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
             cv2.imshow(window_name, display_frame)
+            cv2.resizeWindow(window_name, 800, 600)
 
             # 退出条件
             if cv2.waitKey(1) & 0xFF == ord('q'):

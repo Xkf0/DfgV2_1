@@ -807,6 +807,97 @@ def follow_and_grasp_dynamic_smooth_with_detect_arm2(
     return 1, lift_pos.tolist(), 0
 
 
+def movel_to_pose(robot,intercept_pos,vel=100.0):
+    err = robot.MoveL(desc_pos=intercept_pos, tool=1, user=2,
+                    vel=vel, acc=-1.0, ovl=100.0, blendR=50.0)
+    if err != 0:
+        print(f"MoveL 失败")
+        return False
+    return True
+
+def static_grap(robot, up_pose, wait_pose, grasp_pose, stop_pose, place_pose, robot_lock):
+    """静态抓取函数"""
+    start_suction(robot)
+    # move to wait
+    with robot_lock:
+        err = movel_to_pose(robot, up_pose)
+        if err == 0:
+            print(f"移动到上位姿失败，错误码: {err}")
+            return False
+        print("抓取开始")
+    
+    # move to wait
+    with robot_lock:
+        err = movel_to_pose(robot, wait_pose)
+        if err == 0:
+            print(f"移动到等待位姿失败，错误码: {err}")
+            return False
+    print("抓取等待位置")
+
+    grip_open(robot)
+        
+    time.sleep(0.3)
+    
+    # move to down
+    with robot_lock:
+        err = movel_to_pose(robot, grasp_pose)
+        if err == 0:
+            print(f"移动到抓取位姿失败，错误码: {err}")
+            return False
+    print("抓取位姿")
+    time.sleep(0.5)
+    grip_clamp(robot)
+    time.sleep(0.5)  # 等待夹爪闭合
+
+    # move to up
+    with robot_lock:
+        grasp_pose2 = grasp_pose.copy()
+        grasp_pose2[2] += 20
+        err = movel_to_pose(robot, grasp_pose2, vel=50)
+        time.sleep(0.5) 
+        err = movel_to_pose(robot, stop_pose)
+        if err == 0:
+            print(f"移动到上位姿失败，错误码: {err}")
+            return False
+    print("抬起位姿")
+
+    stop_suction(robot)
+    # move to up
+    with robot_lock:
+        err = movel_to_pose(robot, place_pose)
+        if err == 0:
+            print(f"移动到放置位置失败，错误码: {err}")
+            return False
+    print("放置")
+
+    grip_release(robot)
+
+    time.sleep(3) 
+
+    with robot_lock:
+        err = movel_to_pose(robot, up_pose)
+        if err == 0:
+            print(f"移动到安全位置失败，错误码: {err}")
+            return False
+    print("回到初始位置")
+    return True
+
+
+def get_task_abnormal_info(motion_dict, mid):
+    """
+    从视觉输出中获取异常信息
+    约定视觉侧在 motion_dict[mid] 中写入:
+        abnormal: bool
+        abnormal_name: str   # "", "卷曲", "卡料"
+        static_grab: dict    # 静态抓取相关位姿
+    """
+    motion           = motion_dict.get(mid, {})
+    abnormal         = bool(motion.get("abnormal", False))
+    abnormal_name    = str(motion.get("abnormal_name", "") or "").strip()
+    static_grab_info = motion.get("static_grab", None)
+    return abnormal, abnormal_name, static_grab_info
+
+
 def process_tasks_1(rpc):
     """
     处理抓取任务的线程函数（智能过滤版）
@@ -874,111 +965,214 @@ def process_tasks_1(rpc):
         item = latest_valid_item
         if item[0] is None: break #再一次检查退出
 
+        # -------------------------------------------------
+        # 2. 解析任务
+        # -------------------------------------------------
+        motion_dict, mid, pos_data, safe_pos = item
+        motion = motion_dict.get(mid, {})
+
+        abnormal, abnormal_name, static_grab_info = get_task_abnormal_info(motion_dict, mid)
+
+
         motion_dict, mid, pos_data, safe_pos = item
         logger.info(motion_dict[mid]['motion_center'])
-        try:
-            # 3. 【核心修改】过期时间检查 (Time Check)
-            # 在移动机械臂之前，先算一下是否来得及
-            # time_pre 是配置的预估到达时间，line2_time 是检测线触发时间
-            arrival_time = motion_dict[mid]['line2_time'] + get_time_pre_now
 
-            current_time = time.perf_counter()
-            wait_time = arrival_time - current_time
+        # -------------------------------------------------
+        # 3. 异常布料：卷曲 -> 停带 + 静态抓取
+        # -------------------------------------------------
+        if abnormal and abnormal_name == "卷曲":
+            print(f"[1号臂-异常] mid={mid} 检测到卷曲，准备静态抓取")
 
-            print(f"1号臂-id-{mid} 预判检查: wait_time={wait_time:.3f}s")
-
-            # 如果 wait_time 小于阈值（例如 -1.0s），说明物体已经过了很久了
-            # logger.error(f"+++++++++++++++TASK_EXPIRATION_THRESHOLD:{TASK_EXPIRATION_THRESHOLD}")
-            if wait_time < TASK_EXPIRATION_THRESHOLD:
-                print(f"[1号臂-过期跳过] id-{mid} 已过期 {abs(wait_time):.2f}s，放弃本次抓取，立即寻找下一个。")
+            if not static_grab_info:
+                print(f"[1号臂-异常] mid={mid} 缺少 static_grab 位姿信息，无法执行静态抓取")
                 sum_abort += 1
-                continue # 直接跳过，进入下一次循环
-            #机械臂运动开关
-            if False:
-            # if True:
-               continue # 直接跳过，进入下一次循环
-
-
-            # --- 任务有效，开始执行 ---
-            sum_to_do += 1
-            cloth_lenth = motion_dict[mid]['long_side_length']
-            print(f"1号臂-id-{mid} 开始执行 | 布料长度: {cloth_lenth:.2f}mm")
-            # cloth_lenth=360
-            
-            time11 = time.perf_counter()
-            # if True:
-                # start_suction(rpc)
-            success, err = move_to_safe_position_add_cloth_lenth(rpc, safe_pos, motion_dict, mid, cloth_lenth,robot_lock=AppState.task_lock_1,arm_id=1)
-            time22 = time.perf_counter()
-            # print("Move Safe Time:", time22 - time11)
-            
-            if not success:
-                print(f"1号臂-id-{mid} 移动到安全点失败: {err}")
                 continue
 
-            # 6. 二次等待时间校准
-            # 重新计算 wait_time，因为上面执行了一些动作
-            # 注意：这里的逻辑原代码可能有点问题，通常 move_to_safe 之后就要准备抓了
-            # 如果 wait_time 还是正数，说明我们动作太快了，需要等物体过来
-            
-            wait_time_final = get_time_pre_now - (time.perf_counter() - motion_dict[mid]['line2_time']) - 0.5
-            # wait_time_final = AppState.cfg_1.time_pre - (time.perf_counter() - motion_dict[mid]['line2_time'])
-            
-            if wait_time_final > 0:
-                # print(f"动作超前，等待物体到位: {wait_time_final:.3f}s")
-                time.sleep(wait_time_final)
-            # elif wait_time_final < TASK_EXPIRATION_THRESHOLD:
-            else:
-                 # 极端情况：移动到一半，物体跑了
-                 print(f"[1号臂-严重过期] 准备抓取时发现物体已跑远: {wait_time_final:.3f}s")
-                 # 这里可以选择继续尝试(赌一把)或者放弃，建议继续尝试，因为已经到这步了
-            
-            print("1号臂-抓取点预测坐标%%%%%%%%%%%%%%%%%%",pos_data)
-            
-            # 7. 动态跟随抓取,带异常检测 (Phase 2)
-            res, pos, err = follow_and_grasp_dynamic_smooth_with_detect(
-                rpc, pos_data, speed_cm_s=48.0, descend_duration=0.30,
-                descend_height_mm=AppState.cfg_1.down_height, clamp_delay_s=0.1,
-                follow_after_clamp_s=0.30, movej_vel=40.0, control_freq_hz=200,
-                place_pos=place_pos, safe_pos1=AppState.cfg_1.safe_pos_1, safe_pos2=AppState.cfg_1.safe_pos_2, 
-                cloth_length=cloth_lenth,safe_pos_1_5=AppState.cfg_1.safe_pos_1_5,
-                DIRECTION=DIRECTION_1,robot_lock=AppState.task_lock_1,
-                detect_pose=AppState.cfg_1.detect_pose, detect_none_pose=AppState.cfg_1.detect_none_pose,
-                if_grip=False
+            up_pose           = static_grab_info.get("up_pose")
+            wait_pose         = static_grab_info.get("wait_pose")
+            grasp_pose        = static_grab_info.get("grasp_pose")
+            stop_pose         = static_grab_info.get("stop_pose")
+            place_pose_static = static_grab_info.get("place_pose", place_pos)
+
+            up_pose = [AppState.cfg_1.safe_x,
+            AppState.cfg_1.safe_y,
+            AppState.cfg_1.safe_z,
+            AppState.cfg_1.stand_rx,
+            AppState.cfg_1.stand_ry,
+            AppState.cfg_1.stand_rz]
+            wait_pose = [pos_data[0],
+            pos_data[1],
+            AppState.cfg_1.stand_z + 10,
+            AppState.cfg_1.stand_rx,
+            AppState.cfg_1.stand_ry,
+            pos_data[5]]
+            grasp_pose = [pos_data[0],
+            pos_data[1],
+            AppState.cfg_1.stand_z,
+            AppState.cfg_1.stand_rx,
+            AppState.cfg_1.stand_ry,
+            pos_data[5]]
+            stop_pose = [AppState.cfg_1.safe_x,
+            AppState.cfg_1.safe_y,
+            AppState.cfg_1.stand_z + 20,
+            AppState.cfg_1.stand_rx,
+            AppState.cfg_1.stand_ry,
+            AppState.cfg_1.stand_rz]
+            place_pose_static = [AppState.cfg_1.safe_x,
+            AppState.cfg_1.safe_y,
+            PLACE_HEIGHT_INCREMENT,
+            AppState.cfg_1.stand_rx,
+            AppState.cfg_1.stand_ry,
+            AppState.cfg_1.stand_rz]
+
+            if not all([up_pose, wait_pose, grasp_pose, stop_pose, place_pose_static]):
+                print(f"[1号臂-异常] mid={mid} 静态抓取位姿不完整")
+                sum_abort += 1
+                continue
+
+            sum_to_do += 1
+
+            # 先停传送带
+            # conveyor_stop()
+            print("[1号臂-异常] 传送带已停止，开始静态抓取")
+
+            cloth_lenth = motion_dict[mid]['long_side_length']
+            move_to_cloth_lenth(rpc, cloth_lenth)
+
+            ok = static_grap(
+                robot=rpc,
+                up_pose=up_pose,
+                wait_pose=wait_pose,
+                grasp_pose=grasp_pose,
+                stop_pose=stop_pose,
+                place_pose=place_pose_static,
+                robot_lock=AppState.task_lock_1,
             )
 
-            
-            result='失败'
-            if res==1:
-                result='成功'
-                tl_cur_pos_array = rpc.robot_state_pkg.tl_cur_pos
-                tl_cur_pos_list = [tl_cur_pos_array[i] for i in range(6)]
-                print("tl_cur_pos_list@@@@@@@@@@@@@@@",tl_cur_pos_list)
-                place_and_move_to_safe(rpc, AppState.cfg_1.safe_pos_1, tl_cur_pos_list, AppState.cfg_1.safe_pos_2)
+            result = "静态抓取失败"
+            if ok:
+                result = "静态抓取成功"
                 update_count_and_next_placement_height()
                 update_centroid_time()
-            elif res==2:
-                print(f"1号臂-id-{mid} 抓取动作执行结果: 未检测到布料，放弃本次抓取。\n")
             else:
-                print(f"1号臂-id-{mid} 抓取动作执行失败: {err}")
-            
-            sum_real_done =get_count_arm1()
-            logger.info(f"====================1号臂: "
-                        f"当前处理结果: {result} ; "
-                        f"总检测量： {sum_detectnum}; "
-                        f"实际成功总量:{sum_real_done}; "
-                        f"积压抛弃总量{sum_abort}; "
-                        f"机械臂处理数量: {sum_to_do} ; "
-                        f"机械臂处理失败总量: {sum_to_do-sum_real_done} ; "
-                        f"====================")
+                sum_abort += 1
 
-        except Exception as e:
-            print(f"1号臂-任务执行异常: {e}")
-            import traceback
-            traceback.print_exc()
-        finally:
-            # 标记当前单个任务完成（对应最开始 get 的那个）
-            AppState.task_queue_1.task_done()
+            sum_real_done = get_count_arm1()
+            logger.info(
+                f"====================1号臂(静态抓取): "
+                f"当前处理结果: {result} ; "
+                f"总检测量：{sum_detectnum}; "
+                f"实际成功总量:{sum_real_done}; "
+                f"积压抛弃总量:{sum_abort}; "
+                f"机械臂处理数量:{sum_to_do}; "
+                f"机械臂处理失败总量:{sum_to_do - sum_real_done}; "
+                f"===================="
+            )
+            continue
+
+        if False:
+            try:
+                # 3. 【核心修改】过期时间检查 (Time Check)
+                # 在移动机械臂之前，先算一下是否来得及
+                # time_pre 是配置的预估到达时间，line2_time 是检测线触发时间
+                arrival_time = motion_dict[mid]['line2_time'] + get_time_pre_now
+
+                current_time = time.perf_counter()
+                wait_time = arrival_time - current_time
+
+                print(f"1号臂-id-{mid} 预判检查: wait_time={wait_time:.3f}s")
+
+                # 如果 wait_time 小于阈值（例如 -1.0s），说明物体已经过了很久了
+                # logger.error(f"+++++++++++++++TASK_EXPIRATION_THRESHOLD:{TASK_EXPIRATION_THRESHOLD}")
+                if wait_time < TASK_EXPIRATION_THRESHOLD:
+                    print(f"[1号臂-过期跳过] id-{mid} 已过期 {abs(wait_time):.2f}s，放弃本次抓取，立即寻找下一个。")
+                    sum_abort += 1
+                    continue # 直接跳过，进入下一次循环
+                #机械臂运动开关
+                if False:
+                # if True:
+                    continue # 直接跳过，进入下一次循环
+
+
+                # --- 任务有效，开始执行 ---
+                sum_to_do += 1
+                cloth_lenth = motion_dict[mid]['long_side_length']
+                print(f"1号臂-id-{mid} 开始执行 | 布料长度: {cloth_lenth:.2f}mm")
+                # cloth_lenth=360
+                
+                time11 = time.perf_counter()
+                # if True:
+                    # start_suction(rpc)
+                success, err = move_to_safe_position_add_cloth_lenth(rpc, safe_pos, motion_dict, mid, cloth_lenth,robot_lock=AppState.task_lock_1,arm_id=1)
+                time22 = time.perf_counter()
+                # print("Move Safe Time:", time22 - time11)
+                
+                if not success:
+                    print(f"1号臂-id-{mid} 移动到安全点失败: {err}")
+                    continue
+
+                # 6. 二次等待时间校准
+                # 重新计算 wait_time，因为上面执行了一些动作
+                # 注意：这里的逻辑原代码可能有点问题，通常 move_to_safe 之后就要准备抓了
+                # 如果 wait_time 还是正数，说明我们动作太快了，需要等物体过来
+                
+                wait_time_final = get_time_pre_now - (time.perf_counter() - motion_dict[mid]['line2_time']) - 0.5
+                # wait_time_final = AppState.cfg_1.time_pre - (time.perf_counter() - motion_dict[mid]['line2_time'])
+                
+                if wait_time_final > 0:
+                    # print(f"动作超前，等待物体到位: {wait_time_final:.3f}s")
+                    time.sleep(wait_time_final)
+                # elif wait_time_final < TASK_EXPIRATION_THRESHOLD:
+                else:
+                    # 极端情况：移动到一半，物体跑了
+                    print(f"[1号臂-严重过期] 准备抓取时发现物体已跑远: {wait_time_final:.3f}s")
+                    # 这里可以选择继续尝试(赌一把)或者放弃，建议继续尝试，因为已经到这步了
+                
+                print("1号臂-抓取点预测坐标%%%%%%%%%%%%%%%%%%",pos_data)
+                
+                # 7. 动态跟随抓取,带异常检测 (Phase 2)
+                res, pos, err = follow_and_grasp_dynamic_smooth_with_detect(
+                    rpc, pos_data, speed_cm_s=48.0, descend_duration=0.30,
+                    descend_height_mm=AppState.cfg_1.down_height, clamp_delay_s=0.1,
+                    follow_after_clamp_s=0.30, movej_vel=40.0, control_freq_hz=200,
+                    place_pos=place_pos, safe_pos1=AppState.cfg_1.safe_pos_1, safe_pos2=AppState.cfg_1.safe_pos_2, 
+                    cloth_length=cloth_lenth,safe_pos_1_5=AppState.cfg_1.safe_pos_1_5,
+                    DIRECTION=DIRECTION_1,robot_lock=AppState.task_lock_1,
+                    detect_pose=AppState.cfg_1.detect_pose, detect_none_pose=AppState.cfg_1.detect_none_pose,
+                    if_grip=False
+                )
+                
+                result='失败'
+                if res==1:
+                    result='成功'
+                    tl_cur_pos_array = rpc.robot_state_pkg.tl_cur_pos
+                    tl_cur_pos_list = [tl_cur_pos_array[i] for i in range(6)]
+                    print("tl_cur_pos_list@@@@@@@@@@@@@@@",tl_cur_pos_list)
+                    place_and_move_to_safe(rpc, AppState.cfg_1.safe_pos_1, tl_cur_pos_list, AppState.cfg_1.safe_pos_2)
+                    update_count_and_next_placement_height()
+                    update_centroid_time()
+                elif res==2:
+                    print(f"1号臂-id-{mid} 抓取动作执行结果: 未检测到布料，放弃本次抓取。\n")
+                else:
+                    print(f"1号臂-id-{mid} 抓取动作执行失败: {err}")
+                
+                sum_real_done =get_count_arm1()
+                logger.info(f"====================1号臂: "
+                            f"当前处理结果: {result} ; "
+                            f"总检测量： {sum_detectnum}; "
+                            f"实际成功总量:{sum_real_done}; "
+                            f"积压抛弃总量{sum_abort}; "
+                            f"机械臂处理数量: {sum_to_do} ; "
+                            f"机械臂处理失败总量: {sum_to_do-sum_real_done} ; "
+                            f"====================")
+
+            except Exception as e:
+                print(f"1号臂-任务执行异常: {e}")
+                import traceback
+                traceback.print_exc()
+            finally:
+                # 标记当前单个任务完成（对应最开始 get 的那个）
+                AppState.task_queue_1.task_done()
 
 
 def process_tasks_2(rpc):

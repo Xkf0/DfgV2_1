@@ -9,7 +9,7 @@
     "speed_port": "/dev/ttyUSB1",
     "MOVE_PARAMS_1": {
         "INIT_PLACE_HEIGHT":5.137,
-        "PLACE_HEIGHT_INCREMENT": 0.6,
+        "PLACE_HEIGHT_INCREMENT": -77.022,
         "COUNT_RESET_INTERVAL": 120,
         "ADJUSTMENT_GRIPPER_OFFSET": 48,
         "LENTH_CHANGE_THRESHOLD": 15
@@ -23,20 +23,20 @@
         -0.01357119
     ],
     "place_pos_arm_1": [
-        1390.239,
-        -326.035,
-        208.205,
-        -179.854,
-        -0.14,
-        -64.002
+        441.96,
+        -270.561,
+        172.327,
+        -179.225,
+        -0.142,
+        -64.706
     ],
     "place_pos_arm_2": [
-        1390.239,
-        -326.035,
-        208.205,
-        -179.854,
-        -0.14,
-        -64.002
+        441.96,
+        -270.561,
+        172.327,
+        -179.225,
+        -0.142,
+        -64.706
     ],
     "CONFIG_PARAMS_1": {
         "id_wcs": 2,
@@ -65,56 +65,59 @@
         "speed_update_interval": 0.1,
         "area_update_interval": 1.0,
         "speed": 7.15,
-        "WAIT_DISTANCE": 75,
+        "WAIT_DISTANCE": 0,
         "safe_pos_init": [
             null,
             null,
             null,
-            -179.854,
-            -0.14,
-            -64.002
+            -179.225,
+            -0.142,
+            -64.706
         ],
-        "stand_z": 97,
-        "stand_rx": -179.854,
-        "stand_ry": -0.14,
-        "stand_rz": -64.002,
+        "safe_x": 441.96,
+        "safe_y": -270.561,
+        "safe_z": 172.327,
+        "stand_z": 82.661,
+        "stand_rx": -179.225,
+        "stand_ry": -0.142,
+        "stand_rz": -64.706,
         "blend_alpha": 1.0,
         "is_real_sense": false,
-        "camera_no": 0,
+        "camera_no": 2,
         "points_file_path": "cv_aruco_1.csv",
         "down_height": 16,
         "safe_pos_1": [
-            1390.239,
-            -142.035,
-            260.205,
-            -179.854,
-            -0.14,
-            -64.002
+            441.96,
+            -270.561,
+            172.327,
+            -179.225,
+            -0.142,
+            -64.706
             
         ],
         "safe_pos_2": [
-            1390.239,
-            136.871,
-            208.205,
-            -179.854,
-            -0.14,
-            -64.002
+            441.96,
+            -270.561,
+            172.327,
+            -179.225,
+            -0.142,
+            -64.706
         ],
         "detect_pose": [
-            1390.239,
-            -326.035,
-            208.205,
-            -179.854,
-            -0.14,
-            -64.002
+            441.96,
+            -270.561,
+            172.327,
+            -179.225,
+            -0.142,
+            -64.706
         ],
         "detect_none_pose": [
-            1390.239,
-            -326.035,
-            208.205,
-            -179.854,
-            -0.14,
-            -64.002
+            441.96,
+            -270.561,
+            172.327,
+            -179.225,
+            -0.142,
+            -64.706
         ]
     },
     "CONFIG_PARAMS_2": {
@@ -144,65 +147,68 @@
         "speed_update_interval": 0.1,
         "area_update_interval": 1.0,
         "speed": 7.15,
-        "WAIT_DISTANCE": 75,
+        "WAIT_DISTANCE": 0,
         "safe_pos_init": [
             null,
             null,
             null,
-            -179.854,
-            -0.14,
-            -64.002
+            -179.225,
+            -0.142,
+            -64.706
         ],
-        "stand_z": 91.859,
-        "stand_rx": -179.854,
-        "stand_ry": -0.14,
-        "stand_rz": -64.002,
+        "safe_x": 441.96,
+        "safe_y": -270.561,
+        "safe_z": 172.327,
+        "stand_z": 82.661,
+        "stand_rx": -179.225,
+        "stand_ry": -0.142,
+        "stand_rz": -64.706,
         "blend_alpha": 1.0,
         "is_real_sense": false,
-        "camera_no": 2,
+        "camera_no": 0,
         "points_file_path": "cv_aruco_1.csv",
         "down_height": 16,
         "safe_pos_1": [
-            1390.239,
-            -326.035,
-            208.205,
-            -179.854,
-            -0.14,
-            -64.002
+            441.96,
+            -270.561,
+            172.327,
+            -179.225,
+            -0.142,
+            -64.706
             
         ],
         "safe_pos_2": [
-            1390.239,
-            136.871,
-            208.205,
-            -179.854,
-            -0.14,
-            -64.002
+            441.96,
+            -270.561,
+            172.327,
+            -179.225,
+            -0.142,
+            -64.706
             
         ],
         "detect_pose": [
-            1390.239,
-            -326.035,
-            208.205,
-            -179.854,
-            -0.14,
-            -64.002
+            441.96,
+            -270.561,
+            172.327,
+            -179.225,
+            -0.142,
+            -64.706
         ],
         "detect_none_pose": [
-            1390.239,
-            -326.035,
-            208.205,
-            -179.854,
-            -0.14,
-            -64.002
+            441.96,
+            -270.561,
+            172.327,
+            -179.225,
+            -0.142,
+            -64.706
         ]
     },
     "TASK_EXPIRATION_THRESHOLD": -0.8,
     "edge_params": {
-        "edge_2_in_ratio": 5,
-        "edge_2_out_ratio": 68,
-        "edge_1_in_ratio": 72,
-        "edge_1_out_ratio": 139
+        "edge_2_in_ratio": 50,
+        "edge_2_out_ratio": 100,
+        "edge_1_in_ratio": 3,
+        "edge_1_out_ratio": 38
     },
     "testStaticFabricLength": false,
     "testDynamicFabricLength": false,

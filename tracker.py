@@ -96,7 +96,7 @@ def calculate_speed(position_history, time_history, current_time, cfg):
     return np.mean(speeds) if speeds else 0.0
 
 # 修改：接收 cfg 对象
-def update_motion_status(img_filename, longedge, single_mask, motion_dict, object_id, centroid, motion_front_center, current_time, angle, long_side_length, affine_matrix, cfg, permitGrasp):
+def update_motion_status(img_filename, longedge, single_mask, motion_dict, object_id, centroid, motion_front_center, current_time, angle, long_side_length, affine_matrix, cfg, permitGrasp, isStatic):
     line1_x = cfg.output_w * 2 // 5
     line2_x = cfg.output_w * 1 // 2
     x_pos = motion_front_center[0]
@@ -137,7 +137,8 @@ def update_motion_status(img_filename, longedge, single_mask, motion_dict, objec
         print(f"面积: {np.count_nonzero(single_mask)/400} cm2, id: {object_id}, 长度: {longedge/20}")
         LOG_INFO("面积: %fcm2, id: %d, 长度: %f", np.count_nonzero(single_mask)/400, object_id, longedge/20)
 
-    elif obj_info['status'] == 1 and x_pos >= line2_x and permitGrasp[object_id] is True:
+    # elif obj_info['status'] == 1 and x_pos >= line2_x and permitGrasp[object_id] is True:
+    elif obj_info['status'] == 1 and x_pos >= line2_x and isStatic[object_id] is True:
         LOG_INFO("对象 %d: 越过1/2基线，状态更新为2", object_id)
         print(f"================2面积: {np.count_nonzero(single_mask)/400} cm2, id: {object_id}, 长度: {longedge/20}")
         LOG_INFO("================2面积: %fcm2, id: %d, 长度: %f", np.count_nonzero(single_mask)/400, object_id, longedge/20)

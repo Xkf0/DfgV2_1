@@ -46,7 +46,10 @@ class Configer:
         openCollisionDetect=False,
         speed_mode=1,
         speed_port="",
-        id_wcs=2
+        id_wcs=2,
+        safe_x=0,
+        safe_y=0,
+        safe_z=0
         ):
 
         self.real_w = real_w
@@ -115,3 +118,6 @@ class Configer:
         self.speed_mode = speed_mode
         self.speed_port = speed_port
         self.id_wcs = id_wcs
+        self.safe_x = safe_x
+        self.safe_y = safe_y
+        self.safe_z = safe_z

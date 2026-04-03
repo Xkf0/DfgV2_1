@@ -307,7 +307,7 @@ def getPointAruco():
         config.enable_device(REAL_SENSE_NO)
         pipeline.start(config)
     else:
-        camera = CameraHandler(camera_id=0)
+        camera = CameraHandler(camera_id=2)
 
 
     # 初始化变量
@@ -415,7 +415,9 @@ def getPointAruco():
             window_name = "Warped Frame with ArUco Detection" if calibration_done else "Original Frame"
             if is_warped:
                 display_frame = cv2.resize(display_frame, (OUTPUT_W // 2, OUTPUT_H // 2))
+            cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
             cv2.imshow(window_name, display_frame)
+            cv2.resizeWindow(window_name, 800, 600)
 
             # 退出条件
             if cv2.waitKey(1) & 0xFF == ord('q'):
@@ -435,10 +437,6 @@ def getPointAruco():
     finally:
         # 清理资源
         print("\n清理资源...")
-        if IS_REAL_SENSE:
-            pipeline.stop()
-        else:
-            cap.release()
         cv2.destroyAllWindows()
 
         # 显示最终状态

@@ -87,11 +87,12 @@ class ObjectDetector:
         self.warnId = []
         self.templateArea = 0.0
         self.permitGrasp = []
+        self.isStatic = []
 
         # ReID 特征提取器
         # self.feature_extractor = FeatureExtractor()
     
-    def frame_to_black(self, warped_frame, balck_rate=0.05):
+    def frame_to_black(self, warped_frame, balck_rate=0.02):
         h, w, _ = warped_frame.shape
 
         # 计算上下10%高度
@@ -173,9 +174,10 @@ class ObjectDetector:
 
 
     def build_abnormal_info_for_tid(self , tid :int )->dict :
+        global area_ratio
         abnormal_info = {
                             "jam_flag": False ,
-                            "curl_flag" : True ,
+                            "curl_flag" : False ,
                             "tid":tid ,
                             "area_ratio" :area_ratio,
                             "template_area" : self.templateArea,
@@ -193,7 +195,8 @@ class ObjectDetector:
             if self.nowAreaAvg[tid] in (-1.0 , None):
                  return abnormal_info
             
-        
+        if self.templateArea == 0:
+            return abnormal_info
         area_ratio = self.nowAreaAvg[tid] / self.templateArea
         abnormal_info["area_ratio"] = area_ratio
         abnormal_info["template_area"] = self.templateArea
@@ -334,6 +337,8 @@ class ObjectDetector:
                         if len(self.centroidLastestFive) > 0:
                             if self.centroidLastestFive[tid].empty() is False:
                                 length = self.centroidLastestFive[tid].qsize()
+                                Xmin = 10000
+                                Xmax = -10000
                                 for index in range(length):
                                     temp = self.centroidLastestFive[tid].get()
                                     deltaT = time.time() - temp[0]
@@ -344,6 +349,11 @@ class ObjectDetector:
                                     if abs(predictX - nowX) < self.cfg.max_distance:
                                         flag = True
                                     self.centroidLastestFive[tid].put(temp)
+
+                                    Xmin = min(Xmin, temp[1][0])
+                                    Xmax = min(Xmax, temp[1][0])
+                                if abs(Xmax - Xmin) < 10:
+                                    self.isStatic[tid] = True
                         if flag is True:
                             if self.nowAreaAvg:
                                 if self.nowAreaAvg[tid]:
@@ -500,6 +510,8 @@ class ObjectDetector:
 
                     if len(self.area_dict) > 0:
                         self.nowAreaAvg.append(-1.0)
+                    
+                    self.isStatic.append(False)
 
                     self.next_id += 1
             
@@ -579,7 +591,7 @@ class ObjectDetector:
                     self.grab_history[tid].append(info['centroid'])
 
                 # 更新运动状态
-                update_motion_status(self.img_filename, longEdge, single_mask, self.motion_dict, tid, info['centroid'], info['centroid'], current_time, info['angle'], info['long_side_length'], affine_matrix, self.cfg, self.permitGrasp)
+                update_motion_status(self.img_filename, longEdge, single_mask, self.motion_dict, tid, info['centroid'], info['centroid'], current_time, info['angle'], info['long_side_length'], affine_matrix, self.cfg, self.permitGrasp, self.isStatic)
 
             # 6. 绘制与显示 (传入 cfg)
             mask_colored = np.zeros_like(warped_frame)

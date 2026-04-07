@@ -9,6 +9,7 @@ from global_state import AppState
 import json
 import threading
 from test_reid_module_and_camera import anomaly_detection
+from logger import LOG_DEBUG, LOG_INFO, LOG_WARN, LOG_ERROR, LOG_CRITICAL
 def load_config():
     with open("CONFIG.json", "r", encoding="utf-8") as f:
         config = json.load(f)
@@ -199,19 +200,34 @@ def correct_color(frame):
 
 def collisionDetect1(length_half_lead_screw_cm, cfg, motion_dict, center, mid, length_half_conveyor_belt_cm):
     delta_y_arm1 = length_half_lead_screw_cm * cfg.ratio_wh * math.sin(math.radians(motion_dict[mid]['angle'])) # 51:半个丝杆长度，单位cm
-    vision_y_far_edge =  center[1] - abs(delta_y_arm1) 
-    if vision_y_far_edge < length_half_conveyor_belt_cm * cfg.ratio_wh: # 46：传送带一半长度，单位cm
+    vision_y_far_edge_min = center[1] - abs(delta_y_arm1)
+    vision_y_far_edge_max = center[1] + abs(delta_y_arm1)
+    if vision_y_far_edge_min < 0 or vision_y_far_edge_max > length_half_conveyor_belt_cm * cfg.ratio_wh * 2:
         return True
     else:
         return False
+    # vision_y_far_edge = center[1] - abs(delta_y_arm1)
+    # if vision_y_far_edge < length_half_conveyor_belt_cm * cfg.ratio_wh * 2: # 46：传送带一半长度，单位cm
+    #     LOG_INFO("delta_y_arm1: %.2f, center[1]: %.2f, vision_y_far_edge: %.2f, length_half_conveyor_belt_cm: %.2f, length_half_conveyor_belt_cm * cfg.ratio_wh * 2: %.2f", 
+    #              delta_y_arm1, center[1], vision_y_far_edge, length_half_conveyor_belt_cm, length_half_conveyor_belt_cm * cfg.ratio_wh * 2)
+    #     return True
+    # else:
+    #     return False
+
     
 def collisionDetect2(length_half_lead_screw_cm, cfg, motion_dict, center, mid, length_half_conveyor_belt_cm):
     delta_y_arm1 = length_half_lead_screw_cm * cfg.ratio_wh * math.sin(math.radians(motion_dict[mid]['angle'])) # 51:半个丝杆长度，单位cm
-    vision_y_far_edge =  center[1] + abs(delta_y_arm1) 
-    if vision_y_far_edge > length_half_conveyor_belt_cm * cfg.ratio_wh: # 46：传送带一半长度，单位cm
+    vision_y_far_edge_min = center[1] - abs(delta_y_arm1)
+    vision_y_far_edge_max = center[1] + abs(delta_y_arm1)
+    if vision_y_far_edge_min < 0 or vision_y_far_edge_max > length_half_conveyor_belt_cm * cfg.ratio_wh * 2:
         return True
     else:
         return False
+    # vision_y_far_edge =  center[1] + abs(delta_y_arm1)
+    # if vision_y_far_edge > length_half_conveyor_belt_cm * cfg.ratio_wh * 2: # 46：传送带一半长度，单位cm
+    #     return True
+    # else:
+    #     return False
     
 def get_mapped_robot_x_y(AFFINE_MATRIX, center, DIRECTION, get_speed_now, get_time_pre_now):
     mapped_robot_x, mapped_robot_y = transform_point(AFFINE_MATRIX, (center[0] , center[1]))
@@ -235,6 +251,7 @@ def ChangeTaskDict1(cfg_1, motion_dict, mid, openCollisionDetect, length_lead_sc
 
     if openCollisionDetect:
         if collisionDetect1(length_lead_screw_cm / 2, cfg_1, motion_dict, center, mid, cfg_1.real_h / 2):
+            LOG_INFO("会发生碰撞")
             print("已越界, 会发生碰撞, 跳过1号臂抓取任务")
             to_del.append(mid)
             return False
@@ -243,6 +260,7 @@ def ChangeTaskDict1(cfg_1, motion_dict, mid, openCollisionDetect, length_lead_sc
                             
     # 分配给1号机械臂，使用1号的初始安全位
     with task_lock_1:
+        LOG_INFO("任务队列1入队")
         task_queue_1.put((motion_dict, mid, robot_coord, target_safe_pos)) # robot_coord（跟随运动出发位）和target_safe_pos（传送带静止拦截位）只有rx、ry不同
 
     print(f"任务id-{mid} 分配至1号机械臂 ")
@@ -335,36 +353,42 @@ def Loop():
     # 加载坐标标定并计算仿射矩阵
     AFFINE_MATRIX_1 = compute_affine_transform(cfg_1)
     AFFINE_MATRIX_2 = compute_affine_transform(cfg_2)
+    AppState.AFFINE_MATRIX_1 = AFFINE_MATRIX_1
     camera = initCamera(cfg_1)
     detector = ObjectDetector(cfg_1, IS_USE_SAM)
     threading.Thread(target=anomaly_detection, args=(), daemon=True).start()
     while True:
-        time_start = time.perf_counter()
+        with AppState.armCanMove_lock:
+            if AppState.armCanMove is False:
+                time_start = time.perf_counter()
 
-        frame = camera.get_frame_directly()
-        if frame is None:
-            print("未能获取有效帧，跳过本次循环")
-            continue
+                frame = camera.get_frame_directly()
+                if frame is None:
+                    print("未能获取有效帧，跳过本次循环")
+                    continue
+                        
+                current_time = time.perf_counter()
+
+                with AppState.speed_lock:
+                    get_speed_now=AppState.speed_now
+                    get_time_pre_now=AppState.time_pre_now
                 
-        current_time = time.perf_counter()
+                motion_dict, tracked_objects, display_img = detector.get_motionDict_trackedObjects_DisplayImg(frame, AFFINE_MATRIX_1, current_time, get_speed_now)
+                
+                # print(f"motion dict: {motion_dict}")
+                to_del = []
 
-        with AppState.speed_lock:
-            get_speed_now=AppState.speed_now
-            get_time_pre_now=AppState.time_pre_now
-        
-        motion_dict, tracked_objects, display_img = detector.get_motionDict_trackedObjects_DisplayImg(frame, AFFINE_MATRIX_1, current_time, get_speed_now)
-        
-        to_del = []
+                cycleTaskHandle(tracked_objects, edge_1_in, edge_1_out, edge_2_in, edge_2_out, sum_detect, cfg_1, cfg_2, motion_dict, openCollisionDetect, length_lead_screw_cm, to_del, AFFINE_MATRIX_1, AFFINE_MATRIX_2, DIRECTION_1, DIRECTION_2, get_speed_now, get_time_pre_now, AppState.task_lock_1, AppState.task_lock_2, AppState.task_queue_1, AppState.task_queue_2)
 
-        cycleTaskHandle(tracked_objects, edge_1_in, edge_1_out, edge_2_in, edge_2_out, sum_detect, cfg_1, cfg_2, motion_dict, openCollisionDetect, length_lead_screw_cm, to_del, AFFINE_MATRIX_1, AFFINE_MATRIX_2, DIRECTION_1, DIRECTION_2, get_speed_now, get_time_pre_now, AppState.task_lock_1, AppState.task_lock_2, AppState.task_queue_1, AppState.task_queue_2)
-
-        # 绘制FPS
-        fps = 1 / (time.perf_counter() - time_start)
-        cv2.putText(display_img, f"FPS:{fps:.2f}", (cfg_1.output_w - 500, cfg_1.output_h - 20), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 0), 8)
-        # 显示或保存
-        display_img = cv2.resize(display_img, (display_img.shape[1]//2, display_img.shape[0]//2))
-        cv2.imshow('combined', display_img)
-        cv2.waitKey(1)
+                # 绘制FPS
+                fps = 1 / (time.perf_counter() - time_start)
+                cv2.putText(display_img, f"FPS:{fps:.2f}", (cfg_1.output_w - 500, cfg_1.output_h - 20), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 0), 8)
+                # 显示或保存
+                display_img = cv2.resize(display_img, (display_img.shape[1]//2, display_img.shape[0]//2))
+                cv2.imshow('combined', display_img)
+                cv2.waitKey(1)
+            else:
+                time.sleep(0.1)
                      
     # finally:
     #     # 清理资源

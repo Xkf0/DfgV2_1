@@ -109,15 +109,15 @@ class SAM2MotionDetector:
         # print('1111111111111111111111')
 
         # 2. 有运动目标才调用 SAM2
-        # if len(prompts) > 0:
-        if True:
+        if len(prompts) > 0:
+        # if True:
             # SAM2 使用原始清晰图像，而不是模糊后的图像
             self.predictor.set_image(frame)
 
-            # input_points = np.array(prompts)
-            # input_labels = np.ones(len(prompts), dtype=np.int32)
-            input_points = [(85*10, 41.1*10)]
-            input_labels = [1]
+            input_points = np.array(prompts)
+            input_labels = np.ones(len(prompts), dtype=np.int32)
+            # input_points = [(85*10, 41.1*10)]
+            # input_labels = [1]
 
             masks, scores, _ = self.predictor.predict_2(
                 point_coords=input_points,

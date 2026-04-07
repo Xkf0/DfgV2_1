@@ -329,6 +329,7 @@ class ObjectDetector:
                 for tid, info in self.tracked_objects.items():
                     # 比如self.next_id=9，意味着一共已经有了0-8一共9个已经有的id，我们只需要看后面五个，因此为tid为45678，即9-4=5,9-5=4,全部小于6
                     LOG_INFO("self.next_id: %d, tid: %d", self.next_id, tid)
+                    AppState.centroid[tid] = c
                     if self.next_id - tid < 6:
                         dist = np.linalg.norm(np.array(c) - np.array(info['centroid']))
                         LOG_INFO("tid: %d, now centroid x: %f, y: %f, history centroid x: %f, y: %f", tid, c[0], c[1], info['centroid'][0], info['centroid'][1])
@@ -420,21 +421,23 @@ class ObjectDetector:
                             # 比如现在的len(self.area_dict[tid])=5，意味着里面一共有五个历史面积数据，现在是第五个，前面四个已经求了均值
                             # 若len=10，意味着一共有1+4个历史数据，现在是第六个，前面五个已经求了均值
                             if len(self.area_dict) > 0:
-                                self.update_area_statistics(tid)
-                                # if len(self.area_dict[tid]) == 5:
-                                #     self.area_dict[tid].sort()
-                                #     self.nowAreaAvg[tid] = self.area_dict[tid][2] # 第三个值
-                                # if len(self.area_dict[tid]) > 5:
-                                #     self.nowAreaAvg[tid] = (self.nowAreaAvg[tid] * (len(self.area_dict[tid]) - 5) + 
-                                #                             self.area_dict[tid][len(self.area_dict[tid]) - 1]) / (len(self.area_dict[tid]) - 4)
-                                # if len(self.area_dict[tid]) > 20 and self.warnId[tid] == False:
-                                #     LOG_INFO("self.templateArea: %f", self.templateArea)
-                                #     if self.templateArea != 0:
-                                #         area_ratio = self.nowAreaAvg[tid] / self.templateArea
-                                #         if area_ratio < 0.97:
-                                #             LOG_WARN("异常检测报警，为卷曲或者更换布料, 第一张布料面积为%f, 当前布料面积为%f, 面积比例为%f", self.templateArea, self.nowAreaAvg[tid], self.nowAreaAvg[tid] / self.templateArea)
-                                #             self.warnId[tid] = True
-                                #             self.permitGrasp[tid] = False
+                                # self.update_area_statistics(tid)
+
+                                if len(self.area_dict[tid]) == 5:
+                                    self.area_dict[tid].sort()
+                                    self.nowAreaAvg[tid] = self.area_dict[tid][2] # 第三个值
+                                if len(self.area_dict[tid]) > 5:
+                                    self.nowAreaAvg[tid] = (self.nowAreaAvg[tid] * (len(self.area_dict[tid]) - 5) + 
+                                                            self.area_dict[tid][len(self.area_dict[tid]) - 1]) / (len(self.area_dict[tid]) - 4)
+                                if len(self.area_dict[tid]) > 20 and self.warnId[tid] == False:
+                                    LOG_INFO("self.templateArea: %f", self.templateArea)
+                                    if self.templateArea != 0:
+                                        area_ratio = self.nowAreaAvg[tid] / self.templateArea
+                                        if area_ratio < 0.97:
+                                            LOG_WARN("异常检测报警，为卷曲或者更换布料, 第一张布料面积为%f, 当前布料面积为%f, 面积比例为%f", self.templateArea, self.nowAreaAvg[tid], self.nowAreaAvg[tid] / self.templateArea)
+                                            self.warnId[tid] = True
+                                            self.permitGrasp[tid] = False
+
                                 #             abnormal_info={
                                 #                 "jam_flag": False ,
                                 #                 "curl_flag" : True ,
@@ -512,6 +515,7 @@ class ObjectDetector:
                         self.nowAreaAvg.append(-1.0)
                     
                     self.isStatic.append(False)
+                    AppState.centroid.append(c)
 
                     self.next_id += 1
             
@@ -575,7 +579,7 @@ class ObjectDetector:
 
                 info['long_side_length'] = long_side_px / self.cfg.ratio_wh * 10
                 #异常检测调用
-                self.apply_abnormal_result(tid ,info)
+                # self.apply_abnormal_result(tid ,info)
 
                 # 抓取点计算
                 if tid not in self.grab_calculators:
@@ -589,6 +593,8 @@ class ObjectDetector:
                     self.grab_history[tid].append(gb_center if gb_center else info['centroid'])
                 else:
                     self.grab_history[tid].append(info['centroid'])
+
+                LOG_INFO("global centroid: id: %d, x: %f, y: %f", tid, AppState.centroid[tid][0], AppState.centroid[tid][1])
 
                 # 更新运动状态
                 update_motion_status(self.img_filename, longEdge, single_mask, self.motion_dict, tid, info['centroid'], info['centroid'], current_time, info['angle'], info['long_side_length'], affine_matrix, self.cfg, self.permitGrasp, self.isStatic)

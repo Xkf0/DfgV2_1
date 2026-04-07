@@ -11,6 +11,7 @@ from logger import LOG_DEBUG, LOG_INFO, LOG_WARN, LOG_ERROR, LOG_CRITICAL
 from global_state import AppState
 import queue
 import threading
+from motor_control import KINCO_Motor
 
 # 全局变量定义与初始化
 complete_count = 0  # 完整动作计数
@@ -47,6 +48,8 @@ place_pos_arm_2 = CONFIG["place_pos_arm_2"]
 TASK_EXPIRATION_THRESHOLD = CONFIG["TASK_EXPIRATION_THRESHOLD"]
 DIRECTION_1 = np.array(CONFIG["DIRECTION_1"])
 DIRECTION_2 = np.array(CONFIG["DIRECTION_2"])
+
+LENTH_CHANGE_THRESHOLD= CONFIG["MOVE_PARAMS_1"]["LENTH_CHANGE_THRESHOLD"]
  
 # G 增：更新质心坐标接收时间
 def update_centroid_time():
@@ -325,41 +328,82 @@ def move_to_safe_position_add_cloth_lenth(robot, safe_pos, motion_dict, mid,clot
     return True, 0
 
 
-def move_to_cloth_lenth(robot, cloth_lenth):
+def move_to_cloth_lenth(cloth_lenth):
     """
     移动到安全点
     返回值: (success: bool, err: int)
     """
-    if USE_LINEAR_ACTUATOR is False:
-        return
     global STAND_LENGTH
-    LOG_INFO("cloth_lenth: %fmm", cloth_lenth)
 # G 1121 添加丝杆长度调整----start
     # print("====================complete_count:",complete_count)
     # if complete_count==0 :
     # if True:
     if cloth_lenth is not None :
-        lenth_change = abs((cloth_lenth - STAND_LENGTH) / STAND_LENGTH)
+        # lenth_change = abs((cloth_lenth - STAND_LENGTH) / STAND_LENGTH)
+        lenth_change = abs((cloth_lenth - STAND_LENGTH))
 
-        print("cloth_lenth##############",cloth_lenth)
-        print("STAND_LENGTH@@@@@@@@@@@@@",STAND_LENGTH)
-        print("lenth_change!!!!!!!!!!!!!",lenth_change)
-        if lenth_change > 0.2:
-        # if cloth_lenth is not None:
-            STAND_LENGTH = cloth_lenth
-            distance = 345 - cloth_lenth/2 + ADJUSTMENT_GRIPPER_OFFSET  # 在布料长度基础上增加20mm作为安全余量
-            print("distance##############",distance)
-            if 1<=distance <=345:
+        print(f"》》》》》》》》》》》》》》》》》》》》cloth_lenth:{cloth_lenth},STAND_LENGTH:{STAND_LENGTH},lenth_change:{lenth_change}##############")
+        # print("STAND_LENGTH@@@@@@@@@@@@@",STAND_LENGTH)
+        # print("lenth_change!!!!!!!!!!!!!",lenth_change)
+        # if lenth_change > 0.2:
+
+        if lenth_change > LENTH_CHANGE_THRESHOLD:
+            with AppState.changeScrew_lock:
+                AppState.changeScrew = True
+            # if cloth_lenth is not None:
+            # STAND_LENGTH = cloth_lenth
+            distance = 335 - cloth_lenth/2 + ADJUSTMENT_GRIPPER_OFFSET  # 在布料长度基础上增加20mm作为安全余量
+            # print("》》》》》》》》》》》》》》》》》》》》distance##############",distance)
+            
+            # 先判断当前操作的机械臂是否超限
+            if 1 <= distance <= 335:
                 try:
-                    move_to(distance)   
-                except  Exception as e:
-                    print(f"丝杆移动失败：{e}")
+                    move_to(distance)
+                except Exception as e:
+                    print(f"1号臂丝杆移动失败：{e}")
             else:
-                print(f"丝杆目标位置超出行程允许范围：{distance}mm")
+                print(f"1号臂丝杆目标位置超出行程允许范围（1-330mm）：当前计算值为 {distance:.2f}mm")
         else:
-            print("未获取到新品种布料长度，丝杆不移动")
+            print("未获取到新品种布料长度，丝杆不移动")            
 # G 1121 添加丝杆长度调整----end
     return True, 0
+
+
+# def move_to_cloth_lenth(robot, cloth_lenth):
+#     """
+#     移动到安全点
+#     返回值: (success: bool, err: int)
+#     """
+#     if USE_LINEAR_ACTUATOR is False:
+#         return
+#     global STAND_LENGTH
+#     LOG_INFO("cloth_lenth: %fmm", cloth_lenth)
+# # G 1121 添加丝杆长度调整----start
+#     # print("====================complete_count:",complete_count)
+#     # if complete_count==0 :
+#     # if True:
+#     if cloth_lenth is not None :
+#         lenth_change = abs((cloth_lenth - STAND_LENGTH) / STAND_LENGTH)
+
+#         print("cloth_lenth##############",cloth_lenth)
+#         print("STAND_LENGTH@@@@@@@@@@@@@",STAND_LENGTH)
+#         print("lenth_change!!!!!!!!!!!!!",lenth_change)
+#         if lenth_change > 0.2:
+#         # if cloth_lenth is not None:
+#             STAND_LENGTH = cloth_lenth
+#             distance = 335 - cloth_lenth/2 + ADJUSTMENT_GRIPPER_OFFSET  # 在布料长度基础上增加20mm作为安全余量
+#             print("distance##############",distance)
+#             if 1<=distance <=335:
+#                 try:
+#                     move_to(distance)   
+#                 except  Exception as e:
+#                     print(f"丝杆移动失败：{e}")
+#             else:
+#                 print(f"丝杆目标位置超出行程允许范围：{distance}mm")
+#         else:
+#             print("未获取到新品种布料长度，丝杆不移动")
+# # G 1121 添加丝杆长度调整----end
+#     return True, 0
 
 
 def move_to_safe_position_add_cloth_lenth2(robot, safe_pos, cloth_lenth,robot_lock=None,safe_pos2=None):
@@ -836,7 +880,12 @@ def static_grap(robot, up_pose, wait_pose, grasp_pose, stop_pose, place_pose, ro
 
     grip_open(robot)
         
-    time.sleep(0.3)
+    with AppState.changeScrew_lock:
+        if AppState.changeScrew is True:
+            time.sleep(3.0)
+            AppState.changeScrew = False
+        else:
+            time.sleep(0.5)
     
     # move to down
     with robot_lock:
@@ -856,6 +905,9 @@ def static_grap(robot, up_pose, wait_pose, grasp_pose, stop_pose, place_pose, ro
         err = movel_to_pose(robot, grasp_pose2, vel=50)
         time.sleep(0.5) 
         err = movel_to_pose(robot, stop_pose)
+
+        # with AppState.canDetect_lock:
+        #     AppState.canDetect = True
         if err == 0:
             print(f"移动到上位姿失败，错误码: {err}")
             return False
@@ -870,9 +922,12 @@ def static_grap(robot, up_pose, wait_pose, grasp_pose, stop_pose, place_pose, ro
             return False
     print("放置")
 
+    with AppState.armCanMove_lock:
+        AppState.armCanMove = False
+
     grip_release(robot)
 
-    time.sleep(3) 
+    time.sleep(1) 
 
     with robot_lock:
         err = movel_to_pose(robot, up_pose)
@@ -898,7 +953,7 @@ def get_task_abnormal_info(motion_dict, mid):
     return abnormal, abnormal_name, static_grab_info
 
 
-def process_tasks_1(rpc):
+def process_tasks_1(rpc, motor):
     """
     处理抓取任务的线程函数（智能过滤版）
     """
@@ -909,6 +964,7 @@ def process_tasks_1(rpc):
     sum_abort=0
     sum_to_do=0
     print(">>> 1号机械臂处理线程已启动，等待任务...")
+    LOG_INFO("1号机械臂处理线程已启动, 等待任务")
 
     while True:
         # 1. 获取任务（阻塞等待，直到至少有一个任务）
@@ -975,24 +1031,39 @@ def process_tasks_1(rpc):
 
 
         motion_dict, mid, pos_data, safe_pos = item
-        logger.info(motion_dict[mid]['motion_center'])
+        # logger.info(motion_dict[mid]['motion_center'])
 
         # -------------------------------------------------
         # 3. 异常布料：卷曲 -> 停带 + 静态抓取
         # -------------------------------------------------
-        if abnormal and abnormal_name == "卷曲":
-            print(f"[1号臂-异常] mid={mid} 检测到卷曲，准备静态抓取")
+        # if abnormal and abnormal_name == "卷曲":
+        if True:
+            LOG_INFO("准备静态抓取")
+            cloth_lenth = motion_dict[mid]['long_side_length']
+            move_to_cloth_lenth(cloth_lenth)
 
-            if not static_grab_info:
-                print(f"[1号臂-异常] mid={mid} 缺少 static_grab 位姿信息，无法执行静态抓取")
-                sum_abort += 1
-                continue
+            motor.stop()
+            while True:
+                if motor.get_speed() < 0.1:
+                    break
+                else:
+                    time.sleep(0.1)
+            time.sleep(1)
+            with AppState.armCanMove_lock:
+                AppState.armCanMove = True
 
-            up_pose           = static_grab_info.get("up_pose")
-            wait_pose         = static_grab_info.get("wait_pose")
-            grasp_pose        = static_grab_info.get("grasp_pose")
-            stop_pose         = static_grab_info.get("stop_pose")
-            place_pose_static = static_grab_info.get("place_pose", place_pos)
+            print(f"[1号臂-异常] mid={mid} 准备静态抓取")
+
+            # if not static_grab_info:
+            #     print(f"[1号臂-异常] mid={mid} 缺少 static_grab 位姿信息，无法执行静态抓取")
+            #     sum_abort += 1
+            #     continue
+
+            # up_pose           = static_grab_info.get("up_pose")
+            # wait_pose         = static_grab_info.get("wait_pose")
+            # grasp_pose        = static_grab_info.get("grasp_pose")
+            # stop_pose         = static_grab_info.get("stop_pose")
+            # place_pose_static = static_grab_info.get("place_pose", place_pos)
 
             up_pose = [AppState.cfg_1.safe_x,
             AppState.cfg_1.safe_y,
@@ -1000,14 +1071,21 @@ def process_tasks_1(rpc):
             AppState.cfg_1.stand_rx,
             AppState.cfg_1.stand_ry,
             AppState.cfg_1.stand_rz]
-            wait_pose = [pos_data[0],
-            pos_data[1],
+            def transform_point(affine_matrix, point):
+                x, y = point
+                vec = np.array([x, y, 1])
+                x_robot, y_robot = affine_matrix @ vec
+                return x_robot, y_robot
+            realX, realY = transform_point(AppState.AFFINE_MATRIX_1, (AppState.centroid[mid][0] - 25, AppState.centroid[mid][1]))
+            LOG_INFO("task use global centroid: id: %d, visionx: %f, visiony: %f, x: %f, y: %f", mid, AppState.centroid[mid][0], AppState.centroid[mid][1], realX, realY)
+            wait_pose = [realX,
+            realY,
             AppState.cfg_1.stand_z + 10,
             AppState.cfg_1.stand_rx,
             AppState.cfg_1.stand_ry,
             pos_data[5]]
-            grasp_pose = [pos_data[0],
-            pos_data[1],
+            grasp_pose = [realX,
+            realY,
             AppState.cfg_1.stand_z,
             AppState.cfg_1.stand_rx,
             AppState.cfg_1.stand_ry,
@@ -1036,9 +1114,6 @@ def process_tasks_1(rpc):
             # conveyor_stop()
             print("[1号臂-异常] 传送带已停止，开始静态抓取")
 
-            cloth_lenth = motion_dict[mid]['long_side_length']
-            move_to_cloth_lenth(rpc, cloth_lenth)
-
             ok = static_grap(
                 robot=rpc,
                 up_pose=up_pose,
@@ -1046,8 +1121,9 @@ def process_tasks_1(rpc):
                 grasp_pose=grasp_pose,
                 stop_pose=stop_pose,
                 place_pose=place_pose_static,
-                robot_lock=AppState.task_lock_1,
+                robot_lock=AppState.task_lock_1
             )
+            motor.set_speed(AppState.cfg_1.speed)
 
             result = "静态抓取失败"
             if ok:
@@ -1058,16 +1134,18 @@ def process_tasks_1(rpc):
                 sum_abort += 1
 
             sum_real_done = get_count_arm1()
-            logger.info(
-                f"====================1号臂(静态抓取): "
-                f"当前处理结果: {result} ; "
-                f"总检测量：{sum_detectnum}; "
-                f"实际成功总量:{sum_real_done}; "
-                f"积压抛弃总量:{sum_abort}; "
-                f"机械臂处理数量:{sum_to_do}; "
-                f"机械臂处理失败总量:{sum_to_do - sum_real_done}; "
-                f"===================="
-            )
+            # logger.info(
+            #     f"====================1号臂(静态抓取): "
+            #     f"当前处理结果: {result} ; "
+            #     f"总检测量：{sum_detectnum}; "
+            #     f"实际成功总量:{sum_real_done}; "
+            #     f"积压抛弃总量:{sum_abort}; "
+            #     f"机械臂处理数量:{sum_to_do}; "
+            #     f"机械臂处理失败总量:{sum_to_do - sum_real_done}; "
+            #     f"===================="
+            # )
+            #     f"机械臂处理失败总量:{sum_to_do - sum_real_done}; "
+            LOG_INFO("1号臂(静态抓取): 当前处理结果: %s, 总检测量: %d, 实际成功总量: %d, 积累抛弃总量: %d, 机械臂处理数量: %d, 机械臂处理失败总量: %d", result, sum_detectnum, sum_real_done,sum_abort,sum_to_do ,sum_to_do - sum_real_done)
             continue
 
         if False:
@@ -1509,7 +1587,8 @@ def init_robot(ip="192.168.57.4",arm=1):
     
     if arm==1:
         if USE_LINEAR_ACTUATOR:
-            move_to(-1)      # 回原点
+            # move_to(-1)      # 回原点
+            move_to(20)
         time.sleep(0.5)    # 等待2秒
     elif arm==2: #G 待 右臂需要跟丝杆做绑定
         print("GGG二号臂暂不用丝杆")
@@ -1528,6 +1607,13 @@ def init():
     robot_ip1  = CONFIG["robot_ip1"]
     robot_ip2  = CONFIG["robot_ip2"]
     robot_mode = CONFIG["robot_mode"]
+    motor = KINCO_Motor(node_id=1)
+    motor.start()
+    motor.enable()
+    motor.set_accel_cmss(30)
+    motor.set_decel_cmss(50)
+    motor.set_speed(AppState.cfg_1.speed)
+    # motor = []
     if robot_mode==1:
         rpc_1 = init_robot(ip=robot_ip1,arm=1)  # 1号机械臂IP
         if not (rpc_1):
@@ -1553,11 +1639,11 @@ def init():
 
     # 4. 启动任务线程
     if robot_mode==1:
-        threading.Thread(target=process_tasks_1, args=(rpc_1,), daemon=True).start()
+        threading.Thread(target=process_tasks_1, args=(rpc_1, motor), daemon=True).start()
     elif robot_mode==2:
         threading.Thread(target=process_tasks_2, args=(rpc_2,), daemon=True).start()
     elif robot_mode==3:
-        threading.Thread(target=process_tasks_1, args=(rpc_1,), daemon=True).start()
+        threading.Thread(target=process_tasks_1, args=(rpc_1, motor), daemon=True).start()
         threading.Thread(target=process_tasks_2, args=(rpc_2,), daemon=True).start()
     else:
         print("请选择正确的模式")

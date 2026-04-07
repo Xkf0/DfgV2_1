@@ -5,13 +5,13 @@
     "USE_LINEAR_ACTUATOR": true,
     "length_lead_screw_cm": 92.4,
     "openCollisionDetect": true,
-    "speed_mode": 1,
+    "speed_mode": 0,
     "speed_port": "/dev/ttyUSB1",
     "MOVE_PARAMS_1": {
         "INIT_PLACE_HEIGHT":5.137,
         "PLACE_HEIGHT_INCREMENT": -77.022,
         "COUNT_RESET_INTERVAL": 120,
-        "ADJUSTMENT_GRIPPER_OFFSET": 48,
+        "ADJUSTMENT_GRIPPER_OFFSET": 58,
         "LENTH_CHANGE_THRESHOLD": 15
     },
     "DIRECTION_1": [
@@ -64,7 +64,7 @@
         "max_speed_history": 30,
         "speed_update_interval": 0.1,
         "area_update_interval": 1.0,
-        "speed": 7.15,
+        "speed": 10.55,
         "WAIT_DISTANCE": 0,
         "safe_pos_init": [
             null,
@@ -77,7 +77,7 @@
         "safe_x": 441.96,
         "safe_y": -270.561,
         "safe_z": 172.327,
-        "stand_z": 82.661,
+        "stand_z": 76.661,
         "stand_rx": -179.225,
         "stand_ry": -0.142,
         "stand_rz": -64.706,
@@ -122,8 +122,8 @@
     },
     "CONFIG_PARAMS_2": {
         "id_wcs": 2,
-        "real_w": 64,
-        "real_h": 140.7,
+        "real_w": 85,
+        "real_h": 41.1,
         "ratio_wh": 20,
         "aruco_ids_corner": {
             "top_left": 0,
@@ -146,7 +146,7 @@
         "max_speed_history": 30,
         "speed_update_interval": 0.1,
         "area_update_interval": 1.0,
-        "speed": 7.15,
+        "speed": 10.55,
         "WAIT_DISTANCE": 0,
         "safe_pos_init": [
             null,

@@ -138,7 +138,7 @@ def update_motion_status(img_filename, longedge, single_mask, motion_dict, objec
         LOG_INFO("面积: %fcm2, id: %d, 长度: %f", np.count_nonzero(single_mask)/400, object_id, longedge/20)
 
     # elif obj_info['status'] == 1 and x_pos >= line2_x and permitGrasp[object_id] is True:
-    elif obj_info['status'] == 1 and x_pos >= line2_x and isStatic[object_id] is True:
+    elif obj_info['status'] == 1 and x_pos >= line2_x:
         LOG_INFO("对象 %d: 越过1/2基线，状态更新为2", object_id)
         print(f"================2面积: {np.count_nonzero(single_mask)/400} cm2, id: {object_id}, 长度: {longedge/20}")
         LOG_INFO("================2面积: %fcm2, id: %d, 长度: %f", np.count_nonzero(single_mask)/400, object_id, longedge/20)

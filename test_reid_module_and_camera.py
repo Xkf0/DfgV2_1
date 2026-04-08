@@ -133,7 +133,7 @@ def anomaly_detection():
     try:
         camera = CameraHandler(
             is_real_sense=AppState.cfg_1.is_real_sense,
-            camera_id=AppState.cfg_1.camera_no,
+            camera_id=AppState.cfg_2.camera_no,
             warmup_frames=30  # 前30帧预热
         )
         print("相机初始化完成")
@@ -199,15 +199,15 @@ def anomaly_detection():
 
             display_img = crop
 
-            # 绘制FPS
-            fps = 1 / (time.perf_counter() - time_start)
-            cv2.putText(display_img, f"FPS:{fps:.2f}", (AppState.cfg_2.output_w - 500, AppState.cfg_2.output_h - 20), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 0), 8)
+            # # 绘制FPS
+            # fps = 1 / (time.perf_counter() - time_start)
+            # cv2.putText(display_img, f"FPS:{fps:.2f}", (AppState.cfg_2.output_w - 500, AppState.cfg_2.output_h - 20), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 0), 8)
 
-            # 显示或保存
-            display_img = cv2.resize(display_img, (display_img.shape[1]//3, display_img.shape[0]//3))
+            # # 显示或保存
+            # display_img = cv2.resize(display_img, (display_img.shape[1]//3, display_img.shape[0]//3))
             
-            cv2.imshow('combined1', display_img)
-            cv2.waitKey(1)
+            # cv2.imshow('combined1', display_img)
+            # cv2.waitKey(1)
         else:
             time.sleep(0.1)
 

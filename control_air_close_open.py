@@ -232,6 +232,27 @@ class RPC():
         block = int(block)
         error = self.robot.SetDO(id, status, smooth, block)
         return error
+    
+    def GetDI(self, id, block=0):
+        id = int(id)
+        block = int(block)
+        # _error = self.robot.GetDI(id, block)
+        # error = _error[0]
+        # print(_error)
+        # if _error[0] == 0:
+        #     di = _error[1]
+        #     return error, di
+        # else:
+        #     return error
+        if 0 <= id < 8:
+            level = (self.robot_state_pkg.cl_dgt_input_l & (0x01 << id)) >> id
+            return 0, level
+        elif 8 <= id < 16:
+            id -= 8
+            level = (self.robot_state_pkg.cl_dgt_input_h & (0x01 << id)) >> id
+            return 0, level
+        else:
+            return -1
 
 def grip_open(robot):
     """
@@ -267,7 +288,12 @@ def grip_clamp(robot):
     robot.SetDO(2, 1)
     print("气夹已夹住")
     # time.sleep(0.1)  # 短暂延时确保信号发送
-    
+
+def photoelectric_sensor(robot):
+    err, state = robot.GetDI(4, 0)
+    return state
+    print("光电检测布料掉落")
+    # time.sleep(0.1)     
 
 
 def grip_release(robot):
@@ -318,6 +344,10 @@ def main():
     # 创建机器人连接实例
     robot = RPC("192.168.57.4")  # 使用你的机器人IP地址
     stop_suction(robot)
+    while True:
+        ret = photoelectric_sensor(robot)
+        print(f"{ret}")
+        time.sleep(0.2)
 
     # for i in range(1):
         # grip_open(robot)

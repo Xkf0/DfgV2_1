@@ -2,7 +2,7 @@ import threading
 import time
 import numpy as np
 from Robot import RPC
-from control_air_close_open import grip_clamp, grip_open, grip_release, start_suction, stop_suction
+from control_air_close_open import grip_clamp, grip_open, grip_release, start_suction, stop_suction, photoelectric_sensor
 from  linear_actuator_long import move_to
 from  detect_test import do_dect
 import json
@@ -859,9 +859,8 @@ def movel_to_pose(robot,intercept_pos,vel=100.0):
         return False
     return True
 
-def static_grap(robot, up_pose, wait_pose, grasp_pose, stop_pose, place_pose, robot_lock):
+def static_grap(robot, up_pose, wait_pose, grasp_pose, detect_pose1, detect_pose2, stop_pose, place_pose, robot_lock):
     """静态抓取函数"""
-    start_suction(robot)
     # move to wait
     with robot_lock:
         err = movel_to_pose(robot, up_pose)
@@ -882,10 +881,10 @@ def static_grap(robot, up_pose, wait_pose, grasp_pose, stop_pose, place_pose, ro
         
     with AppState.changeScrew_lock:
         if AppState.changeScrew is True:
-            time.sleep(3.0)
+            time.sleep(1.5)
             AppState.changeScrew = False
         else:
-            time.sleep(0.5)
+            time.sleep(0.1)
     
     # move to down
     with robot_lock:
@@ -894,16 +893,54 @@ def static_grap(robot, up_pose, wait_pose, grasp_pose, stop_pose, place_pose, ro
             print(f"移动到抓取位姿失败，错误码: {err}")
             return False
     print("抓取位姿")
-    time.sleep(0.5)
+    time.sleep(0.1)
     grip_clamp(robot)
-    time.sleep(0.5)  # 等待夹爪闭合
+    time.sleep(0.4)  # 等待夹爪闭合
 
     # move to up
     with robot_lock:
         grasp_pose2 = grasp_pose.copy()
         grasp_pose2[2] += 20
         err = movel_to_pose(robot, grasp_pose2, vel=50)
-        time.sleep(0.5) 
+        err = movel_to_pose(robot, detect_pose1)
+
+
+        # ret = 0
+        # time_start = time.time()
+        # while time.time() - time_start < 1:
+        #     if photoelectric_sensor(robot) != 0:
+        #         ret = 1
+
+        ret = 0
+        with AppState.detectSucceed_cond:
+            AppState.detectNow = True
+            AppState.detectSucceed_cond.notify_all()
+            err = movel_to_pose(robot, detect_pose2, vel=50)
+            while AppState.detectNow is True:
+                AppState.detectSucceed_cond.wait()
+            ret = AppState.graspSucceed
+            AppState.graspSucceed = False
+        
+
+        # ret = photoelectric_sensor(robot)
+        LOG_INFO("ret: %d", ret)
+        if ret == 0:
+            LOG_INFO("抓取失败，放回去")
+            stop_suction(robot)
+            # time.sleep(3)
+            err = movel_to_pose(robot, up_pose)
+            # with AppState.armCanMove_lock:
+            #     AppState.armCanMove = False
+            time.sleep(1)
+            with AppState.armCanMove_cond:
+                AppState.armCanMove = False
+                AppState.armCanMove_cond.notify_all()  # ✅ 唤醒所有等待线程
+            if err == 0:
+                print(f"移动到安全位置失败，错误码: {err}")
+                return False
+            return False
+        else:
+            LOG_INFO("抓取成功")
         err = movel_to_pose(robot, stop_pose)
 
         # with AppState.canDetect_lock:
@@ -913,17 +950,19 @@ def static_grap(robot, up_pose, wait_pose, grasp_pose, stop_pose, place_pose, ro
             return False
     print("抬起位姿")
 
-    stop_suction(robot)
-    # move to up
     with robot_lock:
+        stop_suction(robot)
         err = movel_to_pose(robot, place_pose)
         if err == 0:
             print(f"移动到放置位置失败，错误码: {err}")
             return False
     print("放置")
 
-    with AppState.armCanMove_lock:
+    # with AppState.armCanMove_lock:
+    #     AppState.armCanMove = False
+    with AppState.armCanMove_cond:
         AppState.armCanMove = False
+        AppState.armCanMove_cond.notify_all()  # ✅ 唤醒所有等待线程
 
     grip_release(robot)
 
@@ -1043,13 +1082,18 @@ def process_tasks_1(rpc, motor):
             move_to_cloth_lenth(cloth_lenth)
 
             motor.stop()
+            with AppState.task_lock_1:
+                start_suction(rpc)
+                LOG_INFO("检测到新布料，开始吸气")
             while True:
                 if motor.get_speed() < 0.1:
                     break
                 else:
                     time.sleep(0.1)
-            time.sleep(1)
-            with AppState.armCanMove_lock:
+            time.sleep(0.1)
+            # with AppState.armCanMove_lock:
+            #     AppState.armCanMove = True
+            with AppState.armCanMove_cond:
                 AppState.armCanMove = True
 
             print(f"[1号臂-异常] mid={mid} 准备静态抓取")
@@ -1076,7 +1120,7 @@ def process_tasks_1(rpc, motor):
                 vec = np.array([x, y, 1])
                 x_robot, y_robot = affine_matrix @ vec
                 return x_robot, y_robot
-            realX, realY = transform_point(AppState.AFFINE_MATRIX_1, (AppState.centroid[mid][0] - 25, AppState.centroid[mid][1]))
+            realX, realY = transform_point(AppState.AFFINE_MATRIX_1, (AppState.centroid[mid][0] - 2, AppState.centroid[mid][1] + 12))
             LOG_INFO("task use global centroid: id: %d, visionx: %f, visiony: %f, x: %f, y: %f", mid, AppState.centroid[mid][0], AppState.centroid[mid][1], realX, realY)
             wait_pose = [realX,
             realY,
@@ -1090,6 +1134,18 @@ def process_tasks_1(rpc, motor):
             AppState.cfg_1.stand_rx,
             AppState.cfg_1.stand_ry,
             pos_data[5]]
+            detect_pose1 = [AppState.cfg_1.detect_x,
+            AppState.cfg_1.detect_y,
+            AppState.cfg_1.stand_z + 80,
+            AppState.cfg_1.stand_rx,
+            AppState.cfg_1.stand_ry,
+            AppState.cfg_1.stand_rz]
+            detect_pose2 = [AppState.cfg_1.detect_x,
+            AppState.cfg_1.detect_y,
+            AppState.cfg_1.stand_z + 40,
+            AppState.cfg_1.stand_rx,
+            AppState.cfg_1.stand_ry,
+            AppState.cfg_1.stand_rz]
             stop_pose = [AppState.cfg_1.safe_x,
             AppState.cfg_1.safe_y,
             AppState.cfg_1.stand_z + 20,
@@ -1119,6 +1175,8 @@ def process_tasks_1(rpc, motor):
                 up_pose=up_pose,
                 wait_pose=wait_pose,
                 grasp_pose=grasp_pose,
+                detect_pose1=detect_pose1,
+                detect_pose2=detect_pose2,
                 stop_pose=stop_pose,
                 place_pose=place_pose_static,
                 robot_lock=AppState.task_lock_1
@@ -1587,8 +1645,8 @@ def init_robot(ip="192.168.57.4",arm=1):
     
     if arm==1:
         if USE_LINEAR_ACTUATOR:
-            # move_to(-1)      # 回原点
-            move_to(20)
+            move_to(-1)      # 回原点
+            move_to(150)
         time.sleep(0.5)    # 等待2秒
     elif arm==2: #G 待 右臂需要跟丝杆做绑定
         print("GGG二号臂暂不用丝杆")
@@ -1601,6 +1659,21 @@ def init_robot(ip="192.168.57.4",arm=1):
 
     print("机械臂初始化成功")
     return robot
+
+
+def grasp_succeed_detection(robot):
+    LOG_INFO("grasp_succeed_detection thread started")  # 添加打印
+    while True:
+        with AppState.detectSucceed_cond:
+            while AppState.detectNow is False:
+                LOG_INFO("detectNow: %d", AppState.detectNow)
+                AppState.detectSucceed_cond.wait()
+            time_start = time.time()
+            while time.time() - time_start < 2:
+                if photoelectric_sensor(robot) != 0:
+                    AppState.graspSucceed = True
+            AppState.detectNow = False
+            AppState.detectSucceed_cond.notify_all()
 
 
 def init():
@@ -1640,6 +1713,7 @@ def init():
     # 4. 启动任务线程
     if robot_mode==1:
         threading.Thread(target=process_tasks_1, args=(rpc_1, motor), daemon=True).start()
+        threading.Thread(target=grasp_succeed_detection, args=(rpc_1,), daemon=True).start()
     elif robot_mode==2:
         threading.Thread(target=process_tasks_2, args=(rpc_2,), daemon=True).start()
     elif robot_mode==3:
@@ -1648,7 +1722,7 @@ def init():
     else:
         print("请选择正确的模式")
         return False
-
+    
     return True
 
 

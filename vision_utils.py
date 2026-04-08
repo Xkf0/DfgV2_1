@@ -10,6 +10,7 @@ import json
 import threading
 from test_reid_module_and_camera import anomaly_detection
 from logger import LOG_DEBUG, LOG_INFO, LOG_WARN, LOG_ERROR, LOG_CRITICAL
+from control_air_close_open import grip_clamp, grip_open, grip_release, start_suction, stop_suction, photoelectric_sensor
 def load_config():
     with open("CONFIG.json", "r", encoding="utf-8") as f:
         config = json.load(f)
@@ -358,37 +359,45 @@ def Loop():
     detector = ObjectDetector(cfg_1, IS_USE_SAM)
     threading.Thread(target=anomaly_detection, args=(), daemon=True).start()
     while True:
-        with AppState.armCanMove_lock:
-            if AppState.armCanMove is False:
-                time_start = time.perf_counter()
+        # with AppState.armCanMove_lock:
+        #     arm_can_move = AppState.armCanMove
+        with AppState.armCanMove_cond:
+            # 等待 armCanMove 变成 True
+            while AppState.armCanMove:
+                AppState.armCanMove_cond.wait()
+        # if arm_can_move is False:
+        time_start = time.perf_counter()
 
-                frame = camera.get_frame_directly()
-                if frame is None:
-                    print("未能获取有效帧，跳过本次循环")
-                    continue
-                        
-                current_time = time.perf_counter()
-
-                with AppState.speed_lock:
-                    get_speed_now=AppState.speed_now
-                    get_time_pre_now=AppState.time_pre_now
+        frame = camera.get_frame_directly()
+        if frame is None:
+            print("未能获取有效帧，跳过本次循环")
+            continue
                 
-                motion_dict, tracked_objects, display_img = detector.get_motionDict_trackedObjects_DisplayImg(frame, AFFINE_MATRIX_1, current_time, get_speed_now)
-                
-                # print(f"motion dict: {motion_dict}")
-                to_del = []
+        current_time = time.perf_counter()
 
-                cycleTaskHandle(tracked_objects, edge_1_in, edge_1_out, edge_2_in, edge_2_out, sum_detect, cfg_1, cfg_2, motion_dict, openCollisionDetect, length_lead_screw_cm, to_del, AFFINE_MATRIX_1, AFFINE_MATRIX_2, DIRECTION_1, DIRECTION_2, get_speed_now, get_time_pre_now, AppState.task_lock_1, AppState.task_lock_2, AppState.task_queue_1, AppState.task_queue_2)
+        with AppState.speed_lock:
+            get_speed_now=AppState.speed_now
+            get_time_pre_now=AppState.time_pre_now
+        
+        motion_dict, tracked_objects, display_img = detector.get_motionDict_trackedObjects_DisplayImg(frame, AFFINE_MATRIX_1, current_time, get_speed_now)
+        
+        # print(f"motion dict: {motion_dict}")
+        to_del = []
 
-                # 绘制FPS
-                fps = 1 / (time.perf_counter() - time_start)
-                cv2.putText(display_img, f"FPS:{fps:.2f}", (cfg_1.output_w - 500, cfg_1.output_h - 20), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 0), 8)
-                # 显示或保存
-                display_img = cv2.resize(display_img, (display_img.shape[1]//2, display_img.shape[0]//2))
-                cv2.imshow('combined', display_img)
-                cv2.waitKey(1)
-            else:
-                time.sleep(0.1)
+        cycleTaskHandle(tracked_objects, edge_1_in, edge_1_out, edge_2_in, edge_2_out, sum_detect, cfg_1, cfg_2, motion_dict, openCollisionDetect, length_lead_screw_cm, to_del, AFFINE_MATRIX_1, AFFINE_MATRIX_2, DIRECTION_1, DIRECTION_2, get_speed_now, get_time_pre_now, AppState.task_lock_1, AppState.task_lock_2, AppState.task_queue_1, AppState.task_queue_2)
+
+        # 绘制FPS
+        fps = 1 / (time.perf_counter() - time_start)
+        cv2.putText(display_img, f"FPS:{fps:.2f}", (cfg_1.output_w - 500, cfg_1.output_h - 20), cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 0), 8)
+        # 显示或保存
+        display_img = cv2.resize(display_img, (display_img.shape[1]//2, display_img.shape[0]//2))
+        cv2.imshow('combined', display_img)
+        cv2.waitKey(1)
+
+            # # 给子线程机会（可选但推荐）
+            # time.sleep(0.001)  # 1毫秒让出CPU
+        # else:
+        #     time.sleep(0.1)
                      
     # finally:
     #     # 清理资源

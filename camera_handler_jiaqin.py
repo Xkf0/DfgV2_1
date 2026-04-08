@@ -215,7 +215,7 @@ if __name__ == "__main__":
     # 使用示例1：直接读取帧
     try:
         camera = CameraHandler(
-            camera_id=0,
+            camera_id=2,
             width=1920,
             height=1080,
             fps=30,

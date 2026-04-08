@@ -49,7 +49,9 @@ class Configer:
         id_wcs=2,
         safe_x=0,
         safe_y=0,
-        safe_z=0
+        safe_z=0,
+        detect_x=0,
+        detect_y=0
         ):
 
         self.real_w = real_w
@@ -121,3 +123,5 @@ class Configer:
         self.safe_x = safe_x
         self.safe_y = safe_y
         self.safe_z = safe_z
+        self.detect_x = detect_x
+        self.detect_y = detect_y

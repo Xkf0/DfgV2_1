@@ -65,7 +65,7 @@ def trans_points(testPoint, points_file_path='cv_aruco_1.csv'):
     print(f"转换后的机械臂坐标为：{robot_point_x:.3f},{robot_point_y:.3f}")
 
 def main():
-    trans_points((523.03, 619.40))
+    trans_points((710.88, 489.65))
 
 if __name__ == '__main__':
     main()

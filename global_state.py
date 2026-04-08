@@ -21,19 +21,24 @@ class AppState:
     task_queue_2     = queue.Queue()
     task_lock_2      = threading.Lock()
 
-    speed_lock       = threading.Lock()  # 新增：速度变量的锁
+    speed_lock       = threading.Lock()  # 速度变量的锁，可以删除
     speed_now        = cfg_1.speed
     time_pre_now     = cfg_1.time_pre
 
     blocked_state    = False
-    state_lock       = threading.Lock()
+    state_lock       = threading.Lock() # 后续需要改为条件变量
     wait_detect      = False
 
     centroid         = []
-    centroid_lock    = threading.Lock()
+    centroid_lock    = threading.Lock() # 暂时未使用
 
     armCanMove       = False
-    armCanMove_lock  = threading.Lock()
+    # armCanMove_lock  = threading.Lock()
+    armCanMove_cond   = threading.Condition()
 
     changeScrew      = True
-    changeScrew_lock = threading.Lock()
+    changeScrew_lock = threading.Lock() # 可删除
+
+    graspSucceed     = False
+    detectSucceed_cond= threading.Condition()
+    detectNow         = False

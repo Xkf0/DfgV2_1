@@ -419,3 +419,22 @@ def Loop():
     #         rpc_1.RobotEnable(0)
     #         rpc_2.RobotEnable(0)
     #     print("程序退出")
+
+def debug_diff(diff_blur):
+    """
+    统计 diff_blur 的基本数值特征
+    """
+    # 转成 float 方便统计
+    d = diff_blur.astype(np.float32)
+
+    nonzero_count = np.count_nonzero(d)
+    min_val = d.min()
+    max_val = d.max()
+    mean_val = d.mean()
+
+    LOG_INFO("diff_blur非零像素数     : %.2f", nonzero_count)
+    LOG_INFO("diff_blur最小值        : %.2f", min_val)
+    LOG_INFO("diff_blur最大值        : %.2f", max_val)
+    LOG_INFO("diff_blur平均值        : %.2f", mean_val)
+
+    return nonzero_count, min_val, max_val

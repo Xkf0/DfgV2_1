@@ -1646,6 +1646,7 @@ def init_robot(ip="192.168.57.4",arm=1):
     if arm==1:
         if USE_LINEAR_ACTUATOR:
             move_to(-1)      # 回原点
+            time.sleep(4)
             move_to(150)
         time.sleep(0.5)    # 等待2秒
     elif arm==2: #G 待 右臂需要跟丝杆做绑定

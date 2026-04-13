@@ -358,6 +358,7 @@ def Loop():
     camera = initCamera(cfg_1)
     detector = ObjectDetector(cfg_1, IS_USE_SAM)
     threading.Thread(target=anomaly_detection, args=(), daemon=True).start()
+    camera.start_capture()
     while True:
         # with AppState.armCanMove_lock:
         #     arm_can_move = AppState.armCanMove
@@ -368,7 +369,7 @@ def Loop():
         # if arm_can_move is False:
         time_start = time.perf_counter()
 
-        frame = camera.get_frame_directly()
+        frame = camera.get_latest_frame()
         if frame is None:
             print("未能获取有效帧，跳过本次循环")
             continue

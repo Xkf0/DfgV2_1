@@ -92,9 +92,9 @@ class ObjectDetector:
         self.isStatic = []
         self.frameTh = 0
         self.firstFrame = np.load('frame_data.npy')
-        self.threshold_value = 10
+        self.threshold_value = 25
         self.start_split = False
-        self.numCentroids = 30
+        self.numCentroids = 5
 
         # ReID 特征提取器
         # self.feature_extractor = FeatureExtractor()
@@ -243,7 +243,7 @@ class ObjectDetector:
                 abnormal_info.get("reason"),
             )
 
-    def split_draw(self, frame):
+    def split_draw(self, frame, MOG2points, last_centroid):
         """主处理函数"""
         if self.firstFrame is None:
             print("❌ 请先设置模板帧")
@@ -296,11 +296,11 @@ class ObjectDetector:
         # centroids 现在是过滤后的结果
         
         # --- 5. 可视化 ---
-        display_img = self._draw_display(frame, diff_blur, mask, centroids)
+        display_img = self._draw_display(frame, diff_blur, mask, centroids, MOG2points, last_centroid)
         
         return centroids, display_img
     
-    def _draw_display(self, current_frame, diff_blur, mask, centroids):
+    def _draw_display(self, current_frame, diff_blur, mask, centroids, MOG2points_ori, last_centroid_ori):
         """绘制：左=模板图，右=热力图，质心在右"""
         h, w = self.firstFrame.shape[:2]
         
@@ -326,9 +326,21 @@ class ObjectDetector:
         # 在热力图上绘制质心
         for (x, y, area) in centroids:
             cv2.drawMarker(heatmap_color, (x, y), (255, 0, 255), 
-                          cv2.MARKER_CROSS, 30, 2)
+                          cv2.MARKER_SQUARE, 30, 2)
             cv2.putText(heatmap_color, f"({x},{y})-{area}", (x+10, y-10),
                        cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 0), 2)
+        
+        if MOG2points_ori is not None:
+            MOG2points = [(int(round(x)), int(round(y))) for x, y in MOG2points_ori]
+            for (x, y) in MOG2points:
+                cv2.drawMarker(heatmap_color, (x, y), (128, 0, 128), 
+                            cv2.MARKER_STAR, 30, 2)
+                
+        if last_centroid_ori is not None:
+            last_centroid = centroids = [(int(round(x)), int(round(y))) for x, y, _ in last_centroid_ori]
+            for (x, y) in last_centroid:
+                cv2.drawMarker(heatmap_color, (x, y), (0, 128, 0), 
+                            cv2.MARKER_TRIANGLE_UP, 30, 2)
         
         # 右侧热力图
         right_panel = np.hstack([heatmap_color])
@@ -371,8 +383,8 @@ class ObjectDetector:
             self.frameTh += 1
         if self.frameTh == 30:
             # self.firstFrame = warped_frame
-            # 假设frame_data是一个形状为(H, W, 3)的numpy数组
-            # np.save('frame_data.npy', warped_frame)
+            if CONFIG["save_first_frame"] is True:
+                np.save('frame_data.npy', warped_frame)
             # # 计算每个通道的平均值
             # channel_means = np.mean(self.firstFrame, axis=(0, 1))  # 形状: (3,)
 
@@ -389,15 +401,6 @@ class ObjectDetector:
         cv2.imwrite(filename, warped_frame)
         centroids = None
 
-        # if self.start_split is True:
-        #     LOG_INFO("enter split_draw")
-        #     centroids, display_img = self.split_draw(warped_frame)
-        #     window_name = 'Cloth Detection (Left: Video | Center: Heatmap | Right: Colorbar)'
-        #     cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
-        #     if display_img is not None:
-        #         cv2.imshow(window_name, display_img)
-        #     key = cv2.waitKey(1) & 0xFF
-
         mask = None
         combined_display_image = warped_frame.copy() # 默认返回原始warped图
 
@@ -410,11 +413,27 @@ class ObjectDetector:
                 # else:
                 #     mask = self.detector_sam2.process_frame_wanqi(warped_frame, self.img_filename)
 
-                mask, movingPointExist = self.detector_sam2.process_frame_jiaqin(warped_frame, self.img_filename, is_static=False)
-                if movingPointExist is False:
-                    if AppState.centroid != []:
-                        centroids = [[AppState.centroid[AppState.max_tid][0], AppState.centroid[AppState.max_tid][1], 0]]
-                        mask = self.detector_sam2.process_frame_xiefan(warped_frame, self.img_filename, centroids)
+                mask, movingPointExist, MOG2points = self.detector_sam2.process_frame_jiaqin(warped_frame, self.img_filename, is_static=False)
+                last_centroid = None
+
+                if AppState.centroid != []:
+                    last_centroid = [[AppState.centroid[AppState.max_tid][0], AppState.centroid[AppState.max_tid][1], 0]]
+
+                if self.start_split is True:
+                    LOG_INFO("enter split_draw")
+                    centroids, display_img = self.split_draw(warped_frame, MOG2points, last_centroid)
+                    window_name = 'Cloth Detection (Left: Video | Center: Heatmap | Right: Colorbar)'
+                    cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
+                    if display_img is not None:
+                        cv2.imshow(window_name, display_img)
+                    key = cv2.waitKey(1) & 0xFF
+
+                if centroids is not None and movingPointExist is False:
+                    mask = self.detector_sam2.process_frame_xiefan(warped_frame, self.img_filename, centroids)
+
+                if centroids is None and movingPointExist is False:
+                    mask = self.detector_sam2.process_frame_xiefan(warped_frame, self.img_filename, last_centroid)
+                
             else:
                 # 1. 前景提取
                 diff = cv2.absdiff(warped_frame, self.background)
@@ -550,7 +569,8 @@ class ObjectDetector:
                                             self.id_now[index][1] -= 1
                                         if(self.id_now[index][1] < 0):
                                             if len(self.area_dict[index]) > 0:
-                                                areaTemp = sum(self.area_dict[index]) / len(self.area_dict[index])
+                                                areaTemp = median_trimmed_mean(self.area_dict[index])
+                                                # areaTemp = sum(self.area_dict[index]) / len(self.area_dict[index])
                                                 if areaTemp > 0:
                                                     self.lastAreaAvg = areaTemp
                                                     LOG_INFO("last Areaavg: %f", self.lastAreaAvg)
@@ -568,13 +588,14 @@ class ObjectDetector:
                             if len(self.area_dict) > 0:
                                 # self.update_area_statistics(tid)
 
-                                if len(self.area_dict[tid]) == 5:
-                                    self.area_dict[tid].sort()
-                                    self.nowAreaAvg[tid] = self.area_dict[tid][2] # 第三个值
-                                if len(self.area_dict[tid]) > 5:
-                                    self.nowAreaAvg[tid] = (self.nowAreaAvg[tid] * (len(self.area_dict[tid]) - 5) + 
-                                                            self.area_dict[tid][len(self.area_dict[tid]) - 1]) / (len(self.area_dict[tid]) - 4)
-                                if len(self.area_dict[tid]) > 20 and self.warnId[tid] == False:
+                                # if len(self.area_dict[tid]) == 5:
+                                #     self.area_dict[tid].sort()
+                                #     self.nowAreaAvg[tid] = self.area_dict[tid][2] # 第三个值
+                                # if len(self.area_dict[tid]) > 5:
+                                #     self.nowAreaAvg[tid] = (self.nowAreaAvg[tid] * (len(self.area_dict[tid]) - 5) + 
+                                #                             self.area_dict[tid][len(self.area_dict[tid]) - 1]) / (len(self.area_dict[tid]) - 4)
+                                if (len(self.area_dict[tid]) > 10 or len(self.area_dict[tid]) < 20) and self.warnId[tid] == False:
+                                    self.nowAreaAvg[tid] = median_trimmed_mean(self.area_dict[tid])
                                     LOG_INFO("self.templateArea: %f", self.templateArea)
                                     if self.templateArea != 0:
                                         area_ratio = self.nowAreaAvg[tid] / self.templateArea
@@ -791,3 +812,9 @@ class ObjectDetector:
         motion_dict = self.get_motion_dict()
         tracked_objects = self.get_tracked_objects()
         return motion_dict, tracked_objects, display_img
+    
+def median_trimmed_mean(data, k=1): # 中位数滤波
+    median = np.median(data)
+    mad = np.median([abs(x - median) for x in data])
+    filtered = [x for x in data if abs(x - median) <= k * mad]
+    return np.mean(filtered)

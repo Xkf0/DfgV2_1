@@ -51,7 +51,8 @@ class Configer:
         safe_y=0,
         safe_z=0,
         detect_x=0,
-        detect_y=0
+        detect_y=0,
+        save_first_frame=False,
         ):
 
         self.real_w = real_w
@@ -125,3 +126,4 @@ class Configer:
         self.safe_z = safe_z
         self.detect_x = detect_x
         self.detect_y = detect_y
+        self.save_first_frame = save_first_frame

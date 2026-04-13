@@ -117,6 +117,7 @@ class SAM2MotionDetector:
         # print('1111111111111111111111')
 
         movingPointExist = False
+        MOG2points = None
         # 2. 有运动目标才调用 SAM2
         if is_static:
             self.predictor.set_image(frame)
@@ -149,12 +150,13 @@ class SAM2MotionDetector:
                 # masks: (N, 1, H, W)
                 new_objects_masks = masks
                 movingPointExist = True
+                MOG2points = prompts
                 
         # print('22222222222222222222')
         # print(f"masks:\n{new_objects_masks}")
 
         # return frame, prompts, new_objects_masks
-        return new_objects_masks, movingPointExist
+        return new_objects_masks, movingPointExist, MOG2points
     
     def process_frame_wanqi(self, frame, img_filename):
         """

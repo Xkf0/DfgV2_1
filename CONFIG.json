@@ -38,6 +38,7 @@
         -0.578,
         -65.082
     ],
+    "save_first_frame": false,
     "CONFIG_PARAMS_1": {
         "id_wcs": 2,
         "real_w": 85,

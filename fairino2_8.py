@@ -1090,7 +1090,7 @@ def process_tasks_1(rpc, motor):
                     break
                 else:
                     time.sleep(0.1)
-            time.sleep(2)
+            time.sleep(1)
             LOG_INFO("motor speed: %f", motor.get_speed())
             # with AppState.armCanMove_lock:
             #     AppState.armCanMove = True

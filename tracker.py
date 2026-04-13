@@ -96,7 +96,7 @@ def calculate_speed(position_history, time_history, current_time, cfg):
     return np.mean(speeds) if speeds else 0.0
 
 # 修改：接收 cfg 对象
-def update_motion_status(img_filename, longedge, single_mask, motion_dict, object_id, centroid, motion_front_center, current_time, angle, long_side_length, affine_matrix, cfg, permitGrasp, isStatic):
+def update_motion_status(img_filename, longedge, single_mask, motion_dict, object_id, centroid, motion_front_center, current_time, angle, long_side_length, affine_matrix, cfg, permitGrasp, isStatic, copy_last_frame):
     line1_x = cfg.output_w * 2 // 5
     line2_x = cfg.output_w * 1 // 2
     x_pos = motion_front_center[0]
@@ -123,6 +123,8 @@ def update_motion_status(img_filename, longedge, single_mask, motion_dict, objec
     long_side_length = round(long_side_length, 3)
     longedge = round(longedge, 3)
     filename = f"{foldname}/{timestamp}_status{obj_info['status']}_{long_side_length}_{longedge}.png"
+    if copy_last_frame is True:
+        filename = f"{foldname}/{timestamp}_copyLastPiaoYi_nothingInFact.png"
     cv2.imwrite(filename, single_mask)
 
     if obj_info['status'] <= 1:

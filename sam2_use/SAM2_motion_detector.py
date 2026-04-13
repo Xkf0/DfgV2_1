@@ -46,7 +46,7 @@ class SAM2MotionDetector:
             cv2.MORPH_ELLIPSE, (5, 5)
         )
 
-    def process_frame_(self, frame, img_filename):
+    def process_frame_jiaqin(self, frame, img_filename, is_static):
         # ---- 修改 2: 预处理 - 高斯模糊 ----
         # 在检测运动之前先模糊，可以平滑掉图像中的高频噪点和微小光线抖动
         # (21, 21) 是模糊核大小，必须是奇数。越大越模糊，抗噪越强。
@@ -116,16 +116,13 @@ class SAM2MotionDetector:
 
         # print('1111111111111111111111')
 
+        movingPointExist = False
         # 2. 有运动目标才调用 SAM2
-        if len(prompts) > 0:
-        # if True:
-            # SAM2 使用原始清晰图像，而不是模糊后的图像
+        if is_static:
             self.predictor.set_image(frame)
 
-            input_points = np.array(prompts)
-            input_labels = np.ones(len(prompts), dtype=np.int32)
-            # input_points = [(85*10, 41.1*10)]
-            # input_labels = [1]
+            input_points = [(85*10, 41.1*10)]
+            input_labels = [1]
 
             masks, scores, _ = self.predictor.predict_2(
                 point_coords=input_points,
@@ -135,13 +132,31 @@ class SAM2MotionDetector:
 
             # masks: (N, 1, H, W)
             new_objects_masks = masks
+        else:
+            if len(prompts) > 0:
+                # SAM2 使用原始清晰图像，而不是模糊后的图像
+                self.predictor.set_image(frame)
+
+                input_points = np.array(prompts)
+                input_labels = np.ones(len(prompts), dtype=np.int32)
+
+                masks, scores, _ = self.predictor.predict_2(
+                    point_coords=input_points,
+                    point_labels=input_labels,
+                    multimask_output=False
+                )
+
+                # masks: (N, 1, H, W)
+                new_objects_masks = masks
+                movingPointExist = True
+                
         # print('22222222222222222222')
         # print(f"masks:\n{new_objects_masks}")
 
         # return frame, prompts, new_objects_masks
-        return new_objects_masks
+        return new_objects_masks, movingPointExist
     
-    def process_frame(self, frame, img_filename):
+    def process_frame_wanqi(self, frame, img_filename):
         """
         基于背景建模粗检前景，再生成更稳的 SAM 提示点，最后用 SAM 输出单通道二值 mask。
         重点优化：前景点 prompts 的生成过程。
@@ -373,3 +388,50 @@ class SAM2MotionDetector:
         final_mask = _filter_small_components(final_mask, min_area=300)
 
         return final_mask
+    
+    def process_frame_xiefan(self, frame, img_filename, centroids):
+        # ---- 修改 2: 预处理 - 高斯模糊 ----
+        # 在检测运动之前先模糊，可以平滑掉图像中的高频噪点和微小光线抖动
+        # (21, 21) 是模糊核大小，必须是奇数。越大越模糊，抗噪越强。
+        prompts = []
+
+        for (x, y, _) in centroids:
+            prompts.append([x, y])
+
+        if CONFIG["testStaticFabricLength"]:
+            prompts.append([20 * CONFIG["test_x_cm"], 20 * CONFIG["test_y_cm"]])
+            prompts.append([20 * (CONFIG["test_x_cm"] + 5), 20 * (CONFIG["test_y_cm"] + 5)])
+            prompts.append([20 * (CONFIG["test_x_cm"] + 5), 20 * (CONFIG["test_y_cm"] - 5)])
+            prompts.append([20 * (CONFIG["test_x_cm"] - 5), 20 * (CONFIG["test_y_cm"] - 5)])
+            prompts.append([20 * (CONFIG["test_x_cm"] - 5), 20 * (CONFIG["test_y_cm"] + 5)])
+
+        # 初始化为 全黑单通道 mask，形状同当前帧
+        h, w = frame.shape[:2]
+        new_objects_masks = np.zeros((h, w), dtype=np.uint8)   # (1,1,H,W) 全 0
+
+        # print('1111111111111111111111')
+
+        # 2. 有运动目标才调用 SAM2
+        if len(prompts) > 0:
+        # if True:
+            # SAM2 使用原始清晰图像，而不是模糊后的图像
+            self.predictor.set_image(frame)
+
+            input_points = np.array(prompts)
+            input_labels = np.ones(len(prompts), dtype=np.int32)
+            # input_points = [(85*10, 41.1*10)]
+            # input_labels = [1]
+
+            masks, scores, _ = self.predictor.predict_2(
+                point_coords=input_points,
+                point_labels=input_labels,
+                multimask_output=False
+            )
+
+            # masks: (N, 1, H, W)
+            new_objects_masks = masks
+        # print('22222222222222222222')
+        # print(f"masks:\n{new_objects_masks}")
+
+        # return frame, prompts, new_objects_masks
+        return new_objects_masks

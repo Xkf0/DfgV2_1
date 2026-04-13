@@ -84,16 +84,17 @@ class ObjectDetector:
         self.id_now = []
         self.lastPrintTime = time.time()
         self.printLog = False
-        self.saveLastFrame = 5
+        self.saveLastFrame = 5 # 用于漂移保留
         self.nowAreaAvg = []
         self.warnId = []
         self.templateArea = 0.0
         self.permitGrasp = []
         self.isStatic = []
         self.frameTh = 0
-        self.firstFrame = None
-        self.threshold_value = 15
-        self.diff_stats = {}  # 存储diff统计数据
+        self.firstFrame = np.load('frame_data.npy')
+        self.threshold_value = 10
+        self.start_split = False
+        self.numCentroids = 30
 
         # ReID 特征提取器
         # self.feature_extractor = FeatureExtractor()
@@ -251,110 +252,56 @@ class ObjectDetector:
         # --- 1. 差分计算 ---
         frame_f = frame.astype(np.float32)
         diff = np.abs(frame_f - self.firstFrame)
-        diff_gray = np.mean(diff, axis=2)
+        diff_gray = np.max(diff, axis=2)
         
-        # --- 2. 统计diff信息（你要求的）---
-        nonzero = np.count_nonzero(diff_gray)
-        min_val = diff_gray.min()
-        max_val = diff_gray.max()
-        self.diff_stats = {
-            'nonzero': nonzero,
-            'min': min_val,
-            'max': max_val,
-            'mean': diff_gray.mean()
-        }
+        # --- 2. 统计diff信息---
         vu.debug_diff(diff_gray)
         
         # --- 3. 去噪与阈值（可调）---
-        diff_blur = cv2.GaussianBlur(diff_gray, (5, 5), 0)
+        diff_blur = cv2.GaussianBlur(diff_gray, (11, 11), 0)
         _, mask = cv2.threshold(diff_blur, self.threshold_value, 255, cv2.THRESH_BINARY)
-        mask = mask.astype(np.uint8)
+        mask = (mask > 0).astype(np.uint8)
         
         kernel = np.ones((5, 5), np.uint8)
         mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)
         mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)
         
-        # --- 4. 质心计算 ---
+        # --- 4. 质心计算（过滤小区域）---
         labels, num = ndimage.label(mask)
-        centroids = ndimage.center_of_mass(mask, labels, range(1, num + 1))
-        centroids = [(int(c[1]), int(c[0])) for c in centroids]
+
+        centroids = []
+
+        for i in range(1, num + 1):
+            # 提取单个连通区域
+            component_mask = (labels == i).astype(np.uint8) * 255
+            # 找轮廓
+            contours, _ = cv2.findContours(
+                component_mask, 
+                cv2.RETR_EXTERNAL, 
+                cv2.CHAIN_APPROX_SIMPLE
+            )
+            if not contours:
+                continue
+            # 取最大轮廓（通常只有一个）
+            cnt = max(contours, key=cv2.contourArea)
+            # 计算凸包
+            hull = cv2.convexHull(cnt)
+            # ✅ 凸包面积（这才是“内接凸区域面积”）
+            hull_area = cv2.contourArea(hull)
+            if hull_area >= 20000:
+                # 用原始 mask 计算质心（更准确）
+                cy, cx = ndimage.center_of_mass(mask, labels, i)
+                centroids.append((int(cx), int(cy), hull_area))
+
+        # centroids 现在是过滤后的结果
         
         # --- 5. 可视化 ---
         display_img = self._draw_display(frame, diff_blur, mask, centroids)
         
         return centroids, display_img
-        
-    def _draw_display_(self, current_frame, diff_blur, mask, centroids):
-        """绘制：左=模板图，右=热力图+色柱，质心在右"""
-        h, w = self.firstFrame.shape[:2]
-        
-        # === 左侧：静态模板图 ===
-        left_panel = self.firstFrame.astype(np.uint8).copy()
-        cv2.putText(left_panel, "Template Frame", (10, 30), 
-                    cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
-        
-        # === 右侧：热力图 ===
-        # 归一化热力图
-        # heatmap_norm = cv2.normalize(diff_blur, None, 0, 255, cv2.NORM_MINMAX)
-        heatmap_color = cv2.applyColorMap(diff_blur.astype(np.uint8), cv2.COLORMAP_JET)
-        
-        # 在热力图上绘制质心
-        for (x, y) in centroids:
-            cv2.drawMarker(heatmap_color, (x, y), (255, 255, 255), 
-                            cv2.MARKER_CROSS, 30, 2)
-            cv2.putText(heatmap_color, f"({x},{y})", (x+10, y-10),
-                        cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
-        
-        # === 右侧：色柱（带数值标注）===
-        bar_width = 50
-        bar_height = h
-        color_bar = np.zeros((bar_height, bar_width, 3), dtype=np.uint8)
-        
-        # 创建渐变色柱
-        for i in range(bar_height):
-            value = int(255 * i / bar_height)
-            color = cv2.applyColorMap(np.array([[value]], dtype=np.uint8), 
-                                        cv2.COLORMAP_JET)[0][0]
-            color_bar[bar_height - 1 - i, :] = color  # 反转方向，0在下
-        
-        # 添加数值标注
-        min_val = self.diff_stats['min']
-        max_val = self.diff_stats['max']
-        
-        # # 在色柱左侧添加数值标签
-        # for i in range(5):  # 5个刻度
-        #     y_pos = int(bar_height * i / 4)
-        #     value = max_val - (max_val - min_val) * i / 4
-            
-        #     # 绘制刻度线
-        #     cv2.line(color_bar, (bar_width-10, y_pos), 
-        #             (bar_width-5, y_pos), (255, 255, 255), 1)
-            
-        #     # 添加数值文本（在色柱左侧）
-        #     text = f"{value:.1f}"
-        #     cv2.putText(color_bar, text, (5, y_pos+5),
-        #                 cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1)
-        
-        # # 添加色柱标题
-        # cv2.putText(color_bar, "Intensity", (2, 20),
-        #             cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
-        
-        # === 组合面板 ===
-        # 左侧模板 + 右侧热力图 + 色柱
-        right_panel = np.hstack([heatmap_color, color_bar])
-        
-        # 在右侧顶部添加信息
-        info_text = f"Threshold: {self.threshold_value} | Objects: {len(centroids)}"
-        cv2.putText(right_panel, info_text, (10, 30),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
-        
-        # 最终组合：左模板 + 右热力图+色柱
-        combined = np.hstack([left_panel, right_panel])
-        
-        return combined
     
     def _draw_display(self, current_frame, diff_blur, mask, centroids):
-        """绘制：左=模板图，右=热力图+色柱，质心在右"""
+        """绘制：左=模板图，右=热力图，质心在右"""
         h, w = self.firstFrame.shape[:2]
         
         # === 左侧：静态模板图 ===
@@ -377,78 +324,24 @@ class ObjectDetector:
         heatmap_color[below_threshold_mask] = [255, 255, 255]  # BGR白色
         
         # 在热力图上绘制质心
-        for (x, y) in centroids:
-            cv2.drawMarker(heatmap_color, (x, y), (255, 255, 255), 
+        for (x, y, area) in centroids:
+            cv2.drawMarker(heatmap_color, (x, y), (255, 0, 255), 
                           cv2.MARKER_CROSS, 30, 2)
-            cv2.putText(heatmap_color, f"({x},{y})", (x+10, y-10),
-                       cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
+            cv2.putText(heatmap_color, f"({x},{y})-{area}", (x+10, y-10),
+                       cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 0), 2)
         
-        # === 右侧：色柱（带数值标注）===
-        bar_width = 50
-        bar_height = h
-        color_bar = np.zeros((bar_height, bar_width, 3), dtype=np.uint8)
-        
-        # 创建渐变色柱（基于实际diff范围）
-        min_val = self.diff_stats['min']
-        max_val = self.diff_stats['max']
-        
-        # 如果最大值和最小值相等，避免除零
-        if max_val == min_val:
-            max_val = min_val + 1
-        
-        for i in range(bar_height):
-            # 根据diff的实际范围计算对应的颜色值
-            normalized_value = int(255 * i / (bar_height - 1))
-            color = cv2.applyColorMap(np.array([[normalized_value]], dtype=np.uint8), 
-                                     cv2.COLORMAP_JET)[0][0]
-            color_bar[bar_height - 1 - i, :] = color  # 反转方向，0在下
-        
-        # 添加数值标注
-        for i in range(5):  # 5个刻度
-            y_pos = int(bar_height * i / 4)
-            value = max_val - (max_val - min_val) * i / 4
-            
-            # 绘制刻度线
-            cv2.line(color_bar, (bar_width-10, y_pos), 
-                    (bar_width-5, y_pos), (255, 255, 255), 1)
-            
-            # 添加数值文本
-            text = f"{value:.1f}"
-            cv2.putText(color_bar, text, (5, y_pos+5),
-                       cv2.FONT_HERSHEY_SIMPLEX, 0.4, (255, 255, 255), 1)
-        
-        # 添加色柱标题
-        cv2.putText(color_bar, "Intensity", (2, 20),
-                   cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 1)
-        
-        # 标记阈值位置
-        if min_val < self.threshold_value < max_val:
-            # 计算阈值在色柱上的位置
-            threshold_pos = int(bar_height * (max_val - self.threshold_value) / (max_val - min_val))
-            # 绘制阈值线
-            cv2.line(color_bar, (0, threshold_pos), (bar_width, threshold_pos), (0, 0, 0), 2)
-            cv2.putText(color_bar, f"Th:{self.threshold_value}", (5, threshold_pos-5),
-                       cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0, 0, 0), 1)
-        
-        # === 组合面板 ===
-        # 右侧热力图 + 色柱
-        right_panel = np.hstack([heatmap_color, color_bar])
+        # 右侧热力图
+        right_panel = np.hstack([heatmap_color])
         
         # 在右侧顶部添加信息
         info_text = f"Threshold: {self.threshold_value} | Objects: {len(centroids)}"
         cv2.putText(right_panel, info_text, (10, 30),
-                   cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
+                   cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2)
         
-        # 最终组合：左模板 + 右热力图+色柱
+        # 最终组合：左模板 + 右热力图
         combined = np.hstack([left_panel, right_panel])
         
         return combined
-
-    def adjust_threshold(self, delta):
-        """调整阈值（可在外部调用）"""
-        self.threshold_value += delta
-        self.threshold_value = max(1, min(255, self.threshold_value))
-        print(f"🔧 阈值调整为: {self.threshold_value}")
     
 
     def detect_and_track(self, frame, affine_matrix, current_time, get_speed_now):
@@ -477,13 +370,16 @@ class ObjectDetector:
         if self.frameTh > -1:
             self.frameTh += 1
         if self.frameTh == 30:
-            self.firstFrame = warped_frame
+            # self.firstFrame = warped_frame
+            # 假设frame_data是一个形状为(H, W, 3)的numpy数组
+            # np.save('frame_data.npy', warped_frame)
             # # 计算每个通道的平均值
             # channel_means = np.mean(self.firstFrame, axis=(0, 1))  # 形状: (3,)
 
-            # # 将每个通道的所有值替换为该通道的平均值
-            # self.firstFrame = np.full_like(self.firstFrame, channel_means)  # 形状: (1080, 1920, 3)
-            self.frameTh = -1
+        #     # # 将每个通道的所有值替换为该通道的平均值
+        #     # self.firstFrame = np.full_like(self.firstFrame, channel_means)  # 形状: (1080, 1920, 3)
+        #     self.frameTh = -1
+            self.start_split = True
 
         foldname = f"/home/xf/imgs/{self.img_filename}/original_pic"
         os.makedirs(foldname, exist_ok=True)
@@ -491,21 +387,16 @@ class ObjectDetector:
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S.%f")[:-3]
         filename = f"{foldname}/{timestamp}.png"
         cv2.imwrite(filename, warped_frame)
+        centroids = None
 
-        if self.firstFrame is not None:
-            LOG_INFO("enter split_draw")
-            centroids, display_img = self.split_draw(warped_frame)
-            window_name = 'Cloth Detection (Left: Video | Center: Heatmap | Right: Colorbar)'
-            cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
-            if display_img is not None:
-                cv2.imshow(window_name, display_img)
-            key = cv2.waitKey(1) & 0xFF
-            if key == ord('q'):
-                return
-            elif key == ord('+'):  # 增加阈值
-                self.adjust_threshold(5)
-            elif key == ord('-'):  # 减少阈值
-                self.adjust_threshold(-5)
+        # if self.start_split is True:
+        #     LOG_INFO("enter split_draw")
+        #     centroids, display_img = self.split_draw(warped_frame)
+        #     window_name = 'Cloth Detection (Left: Video | Center: Heatmap | Right: Colorbar)'
+        #     cv2.namedWindow(window_name, cv2.WINDOW_NORMAL)
+        #     if display_img is not None:
+        #         cv2.imshow(window_name, display_img)
+        #     key = cv2.waitKey(1) & 0xFF
 
         mask = None
         combined_display_image = warped_frame.copy() # 默认返回原始warped图
@@ -514,7 +405,16 @@ class ObjectDetector:
         if self.background is not None and self.perspective_matrix is not None:
             
             if self.is_use_sam:
-                mask = self.detector_sam2.process_frame(warped_frame, self.img_filename)
+                # if centroids is not None:
+                #     mask = self.detector_sam2.process_frame_xiefan(warped_frame, self.img_filename, centroids)
+                # else:
+                #     mask = self.detector_sam2.process_frame_wanqi(warped_frame, self.img_filename)
+
+                mask, movingPointExist = self.detector_sam2.process_frame_jiaqin(warped_frame, self.img_filename, is_static=False)
+                if movingPointExist is False:
+                    if AppState.centroid != []:
+                        centroids = [[AppState.centroid[AppState.max_tid][0], AppState.centroid[AppState.max_tid][1], 0]]
+                        mask = self.detector_sam2.process_frame_xiefan(warped_frame, self.img_filename, centroids)
             else:
                 # 1. 前景提取
                 diff = cv2.absdiff(warped_frame, self.background)
@@ -628,7 +528,7 @@ class ObjectDetector:
                             timenow = time.time()
                             struct = [timenow, c]
                             self.centroidLastestFive[tid].put(struct)
-                            if self.centroidLastestFive[tid].qsize() > 5:
+                            if self.centroidLastestFive[tid].qsize() > self.numCentroids:
                                 pop = self.centroidLastestFive[tid].get()
                             
                             if len(self.centroidLastestFive) > 0:
@@ -644,7 +544,7 @@ class ObjectDetector:
                                     LOG_INFO("tid: %d, self.id_now[%d][0] = %d, self.id_now[%d][1] = %d", tid, index, self.id_now[index][0], index, self.id_now[index][1])
                                     if(self.id_now[index][0] == tid):
                                         flag = True
-                                        self.id_now[index][1] = 5
+                                        self.id_now[index][1] = self.numCentroids
                                     else:
                                         if self.id_now[index][1] >= 0:
                                             self.id_now[index][1] -= 1
@@ -657,9 +557,9 @@ class ObjectDetector:
                                                     if tid == 1:
                                                         self.templateArea = areaTemp
                                                 self.area_dict[index] = [-1.0]
-                                                LOG_INFO("tid: %d删除id为%d的面积, 被删除的面积为%f", tid, index, areaTemp)
+                                                # LOG_INFO("tid: %d删除id为%d的面积, 被删除的面积为%f", tid, index, areaTemp)
                             if flag is False:
-                                count = 5
+                                count = self.numCentroids
                                 struct = [tid, count]
                                 self.id_now.append(struct)
 
@@ -737,7 +637,7 @@ class ObjectDetector:
                         for index in range(len(self.id_now)):
                             if(self.id_now[index][0] == self.next_id):
                                 flag = True
-                                self.id_now[index][1] = 5
+                                self.id_now[index][1] = self.numCentroids
                             else:
                                 if self.id_now[index][1] >= 0:
                                     self.id_now[index][1] -= 1
@@ -752,7 +652,7 @@ class ObjectDetector:
                                         self.area_dict[index] = [-1.0]
                                         LOG_INFO("删除id为%d的面积, 被删除的面积为%f", index, areaTemp)
                     if flag is False:
-                        count = 5
+                        count = self.numCentroids
                         struct = [self.next_id, count]
                         self.id_now.append(struct)
 
@@ -761,16 +661,21 @@ class ObjectDetector:
                     
                     self.isStatic.append(False)
                     AppState.centroid.append(c)
+                    AppState.max_tid = self.next_id
 
                     self.next_id += 1
             
             # if self.printLog:
             #     LOG_INFO("last Areaavg: %f", self.lastAreaAvg)
 
+            copy_last_frame = False
             if not new_tracked_objects:
                 self.saveLastFrame -= 1
+                LOG_INFO("copy last frame")
+                copy_last_frame = True
                 if self.saveLastFrame < 0:
                     self.tracked_objects = new_tracked_objects
+                    LOG_INFO("copy last frame 5th")
             else:
                 self.saveLastFrame = 5
                 self.tracked_objects = new_tracked_objects
@@ -817,7 +722,7 @@ class ObjectDetector:
                 if(len(self.area_dict) != 0):
                     areaTid = self.area_dict[tid]
                     if(len(areaTid) > 0):
-                        x = min(5, len(areaTid))
+                        x = min(self.numCentroids, len(areaTid))
                         for index in range(x):
                             LOG_INFO("%dth area %d: %f", tid, index, areaTid[index])
 
@@ -842,7 +747,7 @@ class ObjectDetector:
                 LOG_INFO("global centroid: id: %d, x: %f, y: %f", tid, AppState.centroid[tid][0], AppState.centroid[tid][1])
 
                 # 更新运动状态
-                update_motion_status(self.img_filename, longEdge, single_mask, self.motion_dict, tid, info['centroid'], info['centroid'], current_time, info['angle'], info['long_side_length'], affine_matrix, self.cfg, self.permitGrasp, self.isStatic)
+                update_motion_status(self.img_filename, longEdge, single_mask, self.motion_dict, tid, info['centroid'], info['centroid'], current_time, info['angle'], info['long_side_length'], affine_matrix, self.cfg, self.permitGrasp, self.isStatic, copy_last_frame)
 
             # 6. 绘制与显示 (传入 cfg)
             mask_colored = np.zeros_like(warped_frame)

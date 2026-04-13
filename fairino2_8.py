@@ -881,7 +881,7 @@ def static_grap(robot, up_pose, wait_pose, grasp_pose, detect_pose1, detect_pose
         
     with AppState.changeScrew_lock:
         if AppState.changeScrew is True:
-            time.sleep(1.5)
+            time.sleep(3)
             AppState.changeScrew = False
         else:
             time.sleep(0.1)
@@ -1090,9 +1090,11 @@ def process_tasks_1(rpc, motor):
                     break
                 else:
                     time.sleep(0.1)
-            time.sleep(0.1)
+            time.sleep(2)
+            LOG_INFO("motor speed: %f", motor.get_speed())
             # with AppState.armCanMove_lock:
             #     AppState.armCanMove = True
+            LOG_INFO("传送带静止，开始停止视觉检测")
             with AppState.armCanMove_cond:
                 AppState.armCanMove = True
 
@@ -1120,7 +1122,8 @@ def process_tasks_1(rpc, motor):
                 vec = np.array([x, y, 1])
                 x_robot, y_robot = affine_matrix @ vec
                 return x_robot, y_robot
-            realX, realY = transform_point(AppState.AFFINE_MATRIX_1, (AppState.centroid[mid][0] - 2, AppState.centroid[mid][1] + 12))
+            # realX, realY = transform_point(AppState.AFFINE_MATRIX_1, (AppState.centroid[mid][0] + 54, AppState.centroid[mid][1] + 12.5))
+            realX, realY = transform_point(AppState.AFFINE_MATRIX_1, (AppState.centroid[mid][0], AppState.centroid[mid][1] + 23))
             LOG_INFO("task use global centroid: id: %d, visionx: %f, visiony: %f, x: %f, y: %f", mid, AppState.centroid[mid][0], AppState.centroid[mid][1], realX, realY)
             wait_pose = [realX,
             realY,
@@ -1646,7 +1649,7 @@ def init_robot(ip="192.168.57.4",arm=1):
     if arm==1:
         if USE_LINEAR_ACTUATOR:
             move_to(-1)      # 回原点
-            time.sleep(4)
+            time.sleep(5)
             move_to(150)
         time.sleep(0.5)    # 等待2秒
     elif arm==2: #G 待 右臂需要跟丝杆做绑定

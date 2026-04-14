@@ -11,7 +11,6 @@ from tracker import StableGrabCenter, calculate_speed, update_motion_status, dra
 
 from sam2_use.SAM2_motion_detector import SAM2MotionDetector
 import os
-from fairino2_8 import (CONFIG)
 from global_state import AppState
 from logger import LOG_DEBUG, LOG_INFO, LOG_WARN, LOG_ERROR, LOG_CRITICAL
 from queue import Queue
@@ -64,7 +63,7 @@ class ObjectDetector:
         self.last_speed_update_time = time.perf_counter()
         self.last_area_update_time = time.perf_counter()
 
-        if CONFIG["testStaticFabricLength"] or CONFIG["testDynamicFabricLength"]:        
+        if AppState.CONFIG["testStaticFabricLength"] or AppState.CONFIG["testDynamicFabricLength"]:        
             self.x_max = 0
             self.y_max = 0
             self.x_min = 1000000
@@ -383,7 +382,7 @@ class ObjectDetector:
             self.frameTh += 1
         if self.frameTh == 30:
             # self.firstFrame = warped_frame
-            if CONFIG["save_first_frame"] is True:
+            if AppState.CONFIG["save_first_frame"] is True:
                 np.save('frame_data.npy', warped_frame)
             # # 计算每个通道的平均值
             # channel_means = np.mean(self.firstFrame, axis=(0, 1))  # 形状: (3,)
@@ -452,7 +451,7 @@ class ObjectDetector:
             contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
             current_objects = []
             for cnt in contours:
-                if cv2.contourArea(cnt) < self.cfg.min_contour_area or cv2.contourArea(cnt) > self.cfg.max_contour_area:
+                if cv2.contourArea(cnt) < 400 * self.cfg.min_contour_area or cv2.contourArea(cnt) > 400 * self.cfg.max_contour_area:
                     continue
 
                 # 假设 cnt 是当前处理的轮廓（类型为 numpy.ndarray）
@@ -511,7 +510,7 @@ class ObjectDetector:
                                     predictX = temp[1][0] + deltaX
                                     nowX = c[0]
                                     LOG_INFO("tid: %d, predictX - nowX: %f", tid, predictX - nowX)
-                                    if abs(predictX - nowX) < self.cfg.max_distance:
+                                    if abs(predictX - nowX) < 20 * self.cfg.max_distance:
                                         flag = True
                                     self.centroidLastestFive[tid].put(temp)
 
@@ -723,7 +722,7 @@ class ObjectDetector:
                 # 计算长度
                 long_side_px = math.hypot(sc1[0] - sc2[0], sc1[1] - sc2[1])
 
-                if CONFIG["testStaticFabricLength"] or CONFIG["testDynamicFabricLength"]:
+                if AppState.CONFIG["testStaticFabricLength"] or AppState.CONFIG["testDynamicFabricLength"]:
                     current_time = time.time()
                     if current_time - self.last_print_time >= self.interval:
                         self.x_min = min(info['centroid'][0], self.x_min)

@@ -1,15 +1,16 @@
 import queue
 import threading
-import json
+import json5
+
 def load_config():
     with open("CONFIG.json", "r", encoding="utf-8") as f:
-        config = json.load(f)
+        config = json5.load(f)
     return config
-CONFIG = load_config()
 from config_loader import Configer
 # global_state.py
 class AppState:
     # 静态变量（类变量）作为共享数据
+    CONFIG             = load_config()
     cfg_1              = Configer(**CONFIG["CONFIG_PARAMS_1"])
     cfg_2              = Configer(**CONFIG["CONFIG_PARAMS_2"])
     AFFINE_MATRIX_1    = None

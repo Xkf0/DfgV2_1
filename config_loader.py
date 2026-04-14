@@ -93,7 +93,7 @@ class Configer:
 
         # self.max_contour_area = self.output_w * self.output_h / 3
 
-        self.max_distance = max_distance *  ratio_wh
+        self.max_distance = max_distance
         
         self.WAIT_DISTANCE = WAIT_DISTANCE
 

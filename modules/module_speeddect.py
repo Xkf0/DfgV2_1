@@ -12,12 +12,6 @@ import serial
 import matplotlib.pyplot as plt
 
 from global_state import AppState
-import json
-def load_config():
-    with open("CONFIG.json", "r", encoding="utf-8") as f:
-        config = json.load(f)
-    return config
-CONFIG = load_config()
 
 # -----------------------------
 # Modbus RTU helpers (CRC / build req / robust read)
@@ -453,8 +447,8 @@ def process_tasks_speed(monitor, speed_lock, cfg_1):
 
 
 def speedDetectInit():
-    speed_mode            = CONFIG["speed_mode"]
-    speed_port            = CONFIG["speed_port"]
+    speed_mode            = AppState.CONFIG["speed_mode"]
+    speed_port            = AppState.CONFIG["speed_port"]
     if speed_mode == 1:
         monitor = SpeedMonitor(serial_port = speed_port, enable_plot=False)  # 根据需要配置
         monitor.start()

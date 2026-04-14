@@ -32,32 +32,7 @@
     4.3 找出四个位置参数，safe_pos_2+detect_pose+detect_none_pose是放置位置上面的等待位，"stand_z": 99, "stand_rx":-179.486, "stand_ry": -1.859, "stand_rz": 133.442,是传送带上面等待夹取的位置，safe_pos_init的后面三个也是水平位姿，place_pos_arm_1是放置布料的位置
 
 # 附录 
-## 1号臂：左侧臂
-## 2号臂：右侧臂
-## 1.布料放置相关
-     "MOVE_PARAMS_2": 
-        "INIT_PLACE_HEIGHT_ARM2":16, //初始放置高度mm
-        "PLACE_HEIGHT_INCREMENT_ARM2": 0.6, //累加高度mm
-        "COUNT_RESET_INTERVAL_ARM2": 120,  // 重置高度的时间间隔 s
-        "ADJUSTMENT_GRIPPER_OFFSET_ARM2": 18,  //夹爪间距偏移，调整夹爪向丝杆中心的移动距离[单边]，正为靠近，负为远离(mm) G 0115
-        "LENTH_CHANGE_THRESHOLD_ARM2": 15    //布料长度波动范围，小于此范围，不会移动夹爪位置。目的是同一批布料长度变化不影响抓取
-
-## 2.机械臂的各个位姿
-        place_pos_arm_1"   // 桌面上放置位姿，高度会被重写
-        safe_pos_init  // 传送带拦截姿态，xy会被布料质心重写，z值会被stand_z重写（config文档），rz会被计算出的rz_use重写；只有rx、ry是被使用的
-        safe_pos_2  // 常规等待位：没有抓取任务时，桌面上空悬停等待位
-        detect_pose // 异常检测位
-
-## 3.划分任务的边界
-        "edge_params": {
-        "edge_2_in_ratio": 5, #2号臂：右侧臂
-        "edge_2_out_ratio": 40,
-        "edge_1_in_ratio": 52.5, #1号臂：左侧臂
-        "edge_1_out_ratio": 87.5
-    }
-
-
-## 4.夹爪控制
+## 夹爪控制
     grip_open：夹爪充气打开到最大
     grip_clamp：夹爪闭合（吸气）
     grip_release：夹爪从松开气夹=》张到最大=》常规态

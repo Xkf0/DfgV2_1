@@ -5,8 +5,8 @@ import torch
 from sam2_use.sam2.build_sam import build_sam2
 from sam2_use.sam2.sam2_image_predictor import SAM2ImagePredictor
 from config_loader import Configer
-from fairino2_8 import (CONFIG)
-cfg_1 = Configer(**CONFIG["CONFIG_PARAMS_1"])
+from global_state import AppState
+cfg_1 = Configer(**AppState.CONFIG["CONFIG_PARAMS_1"])
 from logger import LOG_DEBUG, LOG_INFO, LOG_WARN, LOG_ERROR, LOG_CRITICAL
 import os
 
@@ -103,12 +103,12 @@ class SAM2MotionDetector:
                 cy = y + h / 2
                 prompts.append([cx, cy])
 
-        if CONFIG["testStaticFabricLength"]:
-            prompts.append([20 * CONFIG["test_x_cm"], 20 * CONFIG["test_y_cm"]])
-            prompts.append([20 * (CONFIG["test_x_cm"] + 5), 20 * (CONFIG["test_y_cm"] + 5)])
-            prompts.append([20 * (CONFIG["test_x_cm"] + 5), 20 * (CONFIG["test_y_cm"] - 5)])
-            prompts.append([20 * (CONFIG["test_x_cm"] - 5), 20 * (CONFIG["test_y_cm"] - 5)])
-            prompts.append([20 * (CONFIG["test_x_cm"] - 5), 20 * (CONFIG["test_y_cm"] + 5)])
+        if AppState.CONFIG["testStaticFabricLength"]:
+            prompts.append([20 * AppState.CONFIG["test_x_cm"], 20 * AppState.CONFIG["test_y_cm"]])
+            prompts.append([20 * (AppState.CONFIG["test_x_cm"] + 5), 20 * (AppState.CONFIG["test_y_cm"] + 5)])
+            prompts.append([20 * (AppState.CONFIG["test_x_cm"] + 5), 20 * (AppState.CONFIG["test_y_cm"] - 5)])
+            prompts.append([20 * (AppState.CONFIG["test_x_cm"] - 5), 20 * (AppState.CONFIG["test_y_cm"] - 5)])
+            prompts.append([20 * (AppState.CONFIG["test_x_cm"] - 5), 20 * (AppState.CONFIG["test_y_cm"] + 5)])
 
         # 初始化为 全黑单通道 mask，形状同当前帧
         h, w = frame.shape[:2]
@@ -339,12 +339,12 @@ class SAM2MotionDetector:
         prompts = _deduplicate_points(prompts, min_dist=18.0)
 
         # 测试点保留
-        if CONFIG["testStaticFabricLength"]:
-            prompts.append([20 * CONFIG["test_x_cm"], 20 * CONFIG["test_y_cm"]])
-            prompts.append([20 * (CONFIG["test_x_cm"] + 5), 20 * (CONFIG["test_y_cm"] + 5)])
-            prompts.append([20 * (CONFIG["test_x_cm"] + 5), 20 * (CONFIG["test_y_cm"] - 5)])
-            prompts.append([20 * (CONFIG["test_x_cm"] - 5), 20 * (CONFIG["test_y_cm"] - 5)])
-            prompts.append([20 * (CONFIG["test_x_cm"] - 5), 20 * (CONFIG["test_y_cm"] + 5)])
+        if AppState.CONFIG["testStaticFabricLength"]:
+            prompts.append([20 * AppState.CONFIG["test_x_cm"], 20 * AppState.CONFIG["test_y_cm"]])
+            prompts.append([20 * (AppState.CONFIG["test_x_cm"] + 5), 20 * (AppState.CONFIG["test_y_cm"] + 5)])
+            prompts.append([20 * (AppState.CONFIG["test_x_cm"] + 5), 20 * (AppState.CONFIG["test_y_cm"] - 5)])
+            prompts.append([20 * (AppState.CONFIG["test_x_cm"] - 5), 20 * (AppState.CONFIG["test_y_cm"] - 5)])
+            prompts.append([20 * (AppState.CONFIG["test_x_cm"] - 5), 20 * (AppState.CONFIG["test_y_cm"] + 5)])
 
         # -------------------------
         # 5. 默认输出
@@ -400,12 +400,12 @@ class SAM2MotionDetector:
         for (x, y, _) in centroids:
             prompts.append([x, y])
 
-        if CONFIG["testStaticFabricLength"]:
-            prompts.append([20 * CONFIG["test_x_cm"], 20 * CONFIG["test_y_cm"]])
-            prompts.append([20 * (CONFIG["test_x_cm"] + 5), 20 * (CONFIG["test_y_cm"] + 5)])
-            prompts.append([20 * (CONFIG["test_x_cm"] + 5), 20 * (CONFIG["test_y_cm"] - 5)])
-            prompts.append([20 * (CONFIG["test_x_cm"] - 5), 20 * (CONFIG["test_y_cm"] - 5)])
-            prompts.append([20 * (CONFIG["test_x_cm"] - 5), 20 * (CONFIG["test_y_cm"] + 5)])
+        if AppState.CONFIG["testStaticFabricLength"]:
+            prompts.append([20 * AppState.CONFIG["test_x_cm"], 20 * AppState.CONFIG["test_y_cm"]])
+            prompts.append([20 * (AppState.CONFIG["test_x_cm"] + 5), 20 * (AppState.CONFIG["test_y_cm"] + 5)])
+            prompts.append([20 * (AppState.CONFIG["test_x_cm"] + 5), 20 * (AppState.CONFIG["test_y_cm"] - 5)])
+            prompts.append([20 * (AppState.CONFIG["test_x_cm"] - 5), 20 * (AppState.CONFIG["test_y_cm"] - 5)])
+            prompts.append([20 * (AppState.CONFIG["test_x_cm"] - 5), 20 * (AppState.CONFIG["test_y_cm"] + 5)])
 
         # 初始化为 全黑单通道 mask，形状同当前帧
         h, w = frame.shape[:2]

@@ -11,11 +11,6 @@ import threading
 from test_reid_module_and_camera import anomaly_detection
 from logger import LOG_DEBUG, LOG_INFO, LOG_WARN, LOG_ERROR, LOG_CRITICAL
 from control_air_close_open import grip_clamp, grip_open, grip_release, start_suction, stop_suction, photoelectric_sensor
-def load_config():
-    with open("CONFIG.json", "r", encoding="utf-8") as f:
-        config = json.load(f)
-    return config
-CONFIG = load_config()
 from config_loader import Configer
 from object_detector import ObjectDetector
 from camera_handler1 import initCamera  # 新增导入
@@ -337,17 +332,17 @@ def cycleTaskHandle(tracked_objects, edge_1_in, edge_1_out, edge_2_in, edge_2_ou
         motion_dict.pop(mid, None)
 
 def Loop():
-    length_lead_screw_cm  = CONFIG["length_lead_screw_cm"]
-    openCollisionDetect   = CONFIG["openCollisionDetect"]
-    edge_params           = CONFIG["edge_params"]
-    cfg_1                 = Configer(**CONFIG["CONFIG_PARAMS_1"])
-    cfg_2                 = Configer(**CONFIG["CONFIG_PARAMS_2"])
+    length_lead_screw_cm  = AppState.CONFIG["length_lead_screw_cm"]
+    openCollisionDetect   = AppState.CONFIG["openCollisionDetect"]
+    edge_params           = AppState.CONFIG["edge_params"]
+    cfg_1                 = Configer(**AppState.CONFIG["CONFIG_PARAMS_1"])
+    cfg_2                 = Configer(**AppState.CONFIG["CONFIG_PARAMS_2"])
     edge_2_in             = int(edge_params["edge_2_in_ratio"] * cfg_1.ratio_wh)
     edge_2_out            = int(edge_params["edge_2_out_ratio"] * cfg_1.ratio_wh)
     edge_1_in             = int(edge_params["edge_1_in_ratio"] * cfg_1.ratio_wh)
     edge_1_out            = int(edge_params["edge_1_out_ratio"] * cfg_1.ratio_wh)
-    DIRECTION_1           = np.array(CONFIG["DIRECTION_1"])
-    DIRECTION_2           = np.array(CONFIG["DIRECTION_2"])
+    DIRECTION_1           = np.array(AppState.CONFIG["DIRECTION_1"])
+    DIRECTION_2           = np.array(AppState.CONFIG["DIRECTION_2"])
     sum_detect            = [0]
     IS_USE_SAM            = True
     # try:

@@ -1,111 +1,13 @@
 {
-    "robot_mode": 1,
-    "robot_ip1": "192.168.57.4",
-    "robot_ip2": "192.168.57.3",
-    "USE_LINEAR_ACTUATOR": true,
-    "length_lead_screw_cm": 92.4,
-    "openCollisionDetect": true,
-    "speed_mode": 0,
-    "speed_port": "/dev/ttyUSB1",
-    "MOVE_PARAMS_1": {
-        "INIT_PLACE_HEIGHT":5.137,
-        "PLACE_HEIGHT_INCREMENT": -77.013,
-        "COUNT_RESET_INTERVAL": 120,
-        "ADJUSTMENT_GRIPPER_OFFSET": 58,
-        "LENTH_CHANGE_THRESHOLD": 15
-    },
-    "DIRECTION_1": [
-        1.0, 
-        0.0
-    ],
-    "DIRECTION_2": [
-        0.99990791, 
-        -0.01357119
-    ],
-    "place_pos_arm_1": [
-        509.47,
-        -304.835,
-        161.998,
-        -179.906,
-        -0.578,
-        -65.082
-    ],
-    "place_pos_arm_2": [
-        509.47,
-        -304.835,
-        161.998,
-        -179.906,
-        -0.578,
-        -65.082
-    ],
-    "save_first_frame": false,
     "CONFIG_PARAMS_1": {
-        "id_wcs": 2,
-        "real_w": 85,
-        "real_h": 41.1,
-        "ratio_wh": 20,
-        "aruco_ids_corner": {
-            "top_left": 0,
-            "top_right": 8,
-            "bottom_right": 24,
-            "bottom_left": 16
-        },
-        "speed_smooth_frames": 5,
-        "similarity_threshold": 0.8,
-        "diff_threshold": 70,
-        "morph_kernel_size": [
-            3,
-            3
-        ],
-        "morph_open_iterations": 1,
-        "morph_dilate_iterations": 1,
-        "min_contour_area": 20000,
-        "max_contour_area": 1000000,
-        "max_distance": 20,
-        "max_speed_history": 30,
-        "speed_update_interval": 0.1,
-        "area_update_interval": 1.0,
-        "speed": 10.55,
-        "WAIT_DISTANCE": 0,
-        "safe_pos_init": [
-            null,
-            null,
-            null,
-            -179.906,
-            -0.578,
-            -65.082
-        ],
-        "detect_x": 442.706,
-        "detect_y": -18.809,
-        "safe_x": 509.47,
-        "safe_y": -304.835,
-        "safe_z": 161.998,
-        "stand_z": 72.939,
-        "stand_rx": -179.906,
-        "stand_ry": -0.578,
-        "stand_rz": -65.082,
-        "blend_alpha": 1.0,
-        "is_real_sense": false,
-        "camera_no": 2,
-        "points_file_path": "cv_aruco_1.csv",
-        "down_height": 16,
-        "safe_pos_1": [
-            509.47,
-            -304.835,
-            161.998,
-            -179.906,
-            -0.578,
-            -65.082
-            
-        ],
-        "safe_pos_2": [
-            509.47,
-            -304.835,
-            161.998,
-            -179.906,
-            -0.578,
-            -65.082
-        ],
+        /* ------------------------------以下为暂时没有使用的参数------------------------------ */
+        "max_speed_history": 30, // 最多保存多少个时间和质心位置信息到结构体里面，用于计算速度
+        "speed_update_interval": 0.1, // 每隔多久用视觉计算更新一下速度，单位s
+        "area_update_interval": 1.0, // 每隔多久更新面积，单位s
+        "similarity_threshold": 0.8, // 特征匹配相似度阈值，仅仅存在于脚本
+        "diff_threshold": 70, // 这是背景差分阈值，是以前用传统CV分割时的阈值
+        "blend_alpha": 1.0, // 图像融合透明度
+        "is_real_sense": false, // 是否使用realsense相机，若设置为true，需要修改相机读取代码
         "detect_pose": [
             509.47,
             -304.835,
@@ -113,7 +15,7 @@
             -179.906,
             -0.578,
             -65.082
-        ],
+        ], // 异常检测位
         "detect_none_pose": [
             509.47,
             -304.835,
@@ -121,76 +23,83 @@
             -179.906,
             -0.578,
             -65.082
-        ]
+        ], // 异常检测位
+
+        /* ------------------------------以下为所有抓取通用参数------------------------------ */
+        "id_wcs": 2, // 机械臂1的工件坐标系编号
+        "real_w": 85, // 传送带宽度（沿着传送带移动方向）
+        "real_h": 41.1, // 传送带高度（垂直于传送带移动方向）
+        "ratio_wh": 20, // 1cm有多少个像素，禁止修改
+        "aruco_ids_corner": {
+            "top_left": 0,
+            "top_right": 8,
+            "bottom_right": 24,
+            "bottom_left": 16
+        }, // 上下左右二维码的编号
+        "speed_smooth_frames": 5, // 速度平滑采样帧数，视觉计算出速度保存到了结构体内但是没有使用
+        "morph_kernel_size": [
+            3,
+            3
+        ], // 这是对于SAM2分割以后得到的mask进行腐蚀膨胀的椭圆核大小，一般无需修改
+        "morph_open_iterations": 1, // 腐蚀（开运算）的迭代次数
+        "morph_dilate_iterations": 1, // 膨胀（闭运算）的迭代次数
+        "min_contour_area": 50, // 最小有效轮廓面积，单位是cm2，小于10*10的最小布料
+        "max_contour_area": 2500, // 最大有效轮廓面积，单位是cm2，对于正方形，大于30*70的最大布料
+        "max_distance": 1, // 目标跟踪最大距离，预测质心与实际质心需要在此范围内，单位cm
+        "speed": 10.55, // 速度设置为多少，单位为cm/s，只有动态抓取且speed_mode=1时，这个值才不会被使用，否则都会被使用
+        "WAIT_DISTANCE": 0, // 等待距离，在动态抓取过程中延后多少距离抓取（一般75），单位cm，静态抓取这个值是0
+        "camera_no": 2, // 检测布料的相机编号
+        "points_file_path": "cv_aruco_1.csv", // 标定点来源的文件名称
+        "stand_z": 72.939, 
+        // 对于静态抓取而言，是抓取位的z坐标，也决定了检测位与抓取等待的z坐标
+        // 对动态抓取而言，是抓取高空等待位的z坐标，还需要下降down_height才是真正的抓取位置
+        "stand_rx": -179.906, // 所有位置的标准姿态rx
+        "stand_ry": -0.578, // 所有位置的标准姿态ry
+        "stand_rz": -65.082, // 除了抓取位置以外的位置的标准姿态rz
+
+        /* ------------------------------以下为动态抓取参数------------------------------ */
+        "safe_pos_init": [
+            null,
+            null,
+            161.998,
+            -179.906,
+            -0.578,
+            null
+        ], // 传送带拦截姿态，x、y会被布料质心重写，rz会被计算出的rz_use重写；只有z、rx、ry是被使用的，在丝杆移动后，就会移动到这个位姿
+        "down_height": 16, // 动态抓取过程中下降高度，单位mm
+        "safe_pos_1": [
+            509.47,
+            -304.835,
+            161.998,
+            -179.906,
+            -0.578,
+            -65.082
+        ], // 安全位置1，初始化过程中，移动到此位置，然后再移动到安全位置2
+        "safe_pos_2": [
+            509.47,
+            -304.835,
+            161.998,
+            -179.906,
+            -0.578,
+            -65.082
+        ], // 安全位置2，抓取过程中，回来时先经过此位置，再回到安全位置1。也是常规等待位：没有抓取任务时，桌面上空悬停等待位
+
+        /* ------------------------------以下为静态抓取参数------------------------------ */
+        "detect_x": 442.706, // 光电检测抓取异常等待位置x坐标，工件坐标系
+        "detect_y": -18.809, // 光电检测抓取异常等待位置y坐标，工件坐标系
+        "safe_x": 509.47, // 安全位与放置位的x坐标，工件坐标系
+        "safe_y": -304.835, // 安全位与放置位的y坐标，工件坐标系
+        "safe_z": 161.998, // 安全位的z坐标，工件坐标系
     },
     "CONFIG_PARAMS_2": {
-        "id_wcs": 2,
-        "real_w": 85,
-        "real_h": 41.1,
-        "ratio_wh": 20,
-        "aruco_ids_corner": {
-            "top_left": 0,
-            "top_right": 8,
-            "bottom_right": 24,
-            "bottom_left": 16
-        },
-        "speed_smooth_frames": 5,
-        "similarity_threshold": 0.8,
-        "diff_threshold": 70,
-        "morph_kernel_size": [
-            3,
-            3
-        ],
-        "morph_open_iterations": 1,
-        "morph_dilate_iterations": 1,
-        "min_contour_area": 20000,
-        "max_contour_area": 1000000,
-        "max_distance": 20,
-        "max_speed_history": 30,
-        "speed_update_interval": 0.1,
-        "area_update_interval": 1.0,
-        "speed": 10.55,
-        "WAIT_DISTANCE": 0,
-        "safe_pos_init": [
-            null,
-            null,
-            null,
-            -179.906,
-            -0.578,
-            -65.082
-        ],
-        "detect_x": 442.706,
-        "detect_y": -18.809,
-        "safe_x": 509.47,
-        "safe_y": -304.835,
-        "safe_z": 161.998,
-        "stand_z": 72.939,
-        "stand_rx": -179.906,
-        "stand_ry": -0.578,
-        "stand_rz": -65.082,
-        "blend_alpha": 1.0,
-        "is_real_sense": false,
-        "camera_no": 0,
-        "points_file_path": "cv_aruco_1.csv",
-        "down_height": 16,
-        "safe_pos_1": [
-            509.47,
-            -304.835,
-            161.998,
-            -179.906,
-            -0.578,
-            -65.082
-            
-        ],
-        "safe_pos_2": [
-            509.47,
-            -304.835,
-            161.998,
-            -179.906,
-            -0.578,
-            -65.082
-            
-        ],
+        /* ------------------------------以下为暂时没有使用的参数------------------------------ */
+        "max_speed_history": 30, // 最多保存多少个时间和质心位置信息到结构体里面，用于计算速度
+        "speed_update_interval": 0.1, // 每隔多久用视觉计算更新一下速度，单位s
+        "area_update_interval": 1.0, // 每隔多久更新面积，单位s
+        "similarity_threshold": 0.8, // 特征匹配相似度阈值，仅仅存在于脚本
+        "diff_threshold": 70, // 这是背景差分阈值，是以前用传统CV分割时的阈值
+        "blend_alpha": 1.0, // 图像融合透明度
+        "is_real_sense": false, // 是否使用realsense相机，若设置为true，需要修改相机读取代码
         "detect_pose": [
             509.47,
             -304.835,
@@ -198,7 +107,7 @@
             -179.906,
             -0.578,
             -65.082
-        ],
+        ], // 异常检测位
         "detect_none_pose": [
             509.47,
             -304.835,
@@ -206,17 +115,133 @@
             -179.906,
             -0.578,
             -65.082
-        ]
+        ], // 异常检测位
+
+        /* ------------------------------以下为所有抓取通用参数------------------------------ */
+        "id_wcs": 2, // 机械臂2的工件坐标系编号
+        "real_w": 85, // 传送带宽度（沿着传送带移动方向）
+        "real_h": 41.1, // 传送带高度（垂直于传送带移动方向）
+        "ratio_wh": 20, // 1cm有多少个像素，禁止修改
+        "aruco_ids_corner": {
+            "top_left": 0,
+            "top_right": 8,
+            "bottom_right": 24,
+            "bottom_left": 16
+        }, // 上下左右二维码的编号
+        "speed_smooth_frames": 5, // 速度平滑采样帧数，视觉计算出速度保存到了结构体内但是没有使用
+        "morph_kernel_size": [
+            3,
+            3
+        ], // 这是对于SAM2分割以后得到的mask进行腐蚀膨胀的椭圆核大小，一般无需修改
+        "morph_open_iterations": 1, // 腐蚀（开运算）的迭代次数
+        "morph_dilate_iterations": 1, // 膨胀（闭运算）的迭代次数
+        "min_contour_area": 50, // 最小有效轮廓面积，单位是cm2，小于10*10的最小布料
+        "max_contour_area": 2500, // 最大有效轮廓面积，单位是cm2，对于正方形，大于30*70的最大布料
+        "max_distance": 1, // 目标跟踪最大距离，预测质心与实际质心需要在此范围内，单位cm
+        "speed": 10.55, // 速度设置为多少，单位为cm/s，只有动态抓取且speed_mode=1时，这个值才不会被使用，否则都会被使用
+        "WAIT_DISTANCE": 0, // 等待距离，在动态抓取过程中延后多少距离抓取（一般75），单位cm，静态抓取这个值是0
+        "camera_no": 2, // 检测出料口的相机编号
+        "points_file_path": "cv_aruco_1.csv", // 标定点来源的文件名称
+        "stand_z": 72.939, 
+        // 对于静态抓取而言，是抓取位的z坐标，也决定了检测位与抓取等待的z坐标
+        // 对动态抓取而言，是抓取高空等待位的z坐标，还需要下降down_height才是真正的抓取位置
+        "stand_rx": -179.906, // 所有位置的标准姿态rx
+        "stand_ry": -0.578, // 所有位置的标准姿态ry
+        "stand_rz": -65.082, // 除了抓取位置以外的位置的标准姿态rz
+
+        /* ------------------------------以下为动态抓取参数------------------------------ */
+        "safe_pos_init": [
+            null,
+            null,
+            161.998,
+            -179.906,
+            -0.578,
+            null
+        ], // 传送带拦截姿态，x、y会被布料质心重写，rz会被计算出的rz_use重写；只有z、rx、ry是被使用的，在丝杆移动后，就会移动到这个位姿
+        "down_height": 16, // 动态抓取过程中下降高度，单位mm
+        "safe_pos_1": [
+            509.47,
+            -304.835,
+            161.998,
+            -179.906,
+            -0.578,
+            -65.082
+        ], // 安全位置1，初始化过程中，移动到此位置，然后再移动到安全位置2
+        "safe_pos_2": [
+            509.47,
+            -304.835,
+            161.998,
+            -179.906,
+            -0.578,
+            -65.082
+        ], // 安全位置2，抓取过程中，回来时先经过此位置，再回到安全位置1。也是常规等待位：没有抓取任务时，桌面上空悬停等待位
+
+        /* ------------------------------以下为静态抓取参数------------------------------ */
+        "detect_x": 442.706, // 光电检测抓取异常等待位置x坐标，工件坐标系
+        "detect_y": -18.809, // 光电检测抓取异常等待位置y坐标，工件坐标系
+        "safe_x": 509.47, // 安全位与放置位的x坐标，工件坐标系
+        "safe_y": -304.835, // 安全位与放置位的y坐标，工件坐标系
+        "safe_z": 161.998, // 安全位的z坐标，工件坐标系
     },
-    "TASK_EXPIRATION_THRESHOLD": -0.8,
+
+    /* ------------------------------以下为所有抓取通用参数------------------------------ */
+    "robot_mode": 1, // 模式1为仅仅开启机械臂1，模式2为仅仅开启机械臂2,模式3为双臂模式
+    "robot_ip1": "192.168.57.4", // 机械臂1的ip
+    "robot_ip2": "192.168.57.3", // 机械臂2的ip
+    "USE_LINEAR_ACTUATOR": true, // 是否使用丝杆
+    "length_lead_screw_cm": 92.4, // 丝杆长度
+    "openCollisionDetect": true, // 使用碰撞检测
+    "MOVE_PARAMS_1": {
+        "INIT_PLACE_HEIGHT":-77.013, // 初始放置高度
+        "PLACE_HEIGHT_INCREMENT": 0.6, // 累加高度mm，静态抓取暂时无
+        "COUNT_RESET_INTERVAL": 120, // 重置高度的时间间隔 s，静态抓取暂时无
+        "ADJUSTMENT_GRIPPER_OFFSET": 58, // 夹爪间距偏移，调整夹爪向丝杆中心的移动距离[单边]，正为靠近，负为远离(mm)
+        "LENTH_CHANGE_THRESHOLD": 15 // 布料长度波动范围，小于此范围，不会移动夹爪位置。目的是同一批布料长度变化不影响抓取
+    },
     "edge_params": {
         "edge_2_in_ratio": 50,
         "edge_2_out_ratio": 100,
         "edge_1_in_ratio": 3,
         "edge_1_out_ratio": 38
-    },
-    "testStaticFabricLength": false,
-    "testDynamicFabricLength": false,
-    "test_x_cm": 30,
-    "test_y_cm": 100
+    }, // 用于判定是1号机械臂还是2号机械臂去抓取，单位cm，如果视觉坐标系y轴的值在edge_1_in_ratio到edge_1_out_ratio之间，则判定为机械臂1抓取
+
+    /* ------------------------------以下为动态抓取参数------------------------------ */
+    "speed_mode": 0, // 是否开启速度检测器
+    "speed_port": "/dev/ttyUSB1", // 速度检测器端口
+    "DIRECTION_1": [
+        1.0, 
+        0.0
+    ], // 方向向量
+    "DIRECTION_2": [
+        0.99990791, 
+        -0.01357119
+    ], // 方向向量
+    "place_pos_arm_1": [
+        509.47,
+        -304.835,
+        null,
+        -179.906,
+        -0.578,
+        -65.082
+    ],
+    // 机械臂1放置位姿
+    "place_pos_arm_2": [
+        509.47,
+        -304.835,
+        null,
+        -179.906,
+        -0.578,
+        -65.082
+    ],
+    // 机械臂2放置位姿
+
+    /* ------------------------------以下为静态抓取参数------------------------------ */
+    "save_first_frame": false, // 是否为保存第一帧图片模式
+    "TASK_EXPIRATION_THRESHOLD": -0.8, // 任务过期阈值时间，用于抛弃抓不到的过期任务
+
+    /* ------------------------------以下为暂时没有使用的参数------------------------------ */
+    "testStaticFabricLength": false, // 测试静态布料长度
+    "testDynamicFabricLength": false, // 测试动态布料长度
+    "test_x_cm": 30, // 测试静态布料长度的时候，质心在视觉坐标系x坐标的值，单位cm
+    "test_y_cm": 100 // // 测试静态布料长度的时候，质心在视觉坐标y坐标的值，单位cm
 }

@@ -343,20 +343,24 @@ def stop_suction(robot):
 def main():
     # 创建机器人连接实例
     robot = RPC("192.168.57.4")  # 使用你的机器人IP地址
-    stop_suction(robot)
-    while True:
-        ret = photoelectric_sensor(robot)
-        print(f"{ret}")
-        time.sleep(0.2)
+    # stop_suction(robot)
+    # while True:
+    #     ret = photoelectric_sensor(robot)
+    #     print(f"{ret}")
+    #     time.sleep(0.2)
 
     # for i in range(1):
-        # grip_open(robot)
-        # time.sleep(5)
-        # grip_clamp(robot)
-        # time.sleep(5)
-        # grip_release(robot)
-        # time.sleep(5)
-        
+    #     grip_open(robot)
+    #     time.sleep(5)
+    #     # grip_clamp(robot)
+    #     # time.sleep(5)
+    #     grip_release(robot)
+    #     time.sleep(5)
+    
+    grip_release(robot)
+
+    # while True:
+    #     grip_open(robot)
 
     # robot.SetDO(0, 0)
     # robot.SetDO(1, 0)

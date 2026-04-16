@@ -9,7 +9,7 @@ from camera_handler_jiaqin import CameraHandler
 # -------------------------------
 # 全局常量（新增CSV文件路径）
 # -------------------------------
-CSV_FILE_PATH = "cv_aruco_*.csv"  # CSV文件保存路径
+CSV_FILE_PATH = "cv_aruco_0.csv"  # CSV文件保存路径
 
 # -------------------------------
 # ArUco 参数

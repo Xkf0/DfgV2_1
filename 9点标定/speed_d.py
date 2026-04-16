@@ -152,7 +152,7 @@ def calculate_coordinate_average(coord_data, id_list, coord_type):
 
 if __name__ == "__main__":
     # -------------------------- 配置参数 --------------------------
-    csv_file_path = "cv_aruco_*.csv"  # 【必须修改】替换为你的CSV文件实际路径
+    csv_file_path = "cv_aruco_0.csv"  # 【必须修改】替换为你的CSV文件实际路径
     start_id_list = [80, 83, 87]  # 起点ID列表
     end_id_list = [82, 86, 91]    # 终点ID列表
     # -------------------------------------------------------------

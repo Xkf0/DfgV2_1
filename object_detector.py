@@ -459,14 +459,17 @@ class ObjectDetector:
                 x_min = np.min(x_coords)  # 计算 x 坐标的最小值
                 x_max = np.max(x_coords)  # 计算 x 坐标的最大值
 
-                if x_min < 5 or x_max > AppState.cfg_1.output_w - 5:
+                if (x_min < 5 or x_max > AppState.cfg_1.output_w - 5) and ((x_max - x_min) < AppState.cfg_1.output_w * 1 / 2):
                     continue
 
+                # all_enter = (x_min > 10)
+                all_enter = True
+                
                 LOG_INFO("x_min: %f, x_max: %f, w_img: %f", x_min, x_max, AppState.cfg_1.output_w)
 
                 centroid = vu.get_centroid(cnt)
                 if centroid and centroid[0] <= self.cfg.output_w * 4 // 5:  # 区域过滤
-                    current_objects.append({'contour': cnt, 'centroid': centroid})
+                    current_objects.append({'contour': cnt, 'centroid': centroid, 'all_enter': all_enter})
 
             # # 3. 特征匹配 (ReID)
             # current_objects = filter_objects_by_similarity(
@@ -539,7 +542,8 @@ class ObjectDetector:
                             }
                             assigned = True
                             self.pixel_area_dict[tid].append(area_px)
-                            self.area_dict[tid].append(area_cm)
+                            if obj["all_enter"]:
+                                self.area_dict[tid].append(area_cm)
                             LOG_INFO("tid: %d, 增加新面积: %f", tid, area_cm)
 
                             queue = Queue()
@@ -633,7 +637,8 @@ class ObjectDetector:
                         'speed': 0.0
                     }
                     self.pixel_area_dict.append([area_px])
-                    self.area_dict.append([area_cm])
+                    if obj["all_enter"]:
+                        self.area_dict.append([area_cm])
                     LOG_INFO("增加新面积: %f", area_cm)
                     # if self.lastAreaAvg != 0:
                     #     if area_cm / self.lastAreaAvg > 1.02 or area_cm / self.lastAreaAvg < 0.98:
@@ -662,7 +667,7 @@ class ObjectDetector:
                                 if self.id_now[index][1] >= 0:
                                     self.id_now[index][1] -= 1
                                 if(self.id_now[index][1] < 0):
-                                    if len(self.area_dict[index]) > 0:
+                                    if len(self.area_dict[index]) > index:
                                         areaTemp = sum(self.area_dict[index]) / len(self.area_dict[index])
                                         if areaTemp > 0 and len(self.area_dict[index]) > 20:
                                             # LOG_INFO("areaTemp = %f, self.next_id = %d", areaTemp, self.next_id)
@@ -739,7 +744,7 @@ class ObjectDetector:
                 #     area = self.area_dict[tid]
                 
                 LOG_INFO("id: %d, 质心x: %f, 质心y: %f, t: %f", tid, info['centroid'][0], info['centroid'][1], angle)
-                if(len(self.area_dict) != 0):
+                if(len(self.area_dict) > tid):
                     areaTid = self.area_dict[tid]
                     if(len(areaTid) > 0):
                         x = min(self.numCentroids, len(areaTid))

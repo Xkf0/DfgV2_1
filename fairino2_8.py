@@ -872,7 +872,7 @@ def static_grap(robot, up_pose, wait_pose, grasp_pose, detect_pose1, detect_pose
     print("抓取位姿")
     time.sleep(0.1)
     grip_clamp(robot)
-    time.sleep(0.4)  # 等待夹爪闭合
+    time.sleep(1)  # 等待夹爪闭合
 
     # move to up
     with robot_lock:
@@ -904,6 +904,7 @@ def static_grap(robot, up_pose, wait_pose, grasp_pose, detect_pose1, detect_pose
         if ret == 0:
             LOG_INFO("抓取失败，放回去")
             stop_suction(robot)
+            grip_release(robot)
             # time.sleep(3)
             err = movel_to_pose(robot, up_pose)
             # with AppState.armCanMove_lock:
@@ -927,8 +928,10 @@ def static_grap(robot, up_pose, wait_pose, grasp_pose, detect_pose1, detect_pose
             return False
     print("抬起位姿")
 
+    use_suction = False
     with robot_lock:
-        stop_suction(robot)
+        if use_suction:
+            stop_suction(robot)
         err = movel_to_pose(robot, place_pose)
         if err == 0:
             print(f"移动到放置位置失败，错误码: {err}")
@@ -1059,9 +1062,11 @@ def process_tasks_1(rpc, motor):
             move_to_cloth_lenth(cloth_lenth)
 
             motor.stop()
+            use_suction = False
             with AppState.task_lock_1:
-                start_suction(rpc)
-                LOG_INFO("检测到新布料，开始吸气")
+                if use_suction:
+                    start_suction(rpc)
+                    LOG_INFO("检测到新布料，开始吸气")
             while True:
                 if motor.get_speed() < 0.1:
                     break

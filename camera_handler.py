@@ -9,8 +9,7 @@ import time
 class CameraHandler:
     """相机处理类，支持RealSense和普通USB相机"""
     
-    # def __init__(self, is_real_sense=True, camera_no='204222061636', warmup_frames=30):
-    def __init__(self, is_real_sense=False, camera_no=0, warmup_frames=30):
+    def __init__(self, is_real_sense=True, camera_no='204222061636', warmup_frames=30):
         """
         初始化相机
         

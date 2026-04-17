@@ -310,10 +310,11 @@ def grip_release(robot):
     # 然后设置DO1为1（松开）
     robot.SetDO(1, 1)  # DO1=1表示松开
     print("气夹已松开")
-    time.sleep(0.5)
-
+    time.sleep(0.1)
+   
     robot.SetDO(1, 0)
-
+    
+    
     time.sleep(0.1)
 
     # """
@@ -349,18 +350,19 @@ def main():
     #     print(f"{ret}")
     #     time.sleep(0.2)
 
-    # for i in range(1):
-    #     grip_open(robot)
-    #     time.sleep(5)
-    #     # grip_clamp(robot)
-    #     # time.sleep(5)
-    #     grip_release(robot)
-    #     time.sleep(5)
-    
-    grip_release(robot)
+    # for i in range(5):
+        # grip_open(robot)
+        # time.sleep(5)
+        # grip_clamp(robot)
+        # time.sleep(5)
+        # grip_release(robot)
+        # time.sleep(5)
 
-    # while True:
-    #     grip_open(robot)
+    # grip_open(robot)
+    # grip_clamp(robot)
+    # time.sleep(1)
+    grip_release(robot)
+    time.sleep(1)
 
     # robot.SetDO(0, 0)
     # robot.SetDO(1, 0)

@@ -389,6 +389,8 @@ def Loop():
         display_img = cv2.resize(display_img, (display_img.shape[1]//2, display_img.shape[0]//2))
         cv2.imshow('combined', display_img)
         cv2.waitKey(1)
+        time_end = time.perf_counter()
+        LOG_INFO("单次循环耗时: %.3f秒", time_end - time_start)
 
             # # 给子线程机会（可选但推荐）
             # time.sleep(0.001)  # 1毫秒让出CPU

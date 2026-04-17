@@ -10,6 +10,7 @@ import vision_utils as vu
 from tracker import StableGrabCenter, calculate_speed, update_motion_status, draw_motion_info
 
 from sam2_use.SAM2_motion_detector import SAM2MotionDetector
+import torch
 import os
 from global_state import AppState
 from logger import LOG_DEBUG, LOG_INFO, LOG_WARN, LOG_ERROR, LOG_CRITICAL
@@ -94,6 +95,9 @@ class ObjectDetector:
         self.threshold_value = 25
         self.start_split = False
         self.numCentroids = 5
+        
+        # 预缓存left_panel（静态图像，只计算一次）
+        self._cached_left_panel = None
 
         # ReID 特征提取器
         # self.feature_extractor = FeatureExtractor()
@@ -247,15 +251,19 @@ class ObjectDetector:
         if self.firstFrame is None:
             print("❌ 请先设置模板帧")
             return None, None
-            
+        
         # --- 1. 差分计算 ---
         frame_f = frame.astype(np.float32)
-        diff = np.abs(frame_f - self.firstFrame)
-        diff_gray = np.max(diff, axis=2)
-        
+        # 使用PyTorch加速差分计算
+        frame_f_tensor = torch.from_numpy(frame_f)
+        firstFrame_tensor = torch.from_numpy(self.firstFrame)
+        diff = torch.abs(frame_f_tensor - firstFrame_tensor)
+        # 使用PyTorch加速灰度转换
+        diff_gray = torch.max(diff, dim=2)[0].numpy()
+
         # --- 2. 统计diff信息---
         vu.debug_diff(diff_gray)
-        
+
         # --- 3. 去噪与阈值（可调）---
         diff_blur = cv2.GaussianBlur(diff_gray, (11, 11), 0)
         _, mask = cv2.threshold(diff_blur, self.threshold_value, 255, cv2.THRESH_BINARY)
@@ -264,33 +272,31 @@ class ObjectDetector:
         kernel = np.ones((5, 5), np.uint8)
         mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)
         mask = cv2.morphologyEx(mask, cv2.MORPH_CLOSE, kernel)
-        
-        # --- 4. 质心计算（过滤小区域）---
-        labels, num = ndimage.label(mask)
 
+        # --- 4. 质心计算（过滤小区域）---
+        # 使用OpenCV的CCL替代scipy.ndimage.label（更快）
+        num, labels = cv2.connectedComponents(mask)
+        
+        # 转为PyTorch张量进行批量向量化计算
+        labels_tensor = torch.from_numpy(labels)
+        h, w = mask.shape
+        
         centroids = []
 
-        for i in range(1, num + 1):
-            # 提取单个连通区域
-            component_mask = (labels == i).astype(np.uint8) * 255
-            # 找轮廓
-            contours, _ = cv2.findContours(
-                component_mask, 
-                cv2.RETR_EXTERNAL, 
-                cv2.CHAIN_APPROX_SIMPLE
-            )
-            if not contours:
-                continue
-            # 取最大轮廓（通常只有一个）
-            cnt = max(contours, key=cv2.contourArea)
-            # 计算凸包
-            hull = cv2.convexHull(cnt)
-            # ✅ 凸包面积（这才是“内接凸区域面积”）
-            hull_area = cv2.contourArea(hull)
-            if hull_area >= 20000:
-                # 用原始 mask 计算质心（更准确）
-                cy, cx = ndimage.center_of_mass(mask, labels, i)
-                centroids.append((int(cx), int(cy), hull_area))
+        for i in range(1, num):
+            region_mask = (labels_tensor == i).float()
+            region_area = region_mask.sum().item()
+            
+            if region_area >= 20000:
+                y_coords = torch.arange(h, dtype=torch.float32).view(-1, 1)
+                x_coords = torch.arange(w, dtype=torch.float32).view(1, -1)
+                
+                weighted_y = (region_mask * y_coords).sum().item()
+                weighted_x = (region_mask * x_coords).sum().item()
+                
+                cy = int(weighted_y / region_area)
+                cx = int(weighted_x / region_area)
+                centroids.append((cx, cy, int(region_area)))
 
         # centroids 现在是过滤后的结果
         
@@ -300,29 +306,32 @@ class ObjectDetector:
         return centroids, display_img
     
     def _draw_display(self, current_frame, diff_blur, mask, centroids, MOG2points_ori, last_centroid_ori):
-        """绘制：左=模板图，右=热力图，质心在右"""
+        """GPU加速绘制：左=模板图，右=热力图，质心在右"""
         h, w = self.firstFrame.shape[:2]
         
-        # === 左侧：静态模板图 ===
-        left_panel = self.firstFrame.astype(np.uint8).copy()
-        cv2.putText(left_panel, "Template Frame", (10, 30), 
-                   cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+        # === 左侧：静态模板图（缓存优化）===
+        if self._cached_left_panel is None:
+            left_panel = self.firstFrame.astype(np.uint8).copy()
+            cv2.putText(left_panel, "Template Frame", (10, 30), 
+                       cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+            self._cached_left_panel = left_panel
+        else:
+            left_panel = self._cached_left_panel
         
-        # === 右侧：热力图（不使用归一化）===
-        # 将diff_blur转换为uint8（注意：可能超出0-255范围，需要截断）
+        # === 右侧：热力图（GPU加速合并）===
+        # 1. diff_blur -> uint8
         diff_uint8 = np.clip(diff_blur, 0, 255).astype(np.uint8)
         
-        # 应用颜色映射
+        # 2. 颜色映射（OpenCV优化版，保留）
         heatmap_color = cv2.applyColorMap(diff_uint8, cv2.COLORMAP_JET)
         
-        # 将阈值以下的部分设为白色
-        # 创建掩码：diff_blur <= threshold_value 的区域
+        # 3. GPU加速：掩码赋值
         below_threshold_mask = diff_blur <= self.threshold_value
+        heatmap_tensor = torch.from_numpy(heatmap_color)
+        heatmap_tensor[below_threshold_mask] = 255
+        heatmap_color = heatmap_tensor.numpy()
         
-        # 将热力图中对应位置设为白色
-        heatmap_color[below_threshold_mask] = [255, 255, 255]  # BGR白色
-        
-        # 在热力图上绘制质心
+        # 4. 绘制质心、MOG2点等（必须CPU操作）
         for (x, y, area) in centroids:
             cv2.drawMarker(heatmap_color, (x, y), (255, 0, 255), 
                           cv2.MARKER_SQUARE, 30, 2)
@@ -334,24 +343,24 @@ class ObjectDetector:
             for (x, y) in MOG2points:
                 cv2.drawMarker(heatmap_color, (x, y), (128, 0, 128), 
                             cv2.MARKER_STAR, 30, 2)
-                
+        
         if last_centroid_ori is not None:
-            last_centroid = centroids = [(int(round(x)), int(round(y))) for x, y, _ in last_centroid_ori]
+            last_centroid = [(int(round(x)), int(round(y))) for x, y, _ in last_centroid_ori]
             for (x, y) in last_centroid:
                 cv2.drawMarker(heatmap_color, (x, y), (0, 128, 0), 
                             cv2.MARKER_TRIANGLE_UP, 30, 2)
-        
-        # 右侧热力图
-        right_panel = np.hstack([heatmap_color])
-        
-        # 在右侧顶部添加信息
+
+        # 在顶部添加信息
         info_text = f"Threshold: {self.threshold_value} | Objects: {len(centroids)}"
-        cv2.putText(right_panel, info_text, (10, 30),
+        cv2.putText(heatmap_color, info_text, (10, 30),
                    cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), 2)
         
-        # 最终组合：左模板 + 右热力图
-        combined = np.hstack([left_panel, right_panel])
-        
+        # GPU加速：最终合并图像（比np.hstack快）
+        left_tensor = torch.from_numpy(left_panel)
+        right_tensor = torch.from_numpy(heatmap_color)
+        combined_tensor = torch.cat([left_tensor, right_tensor], dim=1)  # (H, 2W, 3)
+        combined = combined_tensor.numpy()
+
         return combined
     
 
@@ -405,19 +414,24 @@ class ObjectDetector:
 
         # 核心处理逻辑 (仅在背景初始化后)
         if self.background is not None and self.perspective_matrix is not None:
-            
+            time_start_sam2 = time.time()
+
             if self.is_use_sam:
                 # if centroids is not None:
                 #     mask = self.detector_sam2.process_frame_xiefan(warped_frame, self.img_filename, centroids)
                 # else:
                 #     mask = self.detector_sam2.process_frame_wanqi(warped_frame, self.img_filename)
 
+                time_start_sam2_jiaqin = time.time()
                 mask, movingPointExist, MOG2points = self.detector_sam2.process_frame_jiaqin(warped_frame, self.img_filename, is_static=False)
                 last_centroid = None
+                time_end_sam2_jiaqin = time.time()
+                LOG_INFO("SAM2分割(佳庆)耗时: %.3f秒", time_end_sam2_jiaqin - time_start_sam2_jiaqin)
 
                 if AppState.centroid != []:
                     last_centroid = [[AppState.centroid[AppState.max_tid][0], AppState.centroid[AppState.max_tid][1], 0]]
 
+                time_start_split_draw = time.time()
                 if self.start_split is True:
                     LOG_INFO("enter split_draw")
                     centroids, display_img = self.split_draw(warped_frame, MOG2points, last_centroid)
@@ -426,13 +440,21 @@ class ObjectDetector:
                     if display_img is not None:
                         cv2.imshow(window_name, display_img)
                     key = cv2.waitKey(1) & 0xFF
+                time_end_split_draw = time.time()
+                LOG_INFO("split_draw耗时: %.3f秒", time_end_split_draw - time_start_split_draw)
 
+                time_start_sam2_xiefan = time.time()
                 if centroids is not None and movingPointExist is False:
                     mask = self.detector_sam2.process_frame_xiefan(warped_frame, self.img_filename, centroids)
+                time_end_sam2_xiefan = time.time()
+                LOG_INFO("SAM2分割(谢帆)耗时(前景点为颜色分割的质心): %.3f秒", time_end_sam2_xiefan - time_start_sam2_xiefan)
 
+                time_start_sam2_xiefan = time.time()
                 if centroids is None and movingPointExist is False:
                     mask = self.detector_sam2.process_frame_xiefan(warped_frame, self.img_filename, last_centroid)
-                
+                time_end_sam2_xiefan = time.time()
+                LOG_INFO("SAM2分割(谢帆)耗时(前景点为上帧最大tid的质心): %.3f秒", time_end_sam2_xiefan - time_start_sam2_xiefan)
+
             else:
                 # 1. 前景提取
                 diff = cv2.absdiff(warped_frame, self.background)
@@ -443,6 +465,8 @@ class ObjectDetector:
                 _, mask = cv2.threshold(gray_sharp, self.cfg.diff_threshold, 255, cv2.THRESH_BINARY)
                 # print(f"masks_cv:\n{mask}")
 
+            time_end_sam2 = time.time()
+            LOG_INFO("SAM2分割耗时: %.3f秒", time_end_sam2 - time_start_sam2)
             kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, self.cfg.morph_kernel_size)
             mask = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel, iterations=self.cfg.morph_open_iterations)
             mask = cv2.morphologyEx(mask, cv2.MORPH_DILATE, kernel, iterations=self.cfg.morph_dilate_iterations)
@@ -810,8 +834,12 @@ class ObjectDetector:
 
         # 尝试初始化背景
         self.initialize_background(frame)
+
+        time_start_detect = time.time()
         warped_frame, mask, display_img = self.detect_and_track(frame, AFFINE_MATRIX_1, current_time, get_speed_now)# G 这里AFFINE_MATRIX是用来计算机械臂的移动方向（当前并未使用，使用的是写死的值）
-        
+        time_end_detect = time.time()
+        LOG_INFO("detect_and_track耗时: %.3f秒", time_end_detect - time_start_detect)
+
         # 获取检测结果
         motion_dict = self.get_motion_dict()
         tracked_objects = self.get_tracked_objects()

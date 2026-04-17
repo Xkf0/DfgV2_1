@@ -12,6 +12,7 @@ from global_state import AppState
 import queue
 import threading
 from motor_control import KINCO_Motor
+from sonar_sensor import UltrasonicSensor
 
 # 全局变量定义与初始化
 complete_count = 0  # 完整动作计数
@@ -340,10 +341,9 @@ def move_to_cloth_lenth(cloth_lenth):
         # if lenth_change > 0.2:
 
         if lenth_change > LENTH_CHANGE_THRESHOLD:
-            with AppState.changeScrew_lock:
-                AppState.changeScrew = True
+            AppState.changeScrew = True
             # if cloth_lenth is not None:
-            # STAND_LENGTH = cloth_lenth
+            STAND_LENGTH = cloth_lenth
             distance = 335 - cloth_lenth/2 + ADJUSTMENT_GRIPPER_OFFSET  # 在布料长度基础上增加20mm作为安全余量
             # print("》》》》》》》》》》》》》》》》》》》》distance##############",distance)
             
@@ -356,6 +356,7 @@ def move_to_cloth_lenth(cloth_lenth):
             else:
                 print(f"1号臂丝杆目标位置超出行程允许范围（1-330mm）：当前计算值为 {distance:.2f}mm")
         else:
+            AppState.changeScrew = False
             print("未获取到新品种布料长度，丝杆不移动")            
 # G 1121 添加丝杆长度调整----end
     return True, 0
@@ -836,7 +837,7 @@ def movel_to_pose(robot,intercept_pos,vel=100.0):
         return False
     return True
 
-def static_grap(robot, up_pose, wait_pose, grasp_pose, detect_pose1, detect_pose2, stop_pose, place_pose, robot_lock):
+def static_grap(robot, up_pose, wait_pose, grasp_pose, detect_pose1, detect_pose2, stop_pose, place_pose, robot_lock, motor):
     """静态抓取函数"""
     # move to wait
     with robot_lock:
@@ -856,12 +857,24 @@ def static_grap(robot, up_pose, wait_pose, grasp_pose, detect_pose1, detect_pose
 
     grip_open(robot)
         
-    with AppState.changeScrew_lock:
-        if AppState.changeScrew is True:
-            time.sleep(3)
-            AppState.changeScrew = False
-        else:
-            time.sleep(0.1)
+    # with AppState.changeScrew_cond:
+    #     # 等待直到 changeScrew 被设置为 True
+    #     if AppState.changeScrew is True:
+    #         LOG_INFO("第一次抓取, 需要改变丝杆长度")
+    #         time.sleep(3)
+    #         AppState.changeScrew = False
+    #     else:
+    #         # 等待条件为真，超时时间为 5 秒
+    #         AppState.changeScrew_cond.wait(timeout=5)
+    #         if AppState.changeScrew is True:
+    #             LOG_INFO("第一次抓取, 需要改变丝杆长度")
+    #             time.sleep(3)
+    #             AppState.changeScrew = False
+    #         else:
+    #             LOG_INFO("正常抓取, 无需改变丝杆长度")
+    if AppState.changeScrew is True:
+        time.sleep(3)
+        LOG_INFO("第一次抓取, 需要改变丝杆长度, 已等待3秒")
     
     # move to down
     with robot_lock:
@@ -879,7 +892,9 @@ def static_grap(robot, up_pose, wait_pose, grasp_pose, detect_pose1, detect_pose
         grasp_pose2 = grasp_pose.copy()
         grasp_pose2[2] += 20
         err = movel_to_pose(robot, grasp_pose2, vel=50)
-        err = movel_to_pose(robot, detect_pose1)
+        time.sleep(0.1)
+        motor.set_speed(AppState.cfg_1.speed)
+        err = movel_to_pose(robot, detect_pose1, vel=70)
 
 
         # ret = 0
@@ -1072,7 +1087,7 @@ def process_tasks_1(rpc, motor):
                     break
                 else:
                     time.sleep(0.1)
-            time.sleep(1)
+            time.sleep(2)
             LOG_INFO("motor speed: %f", motor.get_speed())
             # with AppState.armCanMove_lock:
             #     AppState.armCanMove = True
@@ -1109,7 +1124,7 @@ def process_tasks_1(rpc, motor):
             LOG_INFO("task use global centroid: id: %d, visionx: %f, visiony: %f, x: %f, y: %f", mid, AppState.centroid[mid][0], AppState.centroid[mid][1], realX, realY)
             wait_pose = [realX,
             realY,
-            AppState.cfg_1.stand_z + 10,
+            AppState.cfg_1.stand_z + 30,
             AppState.cfg_1.stand_rx,
             AppState.cfg_1.stand_ry,
             pos_data[5]]
@@ -1121,13 +1136,13 @@ def process_tasks_1(rpc, motor):
             pos_data[5]]
             detect_pose1 = [AppState.cfg_1.detect_x,
             AppState.cfg_1.detect_y,
-            AppState.cfg_1.stand_z + 80,
+            AppState.cfg_1.stand_z + 20,
             AppState.cfg_1.stand_rx,
             AppState.cfg_1.stand_ry,
             AppState.cfg_1.stand_rz]
             detect_pose2 = [AppState.cfg_1.detect_x,
             AppState.cfg_1.detect_y,
-            AppState.cfg_1.stand_z + 40,
+            AppState.cfg_1.stand_z + 20,
             AppState.cfg_1.stand_rx,
             AppState.cfg_1.stand_ry,
             AppState.cfg_1.stand_rz]
@@ -1164,9 +1179,9 @@ def process_tasks_1(rpc, motor):
                 detect_pose2=detect_pose2,
                 stop_pose=stop_pose,
                 place_pose=place_pose_static,
-                robot_lock=AppState.task_lock_1
+                robot_lock=AppState.task_lock_1,
+                motor=motor
             )
-            motor.set_speed(AppState.cfg_1.speed)
 
             result = "静态抓取失败"
             if ok:
@@ -1472,7 +1487,7 @@ def init_robot(ip="192.168.57.4",arm=1):
     return robot
 
 
-def grasp_succeed_detection(robot):
+def grasp_succeed_detection(robot, sonar_sensor):
     LOG_INFO("grasp_succeed_detection thread started")  # 添加打印
     while True:
         with AppState.detectSucceed_cond:
@@ -1483,6 +1498,11 @@ def grasp_succeed_detection(robot):
             while time.time() - time_start < 2:
                 if photoelectric_sensor(robot) != 0:
                     AppState.graspSucceed = True
+                distance = sonar_sensor.get_distance()
+                if distance is not None:
+                    LOG_INFO("sonar distance: %f", distance)
+                    if distance < 40:  # 这里的距离阈值需要根据实际情况调整
+                        AppState.graspSucceed = True
             AppState.detectNow = False
             AppState.detectSucceed_cond.notify_all()
 
@@ -1498,6 +1518,8 @@ def init():
     motor.set_decel_cmss(50)
     motor.set_speed(AppState.cfg_1.speed)
     # motor = []
+    sonar_sensor = UltrasonicSensor()
+    sonar_sensor.connect()
     if robot_mode==1:
         rpc_1 = init_robot(ip=robot_ip1,arm=1)  # 1号机械臂IP
         if not (rpc_1):
@@ -1524,7 +1546,7 @@ def init():
     # 4. 启动任务线程
     if robot_mode==1:
         threading.Thread(target=process_tasks_1, args=(rpc_1, motor), daemon=True).start()
-        threading.Thread(target=grasp_succeed_detection, args=(rpc_1,), daemon=True).start()
+        threading.Thread(target=grasp_succeed_detection, args=(rpc_1, sonar_sensor), daemon=True).start()
     elif robot_mode==2:
         threading.Thread(target=process_tasks_2, args=(rpc_2,), daemon=True).start()
     elif robot_mode==3:

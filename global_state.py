@@ -39,7 +39,7 @@ class AppState:
     armCanMove_cond    = threading.Condition()
 
     changeScrew        = True
-    changeScrew_lock   = threading.Lock() # 可删除
+    changeScrew_cond   = threading.Condition() # 改为条件变量提高效率
 
     graspSucceed       = False
     detectSucceed_cond = threading.Condition()
